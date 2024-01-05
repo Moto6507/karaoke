@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src='src/js/login.js'></script>
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    background: url(images/background.png) no-repeat;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center
+  }
+  .title {
+    margin: 0;
+    color: #fff
+  }
+  .container {
+    display: flex;
+    flex-direction: column;
+    align-items: center
+  }
+  .signIn {
+    background: rgb(56,56,56,0.6);
+    padding: 18px;
+    width: 300px;
+    color: rgb(255,255,255,0.5);
+    text-align: left;
+    border-radius: 10px
+  }
+  .container .logo {
+    width: 5%;
+    margin-bottom: 10px;
+    margin-top: 100px
+  }
+  .container .signIn .title {
+    margin: 5px;
+  }
+  .container .signIn .textbox {
+    background: none;
+    border: none;
+    width: 96%;
+    outline: none;
+    padding: 10px;
+    color: #fff;
+    border-radius: 5px;
+    border: 2px solid #5e5e5e;
+  }
+  .container .signIn .textbox::placeholder {
+    color: rgb(255, 255, 255,0.5);
+  }
+  .container .signIn .miniTitle {
+    margin: 0;
+    color: rgb(255,255,255,0.7)
+  }
+  .link {
+    margin-top: 40px;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+  }
+  .button {
+    background: #425fff;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    transition: .2s;
+    color: #fff
+  }
+  .button.grey {
+    background: #373737;
+  }
+</style>
+</head>
+<body>
+  <div class='container'>
+    <img class='logo' src='karaokeLogo.svg'>
+  <div class='signIn'>
+    <h1 class='title'>Welcome again!</h1>
+    Enter your account information to log in again :D<br>
+    <h3 class='miniTitle'>Email</h3>
+    <input type='text' class='textbox' placeholder="user@example.com..." onkeyup='infosIsAlready()'><br><br>
+    <h3 class='miniTitle'>Password</h3>
+    <input type='text' class='textbox' placeholder="1234567..." onkeyup='infosIsAlready()'><br><br>
+    <div id='error' style='display: none; color: red'></div>
+    <div class="button grey">sign up</div>
+  </div>
+  <a href='/createAccount' class='link'>i not have account</a>
+  </div>
+</body>
+</html>
