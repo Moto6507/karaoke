@@ -12,6 +12,7 @@ import {
   loginIntern
 } from './routes/login'
 const app = express();
+
 app.set('trust proxy', 1);
 app.set('view engine', 'html');
 app.use(express.static('public'))

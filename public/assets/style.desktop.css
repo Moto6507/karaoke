@@ -1,0 +1,110 @@
+body {
+    margin: 0;
+    padding: 0;
+    background: #000000;
+  
+  }
+  .title {
+    margin: 0;
+    color: #fff
+  }
+  .navBar {
+    background: #292929;
+    padding: 5px;
+    height: 100%;
+    position: fixed;
+    left: 0;
+    width: 200px
+  }
+  .navBar .route {
+    margin: 18px;
+    color: #fff;
+    cursor: pointer
+  }
+  .navBar .route.logout {
+    position: fixed;
+    color: #ff0000;
+    text-decoration: none;
+    bottom: 0
+  }
+  .navBar .route.creatorPortal {
+    position: fixed;
+    bottom: 30px
+  }
+  .navBar .logo {
+    margin: 0;
+    color: #fff
+  }
+  
+  hr {
+    background: #fff;
+    padding: 0.5px;
+    border: none
+  }
+  
+  #container {
+    margin: 5px;
+    margin-left: 18%
+  }
+  
+  .musicCard {
+    width: clamp(310px, 50vmin, 600px);
+    aspect-ratio: 4 / 3;
+    display: inline-block;
+    border-radius: 13px;
+    margin: 5px;
+    text-decoration: none;
+    color: #fff;
+    overflow: hidden;
+    transform: translateZ(0);
+  }
+  .musicCard img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.2s;
+  }
+  .musicCard .cardInfo {
+   padding: 10px;
+   position: absolute;
+   bottom: 0;
+   left: 0;
+   width: 95%;
+   text-align: left;
+   background: rgb(32,40,61,0.3);
+   backdrop-filter: blur(5px);
+   filter: url(/assets/blur.svg)
+  }
+  .musicCard .cardInfo .title {
+   color: #fff;
+   margin: 0
+  }
+  .musicCard .cardInfo .static {
+   float: right;
+   margin-left: 5px
+  }
+  .musicCard .cardInfo .author {
+   margin: 0;
+   color: rgb(255,255,255,0.8)
+  }
+  .musicCard .option {
+   position: absolute;
+   right: 0;
+   margin: 10px
+  }
+  .musicCard .option .icon-comment {
+    cursor: pointer;
+    background: rgb(255,255,255,0.5);
+    padding: 6.5px;
+    border-radius: 1in;
+    margin-left: 5px;
+    backdrop-filter: blur(8px)
+  }
+  .musicCard .option .icon-share {
+    cursor: pointer;
+    background: rgb(255,255,255,0.5);
+    padding: 6.5px;
+    border-radius: 1in;
+    backdrop-filter: blur(8px)
+  }
+  
