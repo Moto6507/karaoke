@@ -1,0 +1,132 @@
+@font-face {
+  font-family: 'karaoke';
+  src:  url('AbrilFatface-Regular.ttf') format('truetype');
+  font-weight: normal;
+  font-style: normal;
+  font-display: block;
+}
+
+.title {
+    margin: 0;
+    color: #fff
+  }
+  hr {
+    background: #fff;
+    padding: 0.5px;
+    border: none
+   }
+  .container {
+    background: #101010;
+    padding: 8px
+  }
+  .container.inOverlay {
+    margin: 35vh;
+    border-radius: 5px;
+    text-align: center;
+    color: #4e4e4e
+  }
+  .container.flex {
+    display: flex;
+    align-items: center;
+    background: none;
+    flex-direction: column;
+  }
+  .container .logo {
+    font-size: 35px;
+    color: #fff;
+    margin-bottom: 10px;
+    margin-top: 100px
+  }
+  .container .signIn .title {
+    margin: 5px;
+  }
+  .container .signIn .textbox {
+    background: none;
+    border: none;
+    width: 96%;
+    outline: none;
+    padding: 10px;
+    color: #fff;
+    border-radius: 5px;
+    border: 2px solid #5e5e5e;
+  }
+  .container .signIn .textbox::placeholder {
+    color: rgb(255, 255, 255,0.5);
+  }
+  .container .signIn .miniTitle {
+    margin: 0;
+    color: rgb(255,255,255,0.7)
+  }
+  .link {
+    margin-top: 40px;
+    text-decoration: none;
+    color: rgb(255, 255, 255);
+  }
+  .button {
+    background: #425fff;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    transition: .2s;
+    color: #fff
+  }
+  .button.grey {
+    background: #373737;
+  }
+
+  .card {
+    background: #1d1d1d;
+    padding: 5px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+    border-radius: 1in 10px 10px 1in;
+  }
+  .card i {
+    background: #2f2f2f;
+    padding: 10px;
+    color: #fff;
+    border-radius: 1in;
+    margin-right: 5px;
+  }
+  .card i[class='icon-right'] {
+
+  }
+  .card span {
+    margin-left: auto;
+  }
+
+ .button.modern {
+        border: 1.5px solid #373737;
+        background: none;
+        border-radius: 5px;
+        padding: 4px;
+        margin: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center
+      }
+     .button.modern:nth-child(1) {
+        border: 2.5px dashed #373737;
+        padding: 8px;
+     }
+     .button.modern i {
+       padding: 10px;
+       background: #464646;
+       border-radius: 5px;
+       margin-right: 5px
+     }
+     .button.modern i[class='icon-plus'] {
+       border-radius: 1in;
+       padding: 4px;
+       background: #3a3a3a;
+       width: 20px;
+       height: 20px;
+       margin-right: 5px
+     }
+     .button span {
+       margin-right: auto;
+     }

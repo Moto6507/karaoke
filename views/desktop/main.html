@@ -1,49 +1,29 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <link rel='stylesheet' href="style.desktop.css">
+    <link rel='stylesheet' href="/assets/style.desktop.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/karaoke.ico">
     <script src="https://kit.fontawesome.com/e4fcc87bea.js" crossorigin="anonymous"></script>
+    <script src="src/js/main.js"></script>
+    <script src="src/js/central.js"></script>
     <title>Is Karaoke!</title>
     <div class="navBar">
-      <h2 class="logo">Karaoke</h2>
-  <div class="route"><i class="fa fa-battery"></i> main</div>
-  <div class="route"><i class="fa fa-battery"></i> search</div>
-  <div class="route"><i class="fa fa-battery"></i> explore</div>
-  <div class="route"><i class="fa fa-battery"></i> notifications</div>
-  <div class="route"><i class="fa fa-battery"></i> library</div>
-  <div class="route creatorPortal"><i class="fa fa-battery"></i> creator portal</div>
-  <div class="route logout"><i class="fa fa-battery"></i> logout</div>
-  </div>
+      <h2 class="logo"><i class='icon-karaoke'></i> Karaoke</h2>
+  <div class="route" onclick="changeTab(this,'main')"><i class="icon-home"></i> main</div>
+  <div class="route" onclick="changeTab(this,'search')"><i class="icon-search"></i> search</div>
+  <div class="route" onclick="changeTab(this,'explore')"><i class="icon-compass"></i> explore</div>
+  <div class="route" onclick="changeTab(this,'notifications')"><i class="icon-bell"></i>notifications</div>
+  <div class="route" onclick="changeTab(this,'library')"><i class="icon-library"></i> library</div>
+  <div class="route creatorPortal"><i class="icon-clock"></i> creator portal</div>
+  <a href="/karaoke/creator" class="route creatorPortal"><i class="icon-sparkle"></i> creator portal</a>
+  <a href="/logout" class="route logout"><i class="icon-outofbox"></i> logout</a>
+    </div>
   </head>
   <body>
-  <div id="container">
-    <div class="musicCard">
-      <div class="option"><i class='fa fa-share-nodes icon-share' onclick=""></i><i class='fa fa-comment icon-comment'></i> 0 <i class='fa fa-ellipsis-vertical icon-three_spots'></i></div>
-       <img onclick="window.location.href='/player?song=${x.id}'"  src="/assets/OIG.jpeg" crossorigin='anonymous' class="background">
-       <div class='cardInfo'>
-         <div class='static'><i class='fa fa-music icon-music'></i> 0</div>
-         <div class='static'><i class='fa fa-star icon-star'></i> 0</div>
-         <h2 class='title'>Non Name</h2><h5 class='author'>By Dummy</h5>
-       </div>
-      </div>
-      <div class="musicCard">
-      <div class="option"><i class='fa fa-share-nodes icon-share' onclick=""></i><i class='fa fa-comment icon-comment'></i> 0 <i class='fa fa-ellipsis-vertical icon-three_spots'></i></div>
-       <img onclick="window.location.href='/player?song=${x.id}'"  src="/assets/moonlinka.png" crossorigin='anonymous' class="background">
-       <div class='cardInfo'>
-         <div class='static'><i class='fa fa-music icon-music'></i> 0</div>
-         <div class='static'><i class='fa fa-star icon-star'></i> 0</div>
-         <h2 class='title'>Non Name</h2><h5 class='author'>By Dummy</h5>
-       </div>
-      </div>
-      <div class="musicCard">
-        <div class="option"><i class='fa fa-share-nodes icon-share' onclick=""></i><i class='fa fa-comment icon-comment'></i> 0 <i class='fa fa-ellipsis-vertical icon-three_spots'></i></div>
-         <img onclick="window.location.href='/player?song=${x.id}'"  src="/assets/barbie.png" crossorigin='anonymous' class="background">
-         <div class='cardInfo'>
-           <div class='static'><i class='fa fa-music icon-music'></i> 0</div>
-           <div class='static'><i class='fa fa-star icon-star'></i> 0</div>
-           <h2 class='title'>Non Name</h2><h5 class='author'>By Dummy</h5>
-         </div>
-        </div>
-  </div><br><br><br>
+  <div id="content">
+    <img src="http://localhost:8080/api/v3/get/media/avatars/{{{json user.avatar}}}" crossorigin="anonymous" class="userAvatar">
+    <br><br><br>
+    </div>
+    <div id="overlay"></div>
   </body>
 </html>

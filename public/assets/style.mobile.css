@@ -61,11 +61,6 @@ body {
     border-radius: 1in;
     color: #fff;
   }
-  hr {
-   background: #fff;
-   padding: 0.5px;
-   border: none
- }
  
 .musicCard {
   width: clamp(340px, 50vmin, 600px);

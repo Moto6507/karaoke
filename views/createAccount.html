@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" type="image/x-icon" href="/assets/karaoke.ico">
+  <script src="src/js/central.js"></script>
+  <script src='src/js/createAccount.js'></script>
+  <title>New on Karaoke</title>
+<style>
+  @import "/assets/font.css";
+  @import "/assets/geral.css";
+  body {
+    margin: 0;
+    padding: 0;
+    background: url(images/background.png) no-repeat;
+    background-position: center;
+    background-size: cover;
+    display: flex;
+    align-items: center;
+    justify-content: center
+  }
+  .avatar {
+    width: 65px;
+    height: 65px;
+    border-radius: 1in;
+  }
+  #username {
+    color: #fff;
+    word-break: break-all;
+    margin: 0;
+  }
+  .signIn {
+    background: rgb(56,56,56,0.6);
+    padding: 18px;
+    width: 300px;
+    color: rgb(255,255,255,0.5);
+    text-align: left;
+    border-radius: 10px
+  }
+  .signIn .center {
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+  <div class='container'>
+    <i class='icon-karaoke logo'></i>
+  <div class='signIn'>
+    <h1 class='title'>Welcome to karaoke!</h1>
+    Is very good see you here :D<br>
+    <div class="center">
+    <img src="http://localhost:8080/api/v3/get/media/avatars/user" crossorigin="anonymous" class="avatar">
+    <h2 id="username"></h2>
+    </div>
+    <h3 class='miniTitle'>Username</h3>
+    <input type='text' maxlength='30' class='textbox' placeholder="coolUser..." oninput='infosIsAlready()'><br><br>
+    <h3 class='miniTitle'>Biography</h3>
+    <input type='text' class='textbox' placeholder="cool biography..." onkeyup='infosIsAlready()'><br><br>
+    <h3 class='miniTitle'>Email</h3>
+    <input type='text' class='textbox' placeholder="user@example.com..." onkeyup='infosIsAlready()'><br><br>
+    <h3 class='miniTitle'>Password</h3>
+    <input type='text' maxlength='35' class='textbox' placeholder="12345678..." onkeyup='infosIsAlready()'>
+    <div id="passwordChecker"></div>
+    <div id='error' style='display: none; color: red'></div><br>
+    <div class="button grey">sign in</div>
+  </div>
+  <a href='/login' class='link'>i have account</a>
+  </div>
+  <div id="overlay"></div>
+</body>
+</html>

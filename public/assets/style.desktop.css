@@ -1,24 +1,29 @@
+@import "font.css";
+@import "geral.css";
+
 body {
     margin: 0;
     padding: 0;
     background: #000000;
-  
-  }
-  .title {
-    margin: 0;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-weight: 100;
     color: #fff
   }
   .navBar {
-    background: #292929;
+    background: #101010;
+    border-right: 1px solid #1d1d1d;
     padding: 5px;
     height: 100%;
     position: fixed;
     left: 0;
+    top: 0;
     width: 200px
   }
   .navBar .route {
     margin: 18px;
     color: #fff;
+    transition: .2s;
+    text-decoration: none;
     cursor: pointer
   }
   .navBar .route.logout {
@@ -32,8 +37,18 @@ body {
     bottom: 30px
   }
   .navBar .logo {
-    margin: 0;
+    margin: 5px;
+    font-family: 'karaoke';
     color: #fff
+  }
+
+  .userAvatar {
+    width: 40px;
+    height: 40px;
+    position: absolute;
+    right: 10px;
+    border-radius: 1in;
+    object-fit: cover;
   }
   
   hr {
@@ -42,13 +57,25 @@ body {
     border: none
   }
   
-  #container {
-    margin: 5px;
-    margin-left: 18%
+  #content {
+    margin-left: 17.1%;
+    color: #757575
+  }
+
+  .textbox {
+    background: none;
+    border: none;
+    width: 94%;
+    margin-right: 5px;
+    outline: none;
+    padding: 10px;
+    color: #fff;
+    border-radius: 5px;
+    border: 2px solid #5e5e5e;
   }
   
   .musicCard {
-    width: clamp(310px, 50vmin, 600px);
+    width: clamp(300px, 50vmin, 600px);
     aspect-ratio: 4 / 3;
     display: inline-block;
     border-radius: 13px;
@@ -108,3 +135,40 @@ body {
     backdrop-filter: blur(8px)
   }
   
+        #overlay {
+        background: rgb(0,0,0,0.2);
+        height: 50vh;
+        width: 50%;
+        overflow-y: scroll;
+        position: fixed;
+        top: 0;
+        padding: 5px;
+        margin: 100px;
+        transition: .1s, opacity .2s, margin .2s, height .1s, background .5s;
+        z-index: 999;
+        display: none;
+        opacity: 0;
+      }
+
+  .notification {
+    background: #1b1b1b;
+    padding: 5px;
+    margin: 10px;
+    border-radius: 5px;
+    color: #464646;
+    display: flex
+  }
+  .notification .information  {
+    margin: 5px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column
+  }
+  .notification img {
+    width: 80px;
+    height: 80px;
+    border-radius: 5px
+  }
+  .notification .title {
+    display: inline-block
+  }
