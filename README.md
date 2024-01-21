@@ -1,6 +1,12 @@
-<<<<<<< HEAD
 # karaoke
-# karaoke
-=======
+a simple music platform on here you are everthing!
 
->>>>>>> 14a92d576eea6f2cee83c0a279082c6d1b97f854
+# who is "karaoke"
+is a project of website focused on create an music platform accessible for all and very easy and confortable to use
+
+# what karaoke whant?
+whants a transparency with users and accessible for all creators
+
+======
+insteresting? fork this project and change irregularities, even help with project 
+**contact on discord: MOTO**
