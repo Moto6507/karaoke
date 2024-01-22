@@ -10,6 +10,10 @@
     margin: 0;
     color: #fff
   }
+.bodyImg {
+  width: 150px;
+  height: 150px
+}
   hr {
     background: #fff;
     padding: 0.5px;

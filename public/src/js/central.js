@@ -1,5 +1,5 @@
 function overlay(msg) {
-    const overlayElement = document.getElementById('overlay');
+   const overlayElement = document.getElementById('overlay');
    if(!overlayElement.opened) {
     overlayElement.style.display = "block"
     setTimeout(()=>overlayElement.style.opacity = "9",150)
@@ -23,8 +23,6 @@ function overlay(msg) {
    overlayElement.opened = false
  }
 }
-
-
 let db = {
   set: async function set(collection, struct, post) {
 let res = await fetch("https://localhost:8080/api/v3/get/infos", {
@@ -74,6 +72,19 @@ let res = await fetch("http://localhost:8080/api/v3/get/infos/" + collection, {
   if(res.status!==200) return res.message
   else return res
   },
+  search: async function get(collection) {
+    let res = await fetch("http://localhost:8080/api/v3/get/infos/search?q=" + collection, {
+          headers: {
+            "Content-Type":"application/json",
+            "Access-Control-Allow-Origin": "*",
+            'Cache-Control': 'max-age=500'
+          },
+         cache: "default",
+         method:"GET"
+        }).then(x=>x.json())
+      if(res.status!==200) return res.message
+      else return res.data
+      },
   all: async function all(post) {
 let res = await fetch("https://localhost:8080/api/v3/actions", {
       headers: {
@@ -91,3 +102,18 @@ let res = await fetch("https://localhost:8080/api/v3/actions", {
     return res.data
   }
 } 
+const commentInterface = (comments) => {
+  overlay(`<div id='commentContent'>${comments.map(infos=>`<div class='comment'>
+      <div class='infos'>
+        <img src='http://localhost:8080/api/v3/get/midia/avatars/${infos.user.avatar}' class="userAvatar">
+        <h3 class='userName'>${infos.user.username}</h3>
+        <div class='date'>${infos.date}</div>
+        <i class='fa fa-ellipsis'></i>
+        </div>
+        ${infos.content}
+        </div>`).join(" ")}</div>`)
+}
+document.addEventListener("keydown", (e) => {
+  const overlayElement = document.getElementById('overlay');
+  if(e.key==='Escape' && overlayElement.opened && (document.getElementById('commentContent'))) overlay();
+})

@@ -18,6 +18,15 @@
     -moz-osx-font-smoothing: grayscale;
   }
   
+  .icon-ellipsis:before {
+    content: "\e919";
+  }
+  .icon-comment:before {
+    content: "\e91a";
+  }
+  .icon-share-nodes:before {
+    content: "\e91b";
+  }
   .icon-clock:before {
     content: "\e912";
   }
