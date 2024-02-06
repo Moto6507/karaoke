@@ -26,7 +26,8 @@ exports.loginPage = express_1.default.Router().get('/login', (req, res) => {
         body: JSON.stringify({
             action: "database",
             type: "updateCertainObject",
-            dataReceived: [req.body.email, { accessKey: token }]
+            collection: req.body.email,
+            path: ['accessKey', token]
         })
     }).then(x => x.json());
     return res.json({ status: 200 });

@@ -18,18 +18,16 @@ class Algorithm {
         try {
             return this.posts.map((x) => {
                 const user = this.users.find((h) => h.identifier === x.by);
-                const commentsOfPost = () => {
-                    return x.comments.map((x) => {
-                        const user = this.users.find((h) => h.identifier === x.by);
-                        x = Object.assign({ user }, x);
-                        return x;
-                    });
-                };
+                const commentsOfPost = x.comments.map((x) => {
+                    const user = this.users.find((h) => h.identifier === x.by);
+                    x = Object.assign({ user }, x);
+                    return x;
+                });
                 return `<div class="musicCard">
         <div class="option">
-        <i class='icon-share' onclick=""></i>
-        <i class='fa-comment icon-comment' onclick="commentInterface(${commentsOfPost()})"></i> ${x.comments.length} 
-        <i class='icon-options'></i></div>
+        <i class='icon-share-nodes' onclick=""></i>
+        <i class='icon-comment' onclick="commentInterface(${commentsOfPost})"></i> ${x.comments.length} 
+        <i class='icon-ellipsis'></i></div>
          <img onclick="window.location.href='/k/player?song=${x.id}'" src="http://localhost:8080/api/v3/get/media/thumbnails/${x.thumbnail}" crossorigin='anonymous' class="background">
          <div class='cardInfo'>
            <div class='static'><i class='icon-music'></i> ${x.listeners}</div>

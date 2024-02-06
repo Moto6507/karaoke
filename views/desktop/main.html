@@ -3,7 +3,10 @@
   <head>
     <link rel='stylesheet' href="/assets/style.desktop.css">
     <link rel="shortcut icon" type="image/x-icon" href="/assets/karaoke.ico">
-    <script src="https://kit.fontawesome.com/e4fcc87bea.js" crossorigin="anonymous"></script>
+    <script>
+      const user = JSON.parse(`{{{string user}}}`)
+    </script>
+    <script src="src/js/functions/playlist.js"></script>
     <script src="src/js/main.js"></script>
     <script src="src/js/central.js"></script>
     <title>Is Karaoke!</title>
@@ -14,8 +17,7 @@
   <div class="route" onclick="changeTab(this,'explore')"><i class="icon-compass"></i> explore</div>
   <div class="route" onclick="changeTab(this,'notifications')"><i class="icon-bell"></i>notifications</div>
   <div class="route" onclick="changeTab(this,'library')"><i class="icon-library"></i> library</div>
-  <div class="route creatorPortal"><i class="icon-clock"></i> creator portal</div>
-  <a href="/karaoke/creator" class="route creatorPortal"><i class="icon-sparkle"></i> creator portal</a>
+  <a href="/k/creator" class="route creatorPortal"><i class="icon-sparkle"></i> creator portal</a>
   <a href="/logout" class="route logout"><i class="icon-outofbox"></i> logout</a>
     </div>
   </head>
@@ -25,5 +27,6 @@
     <br><br><br>{{{algorithm}}}
     </div>
     <div id="overlay"></div>
+    <div id="contextmenu"></div>
   </body>
 </html>

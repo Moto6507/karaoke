@@ -17,6 +17,9 @@ const app = express();
 hbs.registerHelper('json', function(context: JSON) {
   return JSON.parse(JSON.stringify(context))
 })
+hbs.registerHelper('string', function(context: JSON) {
+  return JSON.stringify(context)
+})
 app.set('trust proxy', 1);
 app.set('view engine', 'html');
 app.use(express.static('public'))

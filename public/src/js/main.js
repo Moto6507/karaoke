@@ -1,18 +1,105 @@
-let openTab, mainSaved;
+let 
+ openTab,
+ mainSaved, 
+ changeSearchContentFromHistory = (t) => {
+  const searchContent = document.getElementById('searchContent');
+  searchContent.innerHTML = ''
+  document.getElementsByTagName('input')[0].value = t
+ };
 function addHistory(text) {
-  const history = localStorage.getItem('history')? JSON.parse(localStorage.getItem('history')) : [];
+  const history = JSON.parse(localStorage.getItem('history')) || [];
   if(history.find(x=>x===text)) return;
   if(history.length>15) history.pop();
   history.push(text);
   localStorage.setItem('history', JSON.stringify(history));
 }
 function viewHistory(t) {
-  const history = localStorage.getItem('history')? JSON.parse(localStorage.getItem('history')) : false;
-  if(!t) return history? `<div class='button grey' onclick="localStorage.removeItem('history') \n changeTab(document.getElementsByClassName('route')[1], 'search')">clear history</div>`
-  + history.map(x=>`<div class='card'><i class='icon-clock'></i>${x}<span></span></div>`).join(' ') : `<img class='bodyImg' src='/images/startSearch.webp'><h2 class='title'>no history</h2> start to search on karaoke.`
+  const history = JSON.parse(localStorage.getItem('history')) || [];
+  if(!t) return history.length? `<div class='button grey' onclick="localStorage.removeItem('history') \n changeTab(document.getElementsByClassName('route')[1], 'search')">clear history</div>`
+  + history.map(x=>`<div class='card' onclick='changeSearchContentFromHistory("${x}")'><i class='icon-clock'></i>${x}<span></span></div>`).join(' ') : `<img class='bodyImg' src='/images/startSearch.webp'><h2 class='title'>no history</h2> start to search on karaoke.`
 }
-function search(t) {
+function searchHistory(t) {
+  const history = JSON.parse(localStorage.getItem('history')) || [];
+  const matches = [];
+  const searchContent = document.getElementById('searchContent');
+  history.map((x)=>{
+    if(x.toLowerCase().includes(t.toLowerCase())) matches.push(x)
+  })
+ if(t.length < 1) return searchContent.innerHTML = viewHistory()
+ return searchContent.innerHTML = matches.map(x=>`<div class='card' onclick='changeSearchContentFromHistory("${x}")'><i class='icon-clock'></i>${x}<span></span></div>`).join(' ');
+}
+async function search(t) {
+  const searchContent = document.getElementById('searchContent');
   addHistory(t.value)
+  searchContent.innerHTML = `<div class="musicCard load">
+  <div class="option">
+  <div class='share'></div></div>
+  <span></span>
+  <div class='cardInfo'>
+     <div class='static'></div>
+     <div class='static'></div>
+     <h2 class='title'></h2><h5 class='author'></h5>
+   </div>
+  </div><div class="musicCard load">
+  <div class="option">
+  <div class='share'></div></div>
+  <span></span>
+  <div class='cardInfo'>
+     <div class='static'></div>
+     <div class='static'></div>
+     <h2 class='title'></h2><h5 class='author'></h5>
+   </div>
+  </div><div class="musicCard load">
+  <div class="option">
+  <div class='share'></div></div>
+  <span></span>
+  <div class='cardInfo'>
+     <div class='static'></div>
+     <div class='static'></div>
+     <h2 class='title'></h2><h5 class='author'></h5>
+   </div>
+  </div><div class="musicCard load">
+  <div class="option">
+  <div class='share'></div></div>
+  <span></span>
+  <div class='cardInfo'>
+     <div class='static'></div>
+     <div class='static'></div>
+     <h2 class='title'></h2><h5 class='author'></h5>
+   </div>
+  </div><div class="musicCard load">
+  <div class="option">
+  <div class='share'></div></div>
+  <span></span>
+  <div class='cardInfo'>
+     <div class='static'></div>
+     <div class='static'></div>
+     <h2 class='title'></h2><h5 class='author'></h5>
+   </div>
+  </div>`
+  const res = await fetch("http://localhost:8080/api/v3/get/infos/search?q=" + t.value, {
+    method: "GET",
+    headers: {
+      "Content-Type":"application/json"
+    }
+  }).then(x=>x.json());
+  if(res.status===404) return searchContent.innerHTML = `<img src='/images/noMatches.webp' class='bodyImg'><h2 class='title'>no results for ${t.value}</h2>no have results for "${t.value}", try for keywords, titles, genders, lyrics.`
+  const searchResults = await Promise.all(res.data.map(async(x)=>{
+    const user = await db.get(x.by);
+    return `<div class="musicCard" oncontextmenu="contextmenu(event, \`<h2 class='title'>${x.title}</h2>\`)">
+    <div class="option">
+    <i class='icon-share-nodes'></i>
+    <i class='icon-comment'></i> ${x.comments.length}
+    </div>
+     <img onclick="window.location.href='/k/player?song=${x.id}'" src="http://localhost:8080/api/v3/get/media/thumbnails/${x.thumbnail}" crossorigin='anonymous' class="background">
+     <div class='cardInfo'>
+       <div class='static'><i class='icon-music'></i> ${x.listeners}</div>
+       <div class='static'><i class='icon-star'></i> ${x.stars}</div>
+       <h2 class='title'>${x.title}</h2><h5 class='author'>${user.user.username}</h5>
+     </div>
+    </div>`
+  }))
+  return searchContent.innerHTML = searchResults.join(' ')
 }
 function changeTab(element, tabToChange) {
   const content = document.getElementById('content')
@@ -29,23 +116,26 @@ function changeTab(element, tabToChange) {
     case 'main': content.innerHTML = mainSaved
     break;
     case 'search': {
-    content.innerHTML = `<div class='container'><input type='text' placeholder='search' onkeypress='if(event.keyCode===13) search()' class='textbox'> <i id='search' class='icon-search' onclick="search(document.getElementsByTagName('input')[0])"></i></div><div id='searchContent'></div>`
+    content.innerHTML = `<div class='container'><input type='text' placeholder='search' onkeyup='if(event.keyCode===13) search(this)' oninput='searchHistory(this.value)' class='textbox'> <i id='search' class='icon-search' oncontextmenu="contextmenu(event, \`<h2 class='title'>search settings</h2>\`)" onclick="search(document.getElementsByTagName('input')[0])"></i></div><div id='searchContent'></div>`
     document.getElementById('searchContent').innerHTML = viewHistory()
-    document.addEventListener('contextmenu', (d) =>{
-      if(d.target.id==='search') {
-        d.preventDefault()
-        overlay(`<div class='container inOverlay'><h2 class='title'>search configuration</h2>the search </div>`)
-      }
-    })
+    }
+    break;
+    case 'explore': {
+      content.innerHTML = ''
     }
     break;
     case 'notifications': {
-      content.innerHTML = `<div class='notification'><img class='bodyImg' src='/images/anonymous.webp'> <div class='information'><h2 class='title'>new log in</h2><br>looks like who have an new login in this account</div></div><div class='notification'><img src='/images/anonymous.webp'> <div class='information'><h2 class='title'>new log in</h2><br>looks like who have an new login in this account</div></div>`
+      content.innerHTML = user.notifications? user.notifications : `<br><img src='images/noNotifications.webp' class='bodyImg'><h2 class='title'>no notifications</h2>weel, looks like no have notifications here...`
     }
     break;
     case 'library': {
-      content.innerHTML = `<div class='button modern' onclick="overlay(\`<div class='container inOverlay'><h2 class='title'>new playlist</h2>enter a name of the playlist (or esc)<input type='text' class='textbox' placeholder='my songs to study'></div>\`)"><i class='icon-plus'></i> new playlist<span></span></div><img class='bodyImg' src='/images/emptyPlaylists.webp'><h2 class='title'>no midia here</h2>looks like whe dont have anthing here....`
-      
+      content.innerHTML = `<div class='button modern' onclick="overlay(\`<div class='container inOverlay'><h2 class='title'>new playlist</h2>enter a name of the playlist (or esc)<input type='text' class='textbox' placeholder='my songs to study' onkeypress='if(event.keyCode===13) createPlaylist(this)'></div>\`)"><i class='icon-plus'></i> new playlist<span></span></div>${user.playlists.length? user.playlists.map((x,i=0)=>{
+        const position = i++
+        return `<div class='button modern' oncontextmenu="contextmenu(event, \`<h2 class='title'>${x.name}</h2>
+      <div class='card simple' onclick='deletePlaylist(${position})'><i class='icon-trash danger'></i>delete<span></span></div>
+      <div class='card simple' onclick='editPlaylist(${position})'><i class='icon-pencil'></i>edit<span></span></div>
+      <div class='card simple'><i class='icon-share-nodes'></i>share<span></span></div></div>\`)" onclick='openPlaylist(${JSON.stringify(x)})'><i class='icon-library'></i> ${x.name}<span></span></div>`
+    }).join(' ') : `<img class='bodyImg' src='/images/emptyPlaylists.webp'><h2 class='title'>no midia here</h2>looks like whe dont have anthing here...`}`
     }
     break;
   }

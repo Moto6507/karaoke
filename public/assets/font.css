@@ -17,9 +17,33 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
   }
-  
-  .icon-ellipsis:before {
-    content: "\e919";
+
+  .icon-position:before {
+    content: "\e922";
+  }
+  .icon-vision:before {
+    content: "\e923";
+  }
+  .icon-no-vision:before {
+    content: "\e924";
+  }
+  .icon-danger:before {
+    content: "\e91c";
+  }
+  .icon-gear:before {
+    content: "\e91d";
+  }
+  .icon-send:before {
+    content: "\e91e";
+  }
+  .icon-check:before {
+    content: "\e91f";
+  }
+  .icon-copy-playlist:before {
+    content: "\e920";
+  }
+  .icon-flag:before {
+    content: "\e921";
   }
   .icon-comment:before {
     content: "\e91a";
@@ -87,7 +111,7 @@
   .icon-play:before {
     content: "\e90c";
   }
-  .icon-random:before {
+  .icon-shuffle:before {
     content: "\e90d";
   }
   .icon-arrow-right:before {
@@ -101,4 +125,7 @@
   }
   .icon-left:before {
     content: "\e911";
+  }
+  .icon-ellipsis:before {
+    content: "\e919";
   }

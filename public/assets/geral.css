@@ -25,6 +25,7 @@
   }
   .container.inOverlay {
     margin: 35vh;
+    margin-top: 23vh;
     border-radius: 5px;
     text-align: center;
     color: #4e4e4e
@@ -66,24 +67,12 @@
     text-decoration: none;
     color: rgb(255, 255, 255);
   }
-  .button {
-    background: #425fff;
-    padding: 10px;
-    margin: 5px;
-    border-radius: 5px;
-    text-align: center;
-    font-weight: bold;
-    transition: .2s;
-    color: #fff
-  }
-  .button.grey {
-    background: #373737;
-  }
-
   .card {
     background: #1d1d1d;
+    color: #fff;
     padding: 5px;
     display: flex;
+    cursor: pointer;
     justify-content: center;
     align-items: center;
     margin: 5px;
@@ -97,12 +86,34 @@
     margin-right: 5px;
   }
   .card i[class='icon-right'] {
-
+     background: none;
+     margin-left: auto
+  }
+  .card.simple {
+    background: none
+  }
+  .card.simple .danger {
+    background: #ff8d8d;
+    color: #ff0000
   }
   .card span {
     margin-left: auto;
   }
-
+  
+  .button {
+    background: #425fff;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    transition: .2s;
+    cursor: pointer;
+    color: #fff
+  }
+  .button.grey {
+    background: #373737;
+  }
  .button.modern {
         border: 1.5px solid #373737;
         background: none;
@@ -111,6 +122,7 @@
         margin: 5px;
         display: flex;
         justify-content: center;
+        cursor: pointer;
         align-items: center
       }
      .button.modern:nth-child(1) {
@@ -134,3 +146,28 @@
      .button span {
        margin-right: auto;
      }
+    .button.addButton {
+      background: none;
+      border: 3px dashed #171717;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+  #contextmenu {
+    position: absolute;
+    background: #171717;
+    display: none;
+    opacity: 0;
+    transition: all .1s, opacity .3s;
+    border: 2px solid #3a3a3a;
+    border-radius: 5px;
+    padding: 5px
+  }
+#contextmenu .card.simple {
+  padding: 0;
+  margin: 5px
+}
+#contextmenu .card.simple i:nth-child(1) {
+  background: none;
+  padding: 2px
+}

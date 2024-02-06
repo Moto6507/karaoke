@@ -14,6 +14,9 @@ const app = (0, express_1.default)();
 hbs_1.default.registerHelper('json', function (context) {
     return JSON.parse(JSON.stringify(context));
 });
+hbs_1.default.registerHelper('string', function (context) {
+    return JSON.stringify(context);
+});
 app.set('trust proxy', 1);
 app.set('view engine', 'html');
 app.use(express_1.default.static('public'));
