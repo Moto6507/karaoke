@@ -86,7 +86,8 @@ async function search(t) {
   if(res.status===404) return searchContent.innerHTML = `<img src='/images/noMatches.webp' class='bodyImg'><h2 class='title'>no results for ${t.value}</h2>no have results for "${t.value}", try for keywords, titles, genders, lyrics.`
   const searchResults = await Promise.all(res.data.map(async(x)=>{
     const user = await db.get(x.by);
-    return `<div class="musicCard" oncontextmenu="contextmenu(event, \`<h2 class='title'>${x.title}</h2>\`)">
+    return `<div class="musicCard" oncontextmenu="contextmenu(event, \`<h2 class='title'>${x.title}</h2>
+    <div class='card simple' id='${x.id}' onclick='selectPlaylist(this.id)'><i class='icon-plus'></i> add music to playlist<span></span></div>\`)">
     <div class="option">
     <i class='icon-share-nodes'></i>
     <i class='icon-comment'></i> ${x.comments.length}

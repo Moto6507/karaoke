@@ -15,7 +15,6 @@
    let results = "<div class='button addButton'><i class='icon-plus'></i>&ensp;add musics</div><img src='/images/emptyPlaylists.webp' class='bodyImg'><h2 class='title'>no musics here...</h2>looks like no have songs in this playlist.";
    if(playlist.musics.length>0) {
      let posts = await db.all(true);
-     console.log(posts)
      posts.map(x=>{
        if(playlist.musics.find(h=>h===x.id)) musicsOfPlaylist.push(x)
      })
@@ -82,9 +81,14 @@
     overlay()
     changeTab(document.getElementsByClassName('route')[4],'library')
   }
+  async function selectPlaylist(id) {
+    hideContextMenu()
+    overlay(`<div class='container inOverlay'><h2 class='title'>select playlist</h2>
+    ${user.playlists.map((x,i=0)=>`<div class='card' ${x.musics[id]? `onclick="addMusicToPlaylist(${i++}, '${id}')"` : "style='opacity: 0.5'"}><i class='icon-library'></i> ${x.name}<i class='icon-right'></i></div>`).join(' ')}go to <a class='link'>library</a> to manage your playlists`)
+  }
   async function addMusicToPlaylist(playlistPosition, musicId) {
     const playlistForEdit = user.playlists[playlistPosition]
     playlistForEdit.musics.push(musicId)
     db.update(user.email, 'playlists.' + playlistPosition + '.musics', playlistForEdit.musics);
-    hideContextMenu()
+    overlay()
   }
