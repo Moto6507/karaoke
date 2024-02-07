@@ -1,16 +1,24 @@
   function viewOwnerOfPlaylist() {
     overlay(`<div class='container inOverlay'><h2 class='title'>search configuration</h2>the search </div>`)
   }
-  function musicPlaylistOptions(event, music, position) {
-   contextmenu(event, `<h2 class='title'>${music.title} #${position}</h2>
-   <div class='card simple'><i class='icon-trash danger'></i>remove<span></span></div>
-   <div class='card simple'><i class='icon-no-vision'></i> hide ${music.title}<span></span></div>
-   <div class='card simple'><i class='icon-position'></i> change position<span></span></div></div>`)
+  function musicPlaylistOptions(event, music, position, playlistPosition) {
+    const playlistMusicsLength = user.playlists[playlistPosition].musics.length
+    contextmenu(event, `<h2 class='title'>${music.title} #${position}</h2>
+   <div class='card simple' onclick="removeSongFromPlaylist('${music.id}', ${playlistPosition})"><i class='icon-trash danger'></i>remove<span></span></div>
+   <div class='card simple' ${playlistMusicsLength>0? "style='opacity: 0.5'" : ''}><i class='icon-no-vision'></i> hide ${music.title}<span></span></div>
+   <div class='card simple' ${playlistMusicsLength>0? "style='opacity: 0.5'" : ''}><i class='icon-position'></i> change position<span></span></div></div>`)
+  }
+  async function removeSongFromPlaylist(musicId, playlistPosition) {
+    const playlistForEdit = user.playlists[playlistPosition];
+    playlistForEdit.musics.splice(playlistForEdit.musics.findIndex(x=>x===musicId),1)
+    db.update(user.email, 'playlists.' + playlistPosition + '.musics', playlistForEdit.musics)
+    openPlaylist(playlistForEdit)
   }
   async function openPlaylist(playlist) {
    const content = document.getElementById('content');
    const icons = [];
    const musicsOfPlaylist = [];
+   const playlistPosition = user.playlists.findIndex(x=>x.id===playlist.id)
    content.innerHTML = `LOADING...`
    let results = "<div class='button addButton'><i class='icon-plus'></i>&ensp;add musics</div><img src='/images/emptyPlaylists.webp' class='bodyImg'><h2 class='title'>no musics here...</h2>looks like no have songs in this playlist.";
    if(playlist.musics.length>0) {
@@ -20,7 +28,7 @@
      })
    results = await Promise.all(musicsOfPlaylist.map(async(x, i=0)=>{
    const authorOfPost = await db.get(x.by)
-   return `<div class='playlist-music-box' oncontextmenu='musicPlaylistOptions(event, ${JSON.stringify(x)}, ${i++})' id='${i++}'><img src='http://localhost:8080/api/v3/get/media/thumbnails/${x.thumbnail}' crossorigin='anonymous'><div class='informations'><h3 class='song-name'>${x.title}</h3>3 minutes - By ${authorOfPost.user.username}</div></div>`
+   return `<div class='playlist-music-box' oncontextmenu='musicPlaylistOptions(event, ${JSON.stringify(x)}, ${i++}, ${playlistPosition})'><img src='http://localhost:8080/api/v3/get/media/thumbnails/${x.thumbnail}' crossorigin='anonymous'><div class='informations'><h3 class='song-name'>${x.title}</h3>3 minutes - By ${authorOfPost.user.username}</div></div>`
    }))
    }
    if(playlist.musics.length>0) icons.push(`<div class='manipulateOptions' title='suffle queue sequence'><i class='icon-shuffle'></i></div>`)
@@ -55,7 +63,7 @@
    const content = document.getElementById('content');
    user.playlists.splice(position, 1);
    if(user.playlists.length<1) db.update(user.email, "playlists", []);
-   else db.update(user.email, "playlists." + position, user.playlists);
+   else db.update(user.email, "playlists", user.playlists);
    content.innerHTML = "loading..."
    changeTab(document.getElementsByClassName('route')[4],'library')
   }
@@ -84,7 +92,7 @@
   async function selectPlaylist(id) {
     hideContextMenu()
     overlay(`<div class='container inOverlay'><h2 class='title'>select playlist</h2>
-    ${user.playlists.map((x,i=0)=>`<div class='card' ${x.musics[id]? `onclick="addMusicToPlaylist(${i++}, '${id}')"` : "style='opacity: 0.5'"}><i class='icon-library'></i> ${x.name}<i class='icon-right'></i></div>`).join(' ')}go to <a class='link'>library</a> to manage your playlists`)
+    ${user.playlists.map((x,i=0)=>`<div class='card' ${x.musics.find(x=>x===id)? "style='opacity: 0.5'" : `onclick="addMusicToPlaylist(${i++}, '${id}')"`}><i class='icon-library'></i> ${x.name}<i class='icon-right'></i></div>`).join(' ')}go to <a class='link'>library</a> to manage your playlists`)
   }
   async function addMusicToPlaylist(playlistPosition, musicId) {
     const playlistForEdit = user.playlists[playlistPosition]

@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel='stylesheet' href='style.mobile.css'>
+    <script src="https://kit.fontawesome.com/e4fcc87bea.js" crossorigin="anonymous"></script>
+    <script>
+      function touchMiniPlayer() {
+        const playerOverlay = document.getElementById('playerOverlay');
+        const playerTemplate = `
+    <div class='player'>
+    <img class='thumbnail' src='assets/barbie.png'>
+    <h1 class='title'>Song Name</h1>
+    <br>
+    <div class='bar'>
+      <div class='progress-bar'></div>
+    </div>
+    <div class='options'>
+        <div class='duration'>00:00</div>
+        <div id='slash'>/</div>
+        <div class='duration'>00:00</div>
+    </div>
+    <div class='options'>
+    <i class='fa fa-star icon'></i>
+    <div class='play-button'><i class='fa fa-play'></i></div>
+    <i class='fa fa-battery icon'></i>
+     </div>
+    </div>`
+        playerOverlay.style.top = "0"
+        setTimeout(()=>playerOverlay.style.opacity = 9,70)
+        playerOverlay.innerHTML = playerTemplate
+      }
+    </script>
+    </head>
+    <body style='background: blue'>
+      <div onclick='touchMiniPlayer()'>aaaa</div>
+      <div id='playerOverlay'>aaaaaaa</div>
+    </body>
+    </html>
