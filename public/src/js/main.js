@@ -141,3 +141,30 @@ function changeTab(element, tabToChange) {
     break;
   }
 }
+function touchMiniPlayer() {
+  const playerOverlay = document.getElementById('playerOverlay');
+  const playerTemplate = `
+<div class='player'>
+<img class='thumbnail' src='assets/barbie.png'>
+<h1 class='title'>Song Name</h1>
+<br>
+<div class='options'>
+<div class='bar'>
+<div class='progress-bar'></div>
+</div>
+</div>
+<div class='options' style='width: 84%'>
+  <div class='duration'>00:00</div>
+  <div id='slash'>/</div>
+  <div class='duration'>00:00</div>
+</div>
+<div class='options'>
+<i class='icon-star icon'></i>
+<div class='play-button'><i class='icon-play'></i></div>
+<i class='icon-loop icon'></i>
+</div>
+</div>`
+  playerOverlay.style.top = "0"
+  setTimeout(()=>playerOverlay.style.opacity = 9,70)
+  playerOverlay.innerHTML = playerTemplate
+}

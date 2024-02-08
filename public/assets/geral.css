@@ -171,3 +171,81 @@
   background: none;
   padding: 2px
 }
+ .player {
+   padding: 5px;
+   background: #000000;
+   color: #fff;
+   text-align: center;
+ }
+ 
+ .player .thumbnail {
+   width: 30%;
+   height: 0%;
+   border-radius: 10px;
+   object-fit: cover;
+ }
+ 
+ .player .options {
+   display: flex;
+   justify-content: center;
+   align-items: center;
+   margin: 5px;
+ }
+ 
+ .player .options .icon {
+   margin-left: 300px;
+   color: #fff;
+   font-size: 25px;
+ }
+ 
+ .player .options .icon:nth-child(1) {
+   margin-right: 300px;
+   margin-left: 0;
+ }
+ 
+ .player #slash {
+   color: #a1a1a1;
+   display: inline-block;
+   margin: 5px;
+ }
+ 
+ .player .duration {
+   display: inline-block;
+   margin-left: 0;
+   color: #666666
+ }
+ 
+ .player .duration:nth-child(1) {
+   color: #fff;
+   margin-left: auto
+ }
+ 
+ .player .bar {
+   background: #2d2d2d;
+   width: 70%;
+   height: 7px;
+   text-align: center;
+   border-radius: 5px;
+ }
+ 
+ .player .bar .progress-bar {
+   background: #cdcdcd;
+   width: 0%;
+   height: 7px;
+   border-radius: 5px
+ }
+ 
+ .player .title {
+   color: white;
+   margin: 0;
+ }
+ 
+ .player .play-button {
+   background: #989898;
+   padding: 15px;
+   width: 35px;
+   font-size: 30px;
+   border-radius: 1in;
+   margin: 5px;
+   display: inline-block
+ }
