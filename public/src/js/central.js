@@ -159,5 +159,6 @@ document.addEventListener("click", (e) => {
 
 window.onkeyup = function (e) {
   if (e.keyCode === 27 && toggleIsOpen) return hideContextMenu()
-  if (e.keyCode === 27 && (document.getElementById('overlay').opened && (document.getElementById('commentContent')) || document.getElementById('overlay').opened)) overlay();
+  if (e.keyCode === 27 && document.getElementById('playerOverlay').opened) closeMiniPlayer()
+  if (e.keyCode === 27 && (document.getElementById('overlay').opened && (document.getElementById('commentContent')) ||  document.getElementById('overlay').opened)) overlay();
 }

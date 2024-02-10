@@ -161,6 +161,7 @@
     transition: all .1s, opacity .3s;
     border: 2px solid #3a3a3a;
     border-radius: 5px;
+    z-index: 999;
     padding: 5px
   }
 #contextmenu .card.simple {

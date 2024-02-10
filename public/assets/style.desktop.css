@@ -128,7 +128,7 @@ body {
     margin-left: 5px;
     backdrop-filter: blur(8px)
   }
-  .musicCard .option .icon-share-nodes {
+  .musicCard .option .icon-play {
     cursor: pointer;
     background: rgb(255,255,255,0.5);
     padding: 6.5px;
@@ -361,23 +361,25 @@ body {
 #miniPlayer {
   background: #000000;
   border-top: 1px solid #fff;
-  padding: 7px;
+  padding: 5px;
+  overflow: hidden;
   display: flex;
   justify-content: center;
   align-items: center;
   position: fixed;
-  bottom: 0;
+  bottom: -100px;
   width: 100%;
   z-index: 1;
+  transition: all .2s;
 }
-#miniPlayer .thumbnail {
+#miniPlayer .thumbnailOfSong {
   width: 55px;
   height: 55px;
   border-radius: 10px;
 }
 #miniPlayer .bar {
    background: #2d2d2d;
-   width: 77%;
+   width: 70%;
    height: 7px;
    text-align: center;
    border-radius: 5px;
@@ -394,7 +396,7 @@ body {
   margin-right: auto;
   text-align: left;
 }
-#miniPlayer .infos .title {
+#miniPlayer .infos .titleOfSong {
   margin: 0;
   color: #fff
 }
@@ -405,9 +407,13 @@ body {
   margin-right: 18px;
   margin-left: auto
 }
+#miniPlayer .controls .skipIcons:nth-child(1) {
+  transform: rotate(179deg)
+}
 #miniPlayer .controls .skipIcons {
   margin: 5px;
   font-size: 20px;
+  display: inline-block
 }
 #miniPlayer .controls .playIcon {
   font-size: 20px;

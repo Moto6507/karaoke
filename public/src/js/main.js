@@ -1,11 +1,12 @@
 let 
  openTab,
  mainSaved, 
+ currentSong,
  changeSearchContentFromHistory = (t) => {
   const searchContent = document.getElementById('searchContent');
   searchContent.innerHTML = ''
   document.getElementsByTagName('input')[0].value = t
- };
+ }
 function addHistory(text) {
   const history = JSON.parse(localStorage.getItem('history')) || [];
   if(history.find(x=>x===text)) return;
@@ -89,7 +90,7 @@ async function search(t) {
     return `<div class="musicCard" oncontextmenu="contextmenu(event, \`<h2 class='title'>${x.title}</h2>
     <div class='card simple' id='${x.id}' onclick='selectPlaylist(this.id)'><i class='icon-plus'></i> add music to playlist<span></span></div>\`)">
     <div class="option">
-    <i class='icon-share-nodes'></i>
+    <i class='icon-play' onclick="setMiniPlayer({ songId: '${x.id}', isPlaylist: true })"></i>
     <i class='icon-comment'></i> ${x.comments.length}
     </div>
      <img onclick="window.location.href='/k/player?song=${x.id}'" src="http://localhost:8080/api/v3/get/media/thumbnails/${x.thumbnail}" crossorigin='anonymous' class="background">
@@ -145,8 +146,8 @@ function touchMiniPlayer() {
   const playerOverlay = document.getElementById('playerOverlay');
   const playerTemplate = `
 <div class='player'>
-<img class='thumbnail' src='assets/barbie.png'>
-<h1 class='title'>Song Name</h1>
+<img class='thumbnail' crossorigin='anonymous' src='http://localhost:8080/api/v3/get/media/thumbnails/${currentSong.thumbnail}'>
+<h1 class='title'>${currentSong.title}</h1>
 <br>
 <div class='options'>
 <div class='bar'>
@@ -167,4 +168,41 @@ function touchMiniPlayer() {
   playerOverlay.style.top = "0"
   setTimeout(()=>playerOverlay.style.opacity = 9,70)
   playerOverlay.innerHTML = playerTemplate
+  playerOverlay.opened = true
+}
+function closeMiniPlayer() {
+  const playerOverlay = document.getElementById('playerOverlay');
+  playerOverlay.style.opacity = 0
+  setTimeout(()=>playerOverlay.style.top = "100%",5);
+  playerOverlay.opened = false
+}
+async function setMiniPlayer(options) {
+  const playerOverlay = document.getElementById('miniPlayer');
+  if(playerOverlay.opened) {
+    playerOverlay.style.bottom = '-100px'
+    playerOverlay.opened = false
+  return;
+  }
+  const miniPlayer = document.getElementById('miniPlayer')
+  const [ songThumbnail, songTitle, songDuration, skipIcons, playIcon, controls ] = [
+    miniPlayer.getElementsByClassName('thumbnailOfSong')[0],
+    document.getElementsByClassName('titleOfSong')[0],
+    document.getElementsByClassName('duration')[0],
+    document.getElementsByClassName('skipIcons')[0],
+    document.getElementsByClassName('icon-play')[0],
+    document.getElementsByClassName('controls')[0]
+  ]
+  let song = await db.get(options.songId);
+  song = song.user
+  currentSong = song
+  songThumbnail.src = 'http://localhost:8080/api/v3/get/media/thumbnails/' + song.thumbnail;
+  songTitle.innerHTML = song.title;
+  songDuration.innerHTML = song.duration;
+  if(!options.isPlaylist) controls.innerHTML = `<i class='icon-play playIcon'></i>`
+  else controls.innerHTML = `
+  <div class='skipIcons'><i class='icon-skip'></i></div>
+  <i class='icon-pause playIcon'></i>
+  <div class='skipIcons'><i class='icon-skip'></i></div>`
+  playerOverlay.style.bottom = '0'
+  playerOverlay.opened = true
 }

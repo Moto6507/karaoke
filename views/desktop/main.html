@@ -6,6 +6,7 @@
     <script>
       const user = JSON.parse(`{{{string user}}}`)
     </script>
+    <script src="src/js/functions/player.js"></script>
     <script src="src/js/functions/playlist.js"></script>
     <script src="src/js/main.js"></script>
     <script src="src/js/central.js"></script>
@@ -29,18 +30,16 @@
     <div id="overlay"></div>
     <div id="contextmenu"></div>
     <div id='playerOverlay'></div>
-    <div id='miniPlayer' onclick='touchMiniPlayer()'>
-      <img class='thumbnail' src='assets/barbie.png'>
+    <div oncontextmenu="contextmenu(event, `<h2 class='title'>mini player popup</h2><div class='card simple' onclick='setMiniPlayer()'>close mini popup<span></span></div>`)" id='miniPlayer' onclick='touchMiniPlayer()'>
+      <img class='thumbnailOfSong' crossorigin='anonymous'>
       <div class='infos'>
-      <h3 class='title'>song name</h3>
+      <h3 class='titleOfSong'>song name</h3>
       <div class='duration'>00:00</div>
       </div>
       <div class='bar'>
         <div class='progress-bar'></div>
       </div>
       <div class='controls'>
-        <i class='icon-skip skipIcons' style='transform: rotate(180deg)'></i>
-        <i class='icon-pause playIcon'></i>
         <i class='icon-skip skipIcons'></i>
       </div>
       </div>
