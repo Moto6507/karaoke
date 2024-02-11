@@ -6,10 +6,11 @@
     <script>
       const user = JSON.parse(`{{{string user}}}`)
     </script>
-    <script src="src/js/functions/player.js"></script>
     <script src="src/js/functions/playlist.js"></script>
     <script src="src/js/main.js"></script>
     <script src="src/js/central.js"></script>
+    <script src="src/js/functions/player.js"></script>
+    <script src="src/js/functions/extensions/player.events.js"></script>
     <title>Is Karaoke!</title>
     <div class="navBar">
       <h2 class="logo"><i class='icon-karaoke'></i> Karaoke</h2>
@@ -30,13 +31,13 @@
     <div id="overlay"></div>
     <div id="contextmenu"></div>
     <div id='playerOverlay'></div>
-    <div oncontextmenu="contextmenu(event, `<h2 class='title'>mini player popup</h2><div class='card simple' onclick='setMiniPlayer()'>close mini popup<span></span></div>`)" id='miniPlayer' onclick='touchMiniPlayer()'>
-      <img class='thumbnailOfSong' crossorigin='anonymous'>
+    <div oncontextmenu="contextmenu(event, `<h2 class='title'>mini player popup</h2><div class='card simple' onclick='setMiniPlayer()'>close mini popup<span></span></div>`)" id='miniPlayer'>
+      <img class='thumbnailOfSong' onclick='touchMiniPlayer()' crossorigin='anonymous'>
       <div class='infos'>
       <h3 class='titleOfSong'>song name</h3>
-      <div class='duration'>00:00</div>
+      <div class='duration' id="duration">00:00</div>
       </div>
-      <div class='bar'>
+      <div class='bar' onclick="seek(event.offsetX)">
         <div class='progress-bar'></div>
       </div>
       <div class='controls'>

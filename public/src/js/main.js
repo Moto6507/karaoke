@@ -90,7 +90,7 @@ async function search(t) {
     return `<div class="musicCard" oncontextmenu="contextmenu(event, \`<h2 class='title'>${x.title}</h2>
     <div class='card simple' id='${x.id}' onclick='selectPlaylist(this.id)'><i class='icon-plus'></i> add music to playlist<span></span></div>\`)">
     <div class="option">
-    <i class='icon-play' onclick="setMiniPlayer({ songId: '${x.id}', isPlaylist: true })"></i>
+    <i class='icon-play' onclick="setMiniPlayer({ songId: '${x.id}', isPlaylist: false }) \n play('${x.musicFile}')"></i>
     <i class='icon-comment'></i> ${x.comments.length}
     </div>
      <img onclick="window.location.href='/k/player?song=${x.id}'" src="http://localhost:8080/api/v3/get/media/thumbnails/${x.thumbnail}" crossorigin='anonymous' class="background">
@@ -150,7 +150,7 @@ function touchMiniPlayer() {
 <h1 class='title'>${currentSong.title}</h1>
 <br>
 <div class='options'>
-<div class='bar'>
+<div class='bar' onclick='seek(event.offsetX)'>
 <div class='progress-bar'></div>
 </div>
 </div>
@@ -161,7 +161,7 @@ function touchMiniPlayer() {
 </div>
 <div class='options'>
 <i class='icon-star icon'></i>
-<div class='play-button'><i class='icon-play'></i></div>
+<i onclick='play()' class='play-button playIcon ${audio.paused? "icon-play" : "icon-pause"}'></i>
 <i class='icon-loop icon'></i>
 </div>
 </div>`
@@ -198,7 +198,7 @@ async function setMiniPlayer(options) {
   songThumbnail.src = 'http://localhost:8080/api/v3/get/media/thumbnails/' + song.thumbnail;
   songTitle.innerHTML = song.title;
   songDuration.innerHTML = song.duration;
-  if(!options.isPlaylist) controls.innerHTML = `<i class='icon-play playIcon'></i>`
+  if(!options.isPlaylist) controls.innerHTML = `<i onclick='play()' class='icon-pause playIcon'></i>`
   else controls.innerHTML = `
   <div class='skipIcons'><i class='icon-skip'></i></div>
   <i class='icon-pause playIcon'></i>

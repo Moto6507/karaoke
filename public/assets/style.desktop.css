@@ -388,6 +388,7 @@ body {
    background: #cdcdcd;
    width: 0%;
    height: 7px;
+   transition: width .3s;
    border-radius: 5px
  }
 #miniPlayer .infos {
