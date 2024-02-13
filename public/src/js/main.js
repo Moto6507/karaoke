@@ -145,7 +145,7 @@ function changeTab(element, tabToChange) {
 function touchMiniPlayer() {
   const playerOverlay = document.getElementById('playerOverlay');
   const playerTemplate = `
-<div class='player'>
+<div class='player' oncontextmenu="contextmenu(event, \`<h2 class='title'>player options</h2><div class='card simple' onclick='selectTheme()'>theme<span></span></div>\`)">
 <img class='thumbnail' crossorigin='anonymous' src='http://localhost:8080/api/v3/get/media/thumbnails/${currentSong.thumbnail}'>
 <h1 class='title'>${currentSong.title}</h1>
 <br>
@@ -164,11 +164,12 @@ function touchMiniPlayer() {
 <i onclick='play()' class='play-button playIcon ${audio.paused? "icon-play" : "icon-pause"}'></i>
 <div onclick='loop(this)' style='opacity: 0.5' class='icon'><i class='icon-loop'></i></div>
 </div>
-</div>`
+</div>
+<div class='selectThemeBox'><i class='icon-music'></i>uses <i class='icon-arrow-left'></i> <i class='icon-arrow-right'></i> to change theme and <i>Enter</i> to select.</div>`
   playerOverlay.style.top = "0"
   setTimeout(()=>playerOverlay.style.opacity = 9,70)
   playerOverlay.innerHTML = playerTemplate
-  setTheme(2)
+  setTheme(4)
   playerOverlay.opened = true
 }
 function closeMiniPlayer() {
@@ -176,6 +177,11 @@ function closeMiniPlayer() {
   playerOverlay.style.opacity = 0
   setTimeout(()=>playerOverlay.style.top = "100%",5);
   playerOverlay.opened = false
+}
+function selectTheme() {
+  const themeBox = document.getElementsByClassName('selectThemeBox')[0];
+  themeBox.style.display='block'
+  setTimeout(()=>themeBox.style.opacity=9,200)
 }
 async function setMiniPlayer(options) {
   const playerOverlay = document.getElementById('miniPlayer');

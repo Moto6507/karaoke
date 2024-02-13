@@ -422,6 +422,32 @@ body {
   font-size: 20px;
 }
 
+.selectThemeBox {
+  background: #000000;
+  border: 1px solid #1d1d1d;
+  position: fixed;
+  text-align: center;
+  padding: 8px;
+  margin: 5px;
+  display: none;
+  opacity: 0;
+  transition: .2s;
+  border-radius: 10px;
+  bottom: 40px;
+  color: #4d4d4d;
+  right: 400px;
+  left: 400px
+}
+
+.selectThemeBox .icon-music {
+  font-size: 25px;
+  display: block
+}
+
+.selectThemeBox i {
+  color: #fff
+}
+
 @keyframes staticsLoadAnimation {
   0% {
     background: rgb(255,255,255,0.3);

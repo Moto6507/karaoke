@@ -176,6 +176,7 @@
    padding: 5px;
    background: #000000;
    color: #fff;
+   transition: 1s;
    text-align: center;
  }
  
@@ -214,6 +215,7 @@
  .player .duration {
    display: inline-block;
    margin-left: 0;
+   transition: .5s;
    color: #666666
  }
  
@@ -227,6 +229,7 @@
    width: 70%;
    height: 7px;
    text-align: center;
+   transition: .5s;
    border-radius: 5px;
  }
  
@@ -234,7 +237,7 @@
    background: #cdcdcd;
    width: 0%;
    height: 7px;
-   transition: width .2s;
+   transition: .2s;
    border-radius: 5px
  }
  
@@ -250,5 +253,6 @@
    font-size: 30px;
    border-radius: 1in;
    margin: 5px;
+   transition: .5s;
    display: inline-block
  }
