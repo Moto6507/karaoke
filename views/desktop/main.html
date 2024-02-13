@@ -11,6 +11,7 @@
     <script src="src/js/central.js"></script>
     <script src="src/js/functions/player.js"></script>
     <script src="src/js/functions/extensions/player.events.js"></script>
+    <script src="src/js/functions/extensions/theme.js"></script>
     <title>Is Karaoke!</title>
     <div class="navBar">
       <h2 class="logo"><i class='icon-karaoke'></i> Karaoke</h2>
@@ -25,7 +26,7 @@
   </head>
   <body>
   <div id="content">
-    <img src="http://localhost:8080/api/v3/get/media/avatars/{{{json user.avatar}}}" crossorigin="anonymous" class="userAvatar">
+    <img title='you' src="http://localhost:8080/api/v3/get/media/avatars/{{{json user.avatar}}}" crossorigin="anonymous" class="userAvatar">
     <br><br><br>{{{algorithm}}}
     </div>
     <div id="overlay"></div>

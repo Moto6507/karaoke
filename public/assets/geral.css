@@ -197,6 +197,7 @@
    margin-left: 300px;
    color: #fff;
    font-size: 25px;
+   transition: .5s;
  }
  
  .player .options .icon:nth-child(1) {

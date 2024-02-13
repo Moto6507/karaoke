@@ -162,12 +162,13 @@ function touchMiniPlayer() {
 <div class='options'>
 <i class='icon-star icon'></i>
 <i onclick='play()' class='play-button playIcon ${audio.paused? "icon-play" : "icon-pause"}'></i>
-<i class='icon-loop icon'></i>
+<div onclick='loop(this)' style='opacity: 0.5' class='icon'><i class='icon-loop'></i></div>
 </div>
 </div>`
   playerOverlay.style.top = "0"
   setTimeout(()=>playerOverlay.style.opacity = 9,70)
   playerOverlay.innerHTML = playerTemplate
+  setTheme(2)
   playerOverlay.opened = true
 }
 function closeMiniPlayer() {
@@ -183,11 +184,15 @@ async function setMiniPlayer(options) {
     playerOverlay.opened = false
   return;
   }
+  if(!options) {
+  playerOverlay.style.bottom = '0'
+  playerOverlay.opened = true
+  return;
+  }
   const miniPlayer = document.getElementById('miniPlayer')
-  const [ songThumbnail, songTitle, songDuration, skipIcons, playIcon, controls ] = [
+  const [ songThumbnail, songTitle, skipIcons, playIcon, controls ] = [
     miniPlayer.getElementsByClassName('thumbnailOfSong')[0],
     document.getElementsByClassName('titleOfSong')[0],
-    document.getElementsByClassName('duration')[0],
     document.getElementsByClassName('skipIcons')[0],
     document.getElementsByClassName('icon-play')[0],
     document.getElementsByClassName('controls')[0]
@@ -197,7 +202,6 @@ async function setMiniPlayer(options) {
   currentSong = song
   songThumbnail.src = 'http://localhost:8080/api/v3/get/media/thumbnails/' + song.thumbnail;
   songTitle.innerHTML = song.title;
-  songDuration.innerHTML = song.duration;
   if(!options.isPlaylist) controls.innerHTML = `<i onclick='play()' class='icon-pause playIcon'></i>`
   else controls.innerHTML = `
   <div class='skipIcons'><i class='icon-skip'></i></div>

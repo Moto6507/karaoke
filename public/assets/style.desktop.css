@@ -48,6 +48,8 @@ body {
     position: absolute;
     right: 10px;
     border-radius: 1in;
+    margin: 10px;
+    margin-right: 3px;
     object-fit: cover;
   }
   
@@ -360,7 +362,7 @@ body {
 
 #miniPlayer {
   background: #000000;
-  border-top: 1px solid #fff;
+  border-top: 1px solid #1d1d1d;
   padding: 5px;
   overflow: hidden;
   display: flex;

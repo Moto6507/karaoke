@@ -24,7 +24,11 @@ function calculateTotalValue(length) {
 //console.info(seconds_int)
     return time
 }
-  
+function loop(el) {
+  isLooping = isLooping? false : true;
+  el.style.transform = isLooping? 'rotate(360deg)' : 'rotate(0deg)'
+  el.style.opacity = isLooping? 9 : 0.5
+}
 function seek(e) {
     if(!audio || !audio.currentTime) return;
    const progress = document.getElementsByClassName('bar')[0]

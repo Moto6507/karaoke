@@ -25,7 +25,7 @@ class Algorithm {
                 });
                 return `<div class="musicCard">
         <div class="option">
-        <i class='icon-share-nodes' onclick=""></i>
+        <i class='icon-play' onclick="setMiniPlayer({ songId: '${x.id}', isPlaylist: false }) \n play('${x.musicFile}')"></i>
         <i class='icon-comment' onclick="commentInterface(${commentsOfPost})"></i> ${x.comments.length} 
         <i class='icon-ellipsis'></i></div>
          <img onclick="window.location.href='/k/player?song=${x.id}'" src="http://localhost:8080/api/v3/get/media/thumbnails/${x.thumbnail}" crossorigin='anonymous' class="background">
