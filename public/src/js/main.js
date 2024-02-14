@@ -147,7 +147,7 @@ function touchMiniPlayer() {
   const playerTemplate = `
 <div class='player' oncontextmenu="contextmenu(event, \`<h2 class='title'>player options</h2><div class='card simple' onclick='selectTheme()'>theme<span></span></div>\`)">
 <img class='thumbnail' crossorigin='anonymous' src='http://localhost:8080/api/v3/get/media/thumbnails/${currentSong.thumbnail}'>
-<h1 class='title'>${currentSong.title}</h1>
+<h1 class='title titleInOverlay'>${currentSong.title}</h1>
 <br>
 <div class='options'>
 <div class='bar' onclick='seek(event.offsetX)'>
@@ -165,11 +165,11 @@ function touchMiniPlayer() {
 <div onclick='loop(this)' style='opacity: 0.5' class='icon'><i class='icon-loop'></i></div>
 </div>
 </div>
-<div class='selectThemeBox'><i class='icon-music'></i>uses <i class='icon-arrow-left'></i> <i class='icon-arrow-right'></i> to change theme and <i>Enter</i> to select.</div>`
+<div class='selectThemeBox'><i class='icon-music'></i>uses <i class='icon-arrow-right'></i> to change theme and <i>Enter</i> to select.</div>`
   playerOverlay.style.top = "0"
   setTimeout(()=>playerOverlay.style.opacity = 9,70)
   playerOverlay.innerHTML = playerTemplate
-  setTheme(4)
+  defineTheme(user.theme)
   playerOverlay.opened = true
 }
 function closeMiniPlayer() {

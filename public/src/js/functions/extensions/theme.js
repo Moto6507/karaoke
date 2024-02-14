@@ -40,7 +40,7 @@
 };
       let [ player, title, bar, progressBar, firstDuration, slash, secondDuration, playButton, icons ] = [
         document.getElementsByClassName('player')[0],
-        document.getElementsByClassName('title')[0],
+        document.getElementsByClassName('titleInOverlay')[0],
         document.getElementsByClassName('bar')[0],
         document.getElementsByClassName('progress-bar')[0],
         document.getElementsByClassName('duration')[0],
@@ -167,7 +167,7 @@
       themeColor = getAverageColor(document.getElementsByClassName('thumbnail')[0]);
       title.style.color = pSBC(0.40, themeColor)
        // song title
-      bar.style.background = pSBC(-0.50, pSBC(0.35, themeColor))
+      bar.style.background = pSBC(-0.80, themeColor)
        //bar background
        progressBar.style.background = themeColor
        //progress bar color
@@ -227,6 +227,12 @@
     }
    function defineTheme(userTheme) {
       //theme is Number (0 - 6) or String im[0-4]
-      if(userTheme.includes('im')) return setTheme(null,userTheme.slice(2,3));
+      userTheme = String(userTheme)
+      console.log(userTheme)
+      if(userTheme.includes('im')) {
+        immersiveThemeCount = Number(userTheme.slice(2,3));
+        return setTheme(null,immersiveThemeCount);
+      }
+      themeCount = Number(userTheme)      
       setTheme(userTheme)
    }

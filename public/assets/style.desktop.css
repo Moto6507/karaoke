@@ -448,6 +448,67 @@ body {
   color: #fff
 }
 
+   
+.configurationBox {
+  background: #101010;
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  color: #6e6e6e;
+}
+
+.configurationBox img {
+  width: 80px;
+  height: 80px;
+  border-radius: 1in;
+  object-fit: cover;
+  display: inline-block;
+}
+
+.configurationBox .img {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background: rgb(0,0,0,0.5);
+  border-radius: 1in;
+  transition: .2s;
+  display: inline-block
+}
+
+.configurationBox .scrollArea .separate {
+  opacity: 0.5;
+}
+
+.configurationBox .scrollArea {
+  padding: 10px;
+  width: 50%;
+  overflow: hidden;
+  border-right: 1px solid #1d1d1d;
+}
+
+.configurationBox .scrollArea:nth-child(2) {
+  border: none;
+  min-height: 90vh;
+  align-self: flex-start;
+  top: 0;
+}
+
+.configurationBox .option {
+  padding: 15px;
+  border-bottom: 1px solid #4d4d4d;
+  font-size: 20px;
+  color: #fff;
+  text-align: left;
+}
+
+input[type='file'] {
+  display: none
+}
+
 @keyframes staticsLoadAnimation {
   0% {
     background: rgb(255,255,255,0.3);

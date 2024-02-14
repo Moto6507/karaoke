@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel='stylesheet' href='style.mobile.css'>
+    <script src="https://kit.fontawesome.com/e4fcc87bea.js" crossorigin="anonymous"></script>
+    <title>configuration</title>
+  </head>
+  <body>
+    <div class='configurationBox'>
+     <div class='scrollArea'>
+     <h3 class='title separate'>User</h3>
+       <div class='option'>Profile</div>
+       <div class='option'>My device</div>
+       <div class='option'>Blocked users</div>
+       <div class='option'>Profile</div>
+       <br>
+       <br>
+       <h3 class='title separate'>Site preferences</h4>
+       <div class='option'>Accessibility</div>
+       <div class='option'>Language</div>
+       <div class='option'>Keys</div>
+       <div class='option'>Compatibilities</div>
+       <div class='option'>Audio</div>
+       <br>
+       <br>
+       <h3 class='title separate'>Audio settings</h3>
+       <div class='option'>Audio equalizer</div>
+       <div class='option'>Lyrics</div>
+       <br>
+       <br>
+       <br>
+       <h3 class='title separate'>About</h3>
+       <div class='option'>About us</div>
+       <div class='option'>Privacy</div>
+       <div class='option' style='border: none; margin-bottom: 5px'>Community</div>
+     </div>
+     <div class='scrollArea'><br><br><br>
+      <img src='assets/barbie.png'> <div class='img'><i class='fa fa-plus'></i><br></div>
+      <h2 class='title'>username</h2>
+      <input type='text' class='textbox'>
+      <br>
+      <h2 class='title'>biography</h2>
+      <input type='text' class='textbox'>
+      <br>
+      <h2 class='title'>band (optional)</h2>
+      <input type='text' class='textbox'>
+      <br>
+      <h2 class='title'>teams</h2>
+      You haven't affiliated with anyone yet
+      <br><br><br>
+      <hr>
+      <h2 class='title'>profissional or public</h2>
+      <div class='card'>profissional account<span></span></div>
+      This makes your profile completely professional, access will be restricted to only the /creator route
+      <div class='card'>verification<span></span></div>
+      your profile can't be verified, verify <a href='a' class='link'>Community Terms</a>.
+      </div>
+    </div>
+    <style>
+      
+.configurationBox {
+  background: #191919;
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  overflow: hidden;
+  color: #6e6e6e;
+}
+
+.configurationBox img {
+  width: 80px;
+  height: 80px;
+  border-radius: 1in;
+  object-fit: cover;
+  display: inline-block;
+}
+
+.configurationBox .img {
+  padding: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background: rgb(0,0,0,0.5);
+  border-radius: 1in;
+  display: inline-block;
+}
+
+.configurationBox .scrollArea .separate {
+  opacity: 0.5;
+}
+
+.configurationBox .scrollArea {
+  padding: 10px;
+  width: 50%;
+  overflow-y: scroll;
+  border-left: 1px solid #2d2d2d;
+}
+
+.configurationBox .scrollArea:nth-child(2) {
+  border: none;
+  min-height: 90vh;
+  align-self: flex-start;
+  top: 0;
+}
+
+.configurationBox .option {
+  padding: 15px;
+  border-bottom: 1px solid #4d4d4d;
+  font-size: 25px;
+  color: #fff;
+  text-align: left;
+}
+    </style>
+  </body>
+</html>
