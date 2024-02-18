@@ -99,6 +99,22 @@
   .card span {
     margin-left: auto;
   }
+  .card.select {
+    background: none;
+    border: 2px solid #373737;
+    padding: 8px;
+    transition: .2s;
+    border-radius: 5px;
+    margin: 5px
+  }
+  .card.select.selected {
+    border: 2px solid #425fff
+  }
+  .card.select.selected i {
+    background: #93a4ff;
+    transition: .2s;
+    color: #425fff
+  }
   
   .button {
     background: #425fff;

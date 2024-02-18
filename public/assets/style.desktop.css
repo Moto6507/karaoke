@@ -486,15 +486,18 @@ body {
 .configurationBox .scrollArea {
   padding: 10px;
   width: 50%;
-  overflow: hidden;
-  border-right: 1px solid #1d1d1d;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  height: 100vh;
+  border-right: 1px solid #1d1d1d
 }
 
 .configurationBox .scrollArea:nth-child(2) {
-  border: none;
-  min-height: 90vh;
+  border: none; 
   align-self: flex-start;
   top: 0;
+  height: 95vh;
+  padding-bottom: 30px;
 }
 
 .configurationBox .option {
@@ -503,11 +506,92 @@ body {
   font-size: 20px;
   color: #fff;
   text-align: left;
+  transition: .2s;
+  cursor: pointer
 }
 
+.configurationBox .option.selected span {
+  background: rgb(255,255,255,0.1);
+  padding: 6px;
+  transition: .2s;
+  padding-right: 400px;
+  border-radius: 5px;
+}
+
+.team {
+  background: #1f1f1f;
+  padding: 5px;
+  margin: 5px;
+  border-radius: 6px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.team .column {
+  flex-direction: column;
+  margin: 5px
+}
+
+.team h2 {
+  color: #fff;
+  margin: 0
+}
+.team img {
+  width: 50px;
+  height: 50px;
+  border-radius: 5px;
+}
+
+.team .icon-trash, .icon-outofbox {
+  margin-left: auto;
+  color: #fff;
+  background: #484848;
+  cursor: pointer;
+  border-radius: 5px;
+  padding: 5px;
+  margin-right: 5px;
+}
 input[type='file'] {
   display: none
 }
+
+
+input[type=range] {
+  -webkit-appearance: none;
+  background-color: rgba(198, 207, 255, 0.7);
+  margin: 0;
+  padding: 0;
+  width: 96%;
+  margin: 5px;
+  height: 10px;
+  border-radius: 1rem;
+  overflow: hidden;
+  cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 0;
+  transition: .2s all;
+  box-shadow: -20rem 0 0 20rem #425fff;
+}
+input[type=range]::-moz-range-thumb {
+  border: none;
+  transition: .2s all;
+  width: 0;
+  box-shadow: -20rem 0 0 20rem #425fff;
+}
+.selectBox {
+  border: 1px solid #494949;
+  background: #1b1b1b;
+  padding: 5px;
+  border-radius: 5px;
+  outline: none;
+  color: #fff;
+  width: 97%;
+  margin: 5px;
+  border: none;
+} 
 
 @keyframes staticsLoadAnimation {
   0% {

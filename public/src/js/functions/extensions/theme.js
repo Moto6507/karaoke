@@ -163,7 +163,7 @@
          x.style.color = "#f98de9"
        })
         },
-         setWithThumbnailColor = async() => {
+         setWithThumbnailColor = document.getElementsByClassName('thumbnail')[0].onload = async() => {
       themeColor = getAverageColor(document.getElementsByClassName('thumbnail')[0]);
       title.style.color = pSBC(0.40, themeColor)
        // song title

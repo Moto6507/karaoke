@@ -15,57 +15,76 @@ let
     overlay()
     setTimeout(()=>overlay(waitingResolveChanges),200)
   },
+  changeFilter = (filterName, el) => {
+   settings.set('audio', { filter: filterName })
+   cardChangeSelect(el)
+  },
+  srcFontSize = (value,isIconFont) => {
+    if(isIconFont) {
+      const icons = [].slice.call(document.body.getElementsByTagName('i'))
+      settings.set('accessibility', { iconSize: value })
+      return icons.map(x=>{
+        x.style.fontSize = value + 'px'
+      })
+    }
+   document.body.style.fontSize = value + 'px'
+   settings.set('accessibility', { fontSize: value })
+  },
+  srcFont = (value,isIconFont) => {
+    if(isIconFont) {
+      const icons = [].slice.call(document.body.getElementsByTagName('i'))
+      return icons.map(x=>{
+        x.style.fontSize = value + 'px'
+      })
+    }
+   document.body.style.fontSize = value + 'px'
+  },
   imageSelected;
 function showSettings() {
+  document.getElementById('overlay').style.overflow='hidden'
   overlay(`<div class='configurationBox'>
        <div class='scrollArea'>
        <h3 class='title separate'>User</h3>
-         <div class='option'>Profile</div>
-         <div class='option'>My device</div>
-         <div class='option'>Blocked users</div>
-         <div class='option'>Profile</div>
+         <div class='option selected' onclick="changeSettingsTab(0, this)"><span>Profile</span></div>
+         <div class='option' onclick="changeSettingsTab(1, this)"><span>Blocked users</span></div>
+         <div class='option' onclick="changeSettingsTab(2, this)"><span>Security</span></div>
          <br>
          <br>
          <h3 class='title separate'>Site preferences</h4>
-         <div class='option'>Accessibility</div>
-         <div class='option'>Language</div>
-         <div class='option'>Keys</div>
-         <div class='option'>Compatibilities</div>
-         <div class='option'>Audio</div>
+         <div class='option' onclick="changeSettingsTab(3, this)"><span>Accessibility</span></div>
+         <div class='option' onclick="changeSettingsTab(4, this)"><span>Language</span></div>
+         <div class='option' onclick="changeSettingsTab(5, this)"><span>Compatibilities</span></div>
          <br>
          <br>
          <h3 class='title separate'>Audio settings</h3>
-         <div class='option'>Audio equalizer</div>
-         <div class='option'>Lyrics</div>
+         <div class='option' onclick="changeSettingsTab(7, this)"><span>Audio</span></div>
+         <div class='option' onclick="changeSettingsTab(8, this)"><span>Audio equalizer</span></div>
          <br>
          <br>
          <br>
          <h3 class='title separate'>About</h3>
          <div class='option'>About us</div>
          <div class='option'>Privacy</div>
-         <div class='option' style='border: none; margin-bottom: 5px'>Community</div>
+         <div class='option' style='border: none; margin-bottom: 5px'>Community</div><br>
        </div>
-       <div class='scrollArea'><br><br><br>
-        <img id='userAvatar' src='http://localhost:8080/api/v3/get/media/avatars/${user.avatar}' crossorigin='anonymous'> 
-        <label for='avatar'>
-        <div class='img'><i class='icon-plus'></i><br></div>
-        </label>
-        <h2 class='title'>username</h2>
-        <input type='text' value='${user.username}' class='textbox'>
-        <br>
-        <h2 class='title'>biography</h2>
-        <input type='text' value='${user.biography}' class='textbox'>
-        <br>
-        <h2 class='title'>teams</h2>
-        You haven't affiliated with anyone yet
-        <br><br><br>
-        <hr>
-        <h2 class='title'>profissional or public</h2>
-        <div class='card'>profissional account<span></span></div>
-        This makes your profile completely professional, access will be restricted to only the /creator route
-        <div class='card'>verification<span></span></div>
-        your profile can't be verified, verify <a href='a' class='link'>Community Terms</a>.
-        </div>
+       <div class='scrollArea'></div>
         <input type='file' id='avatar' accept='image/png' onclick="cancelAvatarSrc()" onchange="srcAvatar(this)">
       </div>`)
+      changeSettingsTab(0,document.getElementsByClassName('option')[0])
+}
+
+function cardChangeSelect(element) {
+  const elements = [].slice.call(document.getElementsByClassName('select'))
+  elements.map(x=>{
+    x.classList.remove('selected')
+  })
+  element.classList.add('selected')
+}
+
+function changeSettingsTab(tab, element) {
+  const optionsElements = [].slice.call(document.getElementsByClassName('option'));
+  const area = document.getElementsByClassName('scrollArea')[1]
+  optionsElements.map(x=>x.classList.remove('selected'));
+  element.classList.add('selected')
+  area.innerHTML = getTab(tab)
 }

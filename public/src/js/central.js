@@ -138,6 +138,40 @@ let res = await fetch("http://localhost:8080/api/v3/actions", {
   }
 }
 
+let settings = {
+  set: (path, value) => {
+  let curr = {
+    audio: {},
+    audioEqualizer: {},
+    accessibility: {},
+    security: {},
+    lyrics: {},
+    language: "EN"
+  }
+  if(localStorage.getItem('settings')) curr = JSON.parse(localStorage.getItem('settings'))
+  if(curr[path]) {
+   curr[path][Object.keys(value)[0]] = value[Object.keys(value)[0]]
+  } else {
+   curr[path] = value
+  }
+  return localStorage.setItem('settings', JSON.stringify(curr))
+},
+  has: (item) => {
+    const data = JSON.parse(localStorage.getItem(item));
+    const keys = Object.keys(data) || []
+    if(!keys.find(x=>x===item)) return false;
+    return true
+  },
+  clearSettings: () => localStorage.clear(),
+  clear: () => localStorage.clear(),
+  get: (item) => {
+    const data = JSON.parse(localStorage.getItem("settings")) || {}
+    if(!item) return data
+    if(!data || !data[item]) return false
+    return data[item]
+  }
+}
+
 function generateToken(length) {
   const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
   let token = '';
@@ -181,7 +215,7 @@ window.onkeyup = function (e) {
     user.theme = selectedTheme
     db.update(user.email, "theme", selectedTheme)
   }
-  if (e.keyCode === 27 && document.getElementsByClassName('selectThemeBox')[0].style.display == 'block') {
+  if (e.keyCode === 27 && document.getElementsByClassName('selectThemeBox')[0]?.style.display == 'block') {
     document.getElementsByClassName('selectThemeBox')[0].style.opacity = 0
     return setTimeout(()=>document.getElementsByClassName('selectThemeBox')[0].style.display = 'none',200);
   }

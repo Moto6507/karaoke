@@ -7,6 +7,11 @@ let
   searchContent.innerHTML = ''
   document.getElementsByTagName('input')[0].value = t
  }
+ 
+window.onload=()=> {
+  if(settings.get('accessibility').fontSize) srcFont(settings.get('accessibility').fontSize)
+  if(settings.get('accessibility').iconSize) srcFont(settings.get('accessibility').iconSize, true)
+}
 function addHistory(text) {
   const history = JSON.parse(localStorage.getItem('history')) || [];
   if(history.find(x=>x===text)) return;
