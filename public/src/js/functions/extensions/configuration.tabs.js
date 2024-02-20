@@ -33,14 +33,14 @@ const pages = [
     `<img src='/images/confuse.webp' class='bodyImg' style='border-radius: 0'><h2 class='title'>accessibility</h2>
     transform your experience on karaoke more better.
     <hr>
-    ${settings.get('accessibility').fontSize || settings.get('accessibility').iconSize? `<div class='button grey' onclick="if(!${settings.get('accessibility').fontSize}) return; \n settings.set('accessibility', { fontSize: null, iconSize: null }) \n srcFont('initial',true) \n srcFont('initial')">reset to default</div>
+    ${settings.get('accessibility').fontSize || settings.get('accessibility').iconSize? `<div class='button grey' onclick="settings.set('accessibility', { fontSize: null }) \n settings.set('accessibility', { iconSize: null }) \n srcFont('initial',true) \n srcFont('initial'); \n [].slice.call(document.getElementsByClassName('rangeConfigs')).map(x=>x.value=0)">reset to default</div>
     reset all changes to default configuration.
     <hr>` : ''}
     <h4 class='title'>font size</h4>
-    <input oninput='srcFontSize(this.value)' min='10' max='29' value='${settings.get('accessibility').fontSize || 10}' step='0.5' type='range'>
+    <input class='rangeConfigs' oninput='srcFontSize(this.value)' min='10' max='29' value='${settings.get('accessibility').fontSize || 10}' step='0.5' type='range'>
     <br>
     <h4 class='title'>icon size</h4>
-    <input oninput='srcFontSize(this.value, true)' min='10' max='40' value='${settings.get('accessibility').iconSize || 10}' step='0.5' type='range'>
+    <input class='rangeConfigs' oninput='srcFontSize(this.value, true)' min='10' max='40' value='${settings.get('accessibility').iconSize || 10}' step='0.5' type='range'>
     <div class='card'><i class='icon-music' style='font-size: ${settings.get('accessibility').iconSize}px'></i> demonstrative font size<span></span></div>
     <br><br><hr>
     <div class='card simple'>partners animation<span></span></div>

@@ -592,6 +592,25 @@ input[type=range]::-moz-range-thumb {
   margin: 5px;
   border: none;
 } 
+.container.infoBox {
+   margin: 5px; 
+   border-radius: 8px; 
+   display: flex;
+   align-items: center
+}
+.container.infoBox img {
+  width: 80px;
+  height: 80px
+}
+.container.infoBox .column {
+  flex-direction: column;
+  margin: 5px;
+}
+.container.infoBox .separate {
+  padding: 2px;
+  border-left: 1px solid #414141;
+  border-right: 1px solid #414141
+}
 
 @keyframes staticsLoadAnimation {
   0% {

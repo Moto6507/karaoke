@@ -5,10 +5,13 @@ import cors from "cors"
 import bodyParser from 'body-parser';
 import {
   main
-} from './routes/main'
+} from './routes/main' 
 import {
   createAccount
-} from './routes/create'
+} from './routes/create' 
+import {
+  creator
+} from './routes/creator' 
 import {
   loginPage,
   loginIntern
@@ -36,6 +39,7 @@ app.use(session({
 }))
 app.get('/', (req, res)=>res.redirect('/k'));
 app.get('/k', main)
+app.get('/k/creator', creator)
 app.get('/login', loginPage)
 app.post('/login', loginIntern)
 app.get('/create', createAccount)

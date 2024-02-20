@@ -9,6 +9,7 @@ const hbs_1 = __importDefault(require("hbs"));
 const cors_1 = __importDefault(require("cors"));
 const main_1 = require("./routes/main");
 const create_1 = require("./routes/create");
+const creator_1 = require("./routes/creator");
 const login_1 = require("./routes/login");
 const app = (0, express_1.default)();
 hbs_1.default.registerHelper('json', function (context) {
@@ -33,6 +34,7 @@ app.use((0, express_session_1.default)({
 }));
 app.get('/', (req, res) => res.redirect('/k'));
 app.get('/k', main_1.main);
+app.get('/k/creator', creator_1.creator);
 app.get('/login', login_1.loginPage);
 app.post('/login', login_1.loginIntern);
 app.get('/create', create_1.createAccount);

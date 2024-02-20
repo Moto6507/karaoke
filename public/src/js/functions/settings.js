@@ -34,10 +34,10 @@ let
     if(isIconFont) {
       const icons = [].slice.call(document.body.getElementsByTagName('i'))
       return icons.map(x=>{
-        x.style.fontSize = value + 'px'
+        x.style.fontSize = typeof value == Number? value + 'px' : value
       })
     }
-   document.body.style.fontSize = value + 'px'
+   document.body.style.fontSize = typeof value == Number? value + 'px' : value
   },
   imageSelected;
 function showSettings() {

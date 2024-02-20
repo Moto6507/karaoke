@@ -23,6 +23,16 @@
     background: #101010;
     padding: 8px
   }
+  .container.mini {
+    display: inline-block;
+    border-radius: 6px;
+    margin: 5px
+  }
+  .container.mini i {
+    color: #fff;
+    font-size: 28px;
+    display: block;
+  }
   .container.inOverlay {
     margin: 35vh;
     margin-top: 23vh;
