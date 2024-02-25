@@ -15,11 +15,38 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.creator = void 0;
 const express_1 = __importDefault(require("express"));
 exports.creator = express_1.default.Router().get('/k/creator', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    var _a;
-    const user = yield fetch("http://localhost:8080/api/v3/get/infos/" + ((_a = req.session) === null || _a === void 0 ? void 0 : _a.token), {
+    var _a, _b;
+    if (!((_a = req.session) === null || _a === void 0 ? void 0 : _a.token))
+        return res.redirect('/k');
+    let user = yield fetch("http://localhost:8080/api/v3/get/infos/" + ((_b = req.session) === null || _b === void 0 ? void 0 : _b.token), {
         method: 'GET'
-    }).then((x) => x.json()).catch(x => console.log(x));
+    }).then((x) => x.json()).catch(x => console.log(x)), posts = yield fetch("http://localhost:8080/api/v3/actions", {
+        headers: {
+            "Content-Type": "application/json",
+            "Access-Control-Allow-Origin": "*"
+        },
+        method: "POST",
+        cache: "default",
+        body: JSON.stringify({
+            action: "database",
+            type: "all",
+            isPost: true
+        })
+    }).then(x => x.json());
+    posts = posts.data.map((x) => {
+        if (x.by === user.user.identifier)
+            return x;
+    });
     res.render('desktop/creatorPortal.html', {
-        user: user.user
+        user: user.user,
+        postsName: posts.map(x => x.title),
+        postsLenght: posts.lenght,
+        yourPosts: posts.map((x, i = 0) => `<div class='containerDevelop'><h3 class='title titleWhite'>${x.title}</h3> song #${i++}
+    <br>
+    <h5 class='title'>Some statics</h5>
+    <div class='staticBox'>
+      listeners: ${x.listeners}
+    </div>
+    </div>`).join('<br>')
     });
 }));

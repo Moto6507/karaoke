@@ -584,12 +584,12 @@ input[type=range]::-moz-range-thumb {
 .selectBox {
   border: 1px solid #494949;
   background: #1b1b1b;
-  padding: 5px;
+  padding: 8px;
   border-radius: 5px;
   outline: none;
   color: #fff;
   width: 97%;
-  margin: 5px;
+  margin: 8px;
   border: none;
 } 
 .container.infoBox {
@@ -612,6 +612,111 @@ input[type=range]::-moz-range-thumb {
   border-right: 1px solid #414141
 }
 
+.containerDevelop {
+  margin: 8px;
+  padding: 5px;
+  border-radius: 8px;
+  color: #6c6c6c;
+  text-align: left;
+ }
+ .containerDevelop.mini {
+   margin: 5px;
+   border: none;
+ }
+ .containerDevelop.mini .userProfile {
+   background: #1b1b1b;
+   padding: 5px;
+   display: flex;
+   margin: 5px;
+   justify-content: center;
+   align-items: center;
+   border-radius: 50px
+ }
+ .containerDevelop.mini .userProfile .title {
+   opacity: 9
+ }
+ .containerDevelop.mini .userProfile .img {
+   width: 50px;
+   height: 50px;
+   border-radius: 1in;
+ }
+ .containerDevelop.mini span {
+   margin-left: auto
+ }
+ .containerDevelop.mini .title {
+   opacity: 0.7;
+ }
+ .containerDevelop.mini .title.titleWhite {
+   opacity: 9;
+ }
+ .containerDevelop.mini .statics {
+   color: #fff;
+ }
+ .containerDevelop .staticBox {
+   padding: 5px; 
+   border: 1px solid #6a6a6a; 
+   border-radius: 5px;
+   color: #fff
+}
+@keyframes loader {
+  0%,
+  100% {
+    background: #abb8ff;
+    margin-left: 1px
+  }
+  50% {
+    background: #425fff;
+    margin-left: 7px
+  }
+}
+
+.loader {
+  --delay: 0s;
+  animation: loader 1s var(--delay) infinite ease-in;
+  padding: 6px;
+  display: inline-block;
+  border-radius: 1in;
+}
+
+.progressBox {
+  border: 2px solid #888888;
+  border-radius: 8px;
+  height: 30px;
+  width: 98%;
+  overflow: hidden
+}
+.progressBox span {
+  background: #5fff58;
+  height: 30px;
+  display: inline-block;
+  width: 0
+}
+
+.finishCircle {
+  background: #abffa7;
+  padding: 10px;
+  border-radius: 1in;
+  margin: 5px;
+  font-size: 28px;
+  display: block;
+  width: 50px;
+  height: 50px;
+  animation: 2s pulse infinite
+}
+
+
+@keyframes pulse {
+  0% {
+    box-shadow: 0 0 0 0 rgb(171,255,167)
+  }
+  70% {
+    box-shadow: 0 0 0 10px rgb(171,255,167, 0)
+  }
+  100% {
+    box-shadow: 0 0 0 0 rgb(171,255,167, 0)
+  }
+}
+
 @keyframes staticsLoadAnimation {
   0% {
     background: rgb(255,255,255,0.3);
@@ -632,5 +737,16 @@ input[type=range]::-moz-range-thumb {
   }
   100% {
     background: rgb(75,75,75,0.5);
+  }
+}
+@keyframes shake {
+  0% {
+    transform: rotate(-15deg)
+  }
+  45% {
+    transform: rotate(15deg)
+  }
+  100% {
+    transform: rotate(0deg)
   }
 }

@@ -1,29 +1,153 @@
 <!DOCTYPE html>
 <html>
-    <head>
-    <link rel='stylesheet' href="/assets/style.desktop.css">
-    <link rel="shortcut icon" type="image/x-icon" href="/assets/karaoke.ico">
+  <head>
     <title>creator portal - Karaoke</title>
-    
-    <div class="navBar">
-        <h2 class="logo">Creator Portal</h2>
-        <div class="route"><i class="icon-home"></i> main</div>
-    </div>
-    </head>
-    <body style="color: #6e6e6e">
-        <div id="content">
-        <img src="/images/band.webp" class="bodyImg">
-        <h2 class="title">Creator Portal</h2>
-        make a better experience! on here you view all things of your profile, band, whatever.
-        <hr>
-        <div class="container infoBox">
-            <img src="http://localhost:8080/api/v3/get/media/avatars/{{{json user.avatar}}}" crossorigin="anonymous" class='bodyImg' style="border-radius: 1in;">
-            <div class="column">
-                <h2 class="title">{{{json user.username}}}</h2>
-                you
-            </div>
-            <div class="separate column"><h2</div>
-        </div>
+    <link rel='stylesheet' href="/assets/style.desktop.css">
+    <script>
+        const 
+            postsName = "{{{json postsName}}}",
+            postsLenght = "{{{postsLenght}}}",
+            user = JSON.parse(`{{{string user}}}`)
+    </script>
+    <script type='text/javascript' src="/src/js/creatorPortal.js"></script>
+    <script type='text/javascript' src="/src/js/central.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/karaoke.ico">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<style>
+  .musicThumbnail {
+    width: 330px;
+    height: 300px;
+    border-radius: 10px;
+    background: #2c2c2c;
+    transition: .2s
+  }
+  .songTitle {
+    margin: 0;
+    color: #fff
+  }
+</style>
+<div class="navBar">
+    <h2 class="logo">Creator Portal</h2>
+<div class="route" onclick="changeTab(this,'main')"><i class="icon-home"></i> main</div>
+<div class="route" onclick="changeTab(this,'post')"><i class="icon-music"></i> post a song</div>
+</div>
+  </head>
+  <body>
+    <div id="content">
+        <br>
+    <img src='/images/band.webp' class="bodyImg">
+    <h1 class='title'>Creator Portal</h1>
+    here your can manage your group and manage your works!
+    <hr>
+    <div class='containerDevelop'>
+      <h3 class="title">My Rithm</h3>
+      your rithm is calculated based on your statics.
+      <div class="containerDevelop mini">
+        <div class='statics'>Your Musics</div>
+        <div>
+      <canvas id="musicsChart" height="90"></canvas>
+       </div>
+       post statics uses the listeners of your post.
+       {{{yourPosts}}}
+       <hr>
+        <div class='statics'>Your Followers</div>
+         <h4 class="title">no followers...</h4>
+       <div class='statics'>Geral</div>
+       general statics of your profile.
+       <h3 class='title'></h3>
+       <div>
+         <canvas id='geralChart' height='90'></canvas>
+       </div>
+      </div>
      </div>
-    </body>
+    </div>
+  <script>
+const posts = [{
+  title: "music #1",
+  listeners: 5
+}, {
+  title: "music #2",
+  listeners: 5
+}, {
+  title: "music #3",
+  listeners: 10
+}, {
+  title: "music #4",
+  listeners: 40
+}
+]
+function loadMusicChart() {
+ const ctx = document.getElementById('musicsChart');
+new Chart(ctx, {
+    type: 'line',
+    data: {
+      labels: typeof postsName !== String? [postsName] : postsName,
+      datasets: [{
+      label: 'Activity of your post',
+      data: postsLenght,
+      fill: true,
+      borderColor: '#425fff',
+      tension: 0
+     }]
+    },
+    options: {
+        layout: {
+                padding: 0
+            },
+        scales: {
+            y: {
+                stacked: true
+            }
+        }
+    }
+});
+}
+function loadGeralChart() {
+ const ctx = document.getElementById('geralChart');
+const data = {
+  labels: ["posts"],
+  datasets: [{
+    label: 'Activity of profile',
+    data: [0, 59, 80, 81, 0, 55, 800],
+    fill: false,
+    borderColor: '#425fff',
+    tension: 0
+  }, {
+  label: 'Activity of profile',
+    data: [0, 59, 80, 81, 0, 55, 40],
+    fill: false,
+    borderColor: '#8295ff',
+    tension: 0.1
+  },
+  {label: 'Activity of profile',
+    data: [0, 59, 80, 81, 0, 55, 40],
+    fill: false,
+    borderColor: '#b2beff',
+    tension: 0.1
+  }]
+};
+
+  const config = {
+  type: 'line',
+  data: data,
+};
+
+const stackedLine = new Chart(ctx, {
+    type: 'line',
+    data: data,
+    options: {
+        scales: {
+            y: {
+                stacked: true
+            }
+        }
+    }
+});
+}
+loadGeralChart();
+loadMusicChart();
+  </script>
+  <div id="overlay"></div>
+  <div id="contextmenu"></div>
+  </body>
 </html>

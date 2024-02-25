@@ -221,3 +221,41 @@ async function setMiniPlayer(options) {
   playerOverlay.style.bottom = '0'
   playerOverlay.opened = true
 }
+window.onkeyup = function (e) {
+  if (e.keyCode === 27 && toggleIsOpen) return hideContextMenu()
+  if (e.keyCode === 39 && document.getElementsByClassName('selectThemeBox')[0].style.display == 'block') {
+      themeCount = themeCount + 1
+      if(themeCount>6 || immersiveThemeCount) { 
+        immersiveThemeCount = immersiveThemeCount + 1
+        themeCount = 0;
+        if(immersiveThemeCount>4) {
+          themeCount = 0;
+          immersiveThemeCount = -1;
+          return setTheme(0);
+        }
+         selectedTheme = 'im' + immersiveThemeCount
+         return setTheme(null,immersiveThemeCount);
+      }
+      selectedTheme = themeCount
+      setTheme(themeCount)
+    }
+  if (e.keyCode === 13 && document.getElementsByClassName('selectThemeBox')[0].style.display == 'block') {
+    document.getElementsByClassName('selectThemeBox')[0].style.opacity = 0
+    setTimeout(()=>document.getElementsByClassName('selectThemeBox')[0].style.display = 'none',200);
+    user.theme = selectedTheme
+    db.update(user.email, "theme", selectedTheme)
+  }
+  if (e.keyCode === 27 && document.getElementsByClassName('selectThemeBox')[0]?.style.display == 'block') {
+    document.getElementsByClassName('selectThemeBox')[0].style.opacity = 0
+    return setTimeout(()=>document.getElementsByClassName('selectThemeBox')[0].style.display = 'none',200);
+  }
+  if (e.keyCode === 27 && imageSelected) {
+    waitingResolveChanges = document.getElementById('overlay').innerHTML;
+    overlay()
+    return setTimeout(()=>overlay(`<div class='container inOverlay'><h2 class='title'>Wait!</h2>has changes no salved, you we need save?<div onclick="returnToSettings()" class='button'>yes, return</div><div onclick="overlay()" class='button gray'>no</div></div>`,true),200)
+  }
+  if (e.keyCode === 27 && !imageSelected && document.getElementsByClassName('configurationBox')[0]) overlay()
+  if (e.keyCode === 27 && document.getElementById('playerOverlay').opened) closeMiniPlayer()
+  if (e.keyCode === 80 && !document.getElementById('miniPlayer').opened && audio.src) setMiniPlayer()
+  if (e.keyCode === 27 && (document.getElementById('overlay').opened && (document.getElementById('commentContent')) ||  document.getElementById('overlay').opened)) overlay();
+}

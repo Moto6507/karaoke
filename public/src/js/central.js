@@ -1,4 +1,8 @@
-let toggleIsOpen, selectedTheme;
+let toggleIsOpen, selectedTheme, loader = ` <div class='loader'></div>
+<div class='loader' style="--delay: 0.1s"></div>
+<div class='loader' style="--delay: 0.2s"></div>
+<div class='loader' style="--delay: 0.3s"></div>
+<div class='loader' style="--delay: 0.4s"></div>`;
 
 function overlay(msg) {
    const overlayElement = document.getElementById('overlay');
@@ -12,7 +16,8 @@ function overlay(msg) {
       overlayElement.style.height = "100vh"
       overlayElement.style.width = "100%"
       },50)
-   overlayElement.opened = true
+      document.body.style.overflow='hidden'
+      overlayElement.opened = true
  } else {
     setTimeout(()=>overlayElement.style.opacity = "0",60)
     setTimeout(()=>{
@@ -22,7 +27,8 @@ function overlay(msg) {
       overlayElement.innerHTML = ""
       },50)
     setTimeout(()=>overlayElement.style.display = "none",200)
-   overlayElement.opened = false
+    document.body.style.overflow=''
+    overlayElement.opened = false
  }
 }
 function contextmenu(event, content) {
@@ -94,7 +100,7 @@ let res = await fetch("http://localhost:8080/api/v3/get/infos", {
    return res
   },
   get: async function get(collection, post) {
-let res = await fetch("http://localhost:8080/api/v3/get/infos/" + collection, {
+let res = await fetch("http://localhost:8080/api/v3/get/infos/" + collection + "?post=" + post, {
       headers: {
         "Content-Type":"application/json",
         "Access-Control-Allow-Origin": "*",
@@ -137,7 +143,6 @@ let res = await fetch("http://localhost:8080/api/v3/actions", {
     return res.data
   }
 }
-
 let settings = {
   set: (path, value) => {
   let curr = {
@@ -171,7 +176,14 @@ let settings = {
     return data[item]
   }
 }
-
+function gerateId() {
+  let token = '';
+  for (let i = 0; i < 16; i++) {
+      const digitoAleatorio = Math.floor(Math.random() * 10);
+      token += digitoAleatorio;
+  }
+  return token;
+}
 function generateToken(length) {
   const characters = 'abcdefghijklmnopqrstuvwxyz0123456789';
   let token = '';
@@ -190,42 +202,11 @@ document.addEventListener("click", (e) => {
     hideContextMenu()
   }
 });
-let themeCount = 0, immersiveThemeCount = -1
-window.onkeyup = function (e) {
-  if (e.keyCode === 27 && toggleIsOpen) return hideContextMenu()
-  if (e.keyCode === 39 && document.getElementsByClassName('selectThemeBox')[0].style.display == 'block') {
-      themeCount = themeCount + 1
-      if(themeCount>6 || immersiveThemeCount) { 
-        immersiveThemeCount = immersiveThemeCount + 1
-        themeCount = 0;
-        if(immersiveThemeCount>4) {
-          themeCount = 0;
-          immersiveThemeCount = -1;
-          return setTheme(0);
-        }
-         selectedTheme = 'im' + immersiveThemeCount
-         return setTheme(null,immersiveThemeCount);
-      }
-      selectedTheme = themeCount
-      setTheme(themeCount)
-    }
-  if (e.keyCode === 13 && document.getElementsByClassName('selectThemeBox')[0].style.display == 'block') {
-    document.getElementsByClassName('selectThemeBox')[0].style.opacity = 0
-    setTimeout(()=>document.getElementsByClassName('selectThemeBox')[0].style.display = 'none',200);
-    user.theme = selectedTheme
-    db.update(user.email, "theme", selectedTheme)
-  }
-  if (e.keyCode === 27 && document.getElementsByClassName('selectThemeBox')[0]?.style.display == 'block') {
-    document.getElementsByClassName('selectThemeBox')[0].style.opacity = 0
-    return setTimeout(()=>document.getElementsByClassName('selectThemeBox')[0].style.display = 'none',200);
-  }
-  if (e.keyCode === 27 && imageSelected) {
-    waitingResolveChanges = document.getElementById('overlay').innerHTML;
-    overlay()
-    return setTimeout(()=>overlay(`<div class='container inOverlay'><h2 class='title'>Wait!</h2>has changes no salved, you we need save?<div onclick="returnToSettings()" class='button'>yes, return</div><div onclick="overlay()" class='button gray'>no</div></div>`,true),200)
-  }
-  if (e.keyCode === 27 && !imageSelected && document.getElementsByClassName('configurationBox')[0]) overlay()
-  if (e.keyCode === 27 && document.getElementById('playerOverlay').opened) closeMiniPlayer()
-  if (e.keyCode === 80 && !document.getElementById('miniPlayer').opened && audio.src) setMiniPlayer()
-  if (e.keyCode === 27 && (document.getElementById('overlay').opened && (document.getElementById('commentContent')) ||  document.getElementById('overlay').opened)) overlay();
+function cardChangeSelect(element) {
+  const elements = [].slice.call(document.getElementsByClassName('select'))
+  elements.map(x=>{
+    x.classList.remove('selected')
+  })
+  element.classList.add('selected')
 }
+let themeCount = 0, immersiveThemeCount = -1

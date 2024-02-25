@@ -73,14 +73,6 @@ function showSettings() {
       changeSettingsTab(0,document.getElementsByClassName('option')[0])
 }
 
-function cardChangeSelect(element) {
-  const elements = [].slice.call(document.getElementsByClassName('select'))
-  elements.map(x=>{
-    x.classList.remove('selected')
-  })
-  element.classList.add('selected')
-}
-
 function changeSettingsTab(tab, element) {
   const optionsElements = [].slice.call(document.getElementsByClassName('option'));
   const area = document.getElementsByClassName('scrollArea')[1]
