@@ -151,6 +151,7 @@ function touchMiniPlayer() {
   const playerOverlay = document.getElementById('playerOverlay');
   const playerTemplate = `
 <div class='player' oncontextmenu="contextmenu(event, \`<h2 class='title'>player options</h2><div class='card simple' onclick='selectTheme()'>theme<span></span></div>\`)">
+<br><br>
 <img class='thumbnail' crossorigin='anonymous' src='http://localhost:8080/api/v3/get/media/thumbnails/${currentSong.thumbnail}'>
 <h1 class='title titleInOverlay'>${currentSong.title}</h1>
 <br>

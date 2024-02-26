@@ -66,18 +66,18 @@ function commentInterface (comments) {
 }
 let db = {
   set: async function set(collection, struct, post) {
-let res = await fetch("http://localhost:8080/api/v3/get/infos", {
+let res = await fetch("http://localhost:8080/api/v3/actions", {
       headers: {
-        Authorization:"KAdm " + pkay,
         "Content-Type":"application/json"
       },
      method:"POST",
      cache: "default",
      body: JSON.stringify({
-       type:"set",
-       post: post,
-       name: collection,
-       struct: struct
+      action: 'database',
+      type: "insert",
+      collection,
+      path: struct,
+      isPost: post
      })
     }).then(x=>x.json())
    return res

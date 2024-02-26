@@ -1,7 +1,8 @@
 let 
   tabToChange,
   mainSaved,
-  thumbnail,
+  thumbnailBase64,
+  musicBase64,
   lyricsExtracted,
   songObject = {
       "title": "",
@@ -30,7 +31,7 @@ let
     const reader = new FileReader();
       reader.onload=()=> {
        songThumbnail.src = reader.result;
-       thumbnail = reader.result;
+       thumbnailBase64 = reader.result;
        songThumbnail.style.opacity = 9;
        songEspecifications('linked thumbnail ' + e.files[0].name);
        songObject.thumbnail = gerateId();
@@ -45,6 +46,7 @@ let
       reader.onload=()=> {
        songInput.innerHTML = `<i class='icon-music'></i>${e.files[0].name}<span></span>`
        audio.src = reader.result;
+       musicBase64 = reader.result;
        songInput.classList.add('selected')
        audio.play();
        songEspecifications('linked song file ' + e.files[0].name)
@@ -80,7 +82,7 @@ let
     const { title, thumbnail, musicFile, gender } = songObject;
     const button = document.getElementsByClassName('button')[0]
     if(title && thumbnail && musicFile && gender) {
-      button.setAttribute('onclick','postSong');
+      button.setAttribute('onclick','postTheSong()');
       button.classList.remove('grey')
       return;
     }
@@ -96,7 +98,7 @@ function changeTab(element, tabToChange) {
      routes[1].style.animation='.2s shake linear'
       setTimeout(() => routes[1].style.animation='',200);
     }
-    if(thumbnail) return blocked()
+    if(thumbnailBase64) return blocked()
     routes.map(x=>{
       if(x.href) return;
       if(tabToChange!=='main') x.style.opacity='0.5'
@@ -165,13 +167,34 @@ async function postTheSong() {
     if(x.by===user.identifier) userPosts.push(x)
   });
   document.getElementById("postageContainer").innerHTML = `<div class='progressBox'><span id='progress'></span></div><h2 class='title'>downloading...</h2>downloading images, texts and audio... This action is not to slow on any time... Can be long...`
-  setTimeout(()=>document.getElementById('progress').style.width='100%',1000)
-  setTimeout(()=>{
-    document.getElementById("postageContainer").innerHTML = `<img src='/images/cosmetics.webp' class='bodyImg'><h2 class='title'>cosmetics</h2>setting some cosmetics...`
-  setTimeout(()=>{
-    document.getElementById("postageContainer").innerHTML = `<div class='finishCircle'><i class='icon-check'></i></div><h2 class='title'>all done!</h2>it's all done for you listen you own song and share.`
-  },800)
-  },1500)
+  await axios.request("http://localhost:8080/api/v3/upload", {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data: JSON.stringify({
+      thumbnail: {
+       file: thumbnailBase64,
+       id: songObject.thumbnail
+      },
+      song: {
+        file: musicBase64,
+        id: songObject.musicFile
+      }
+    }),
+    onUploadProgress: (p) => {
+      console.log(p)
+      document.getElementById('progress').style.width = p.loaded / p.total * 100 + '%'
+    }
+}).then (data => {
+  document.getElementById('progress').style.width = "100%"
+}) 
+  document.getElementById("postageContainer").innerHTML = `<img src='/images/cosmetics.webp' class='bodyImg'><h2 class='title'>cosmetics</h2>setting some cosmetics...`
+  songObject.id = generateToken(16);
+  userPosts.push(songObject);
+  await db.set(user.email, userPosts, true)
+  document.getElementById("postageContainer").innerHTML = `<div class='finishCircle'><i class='icon-check'></i></div><h2 class='title'>all done!</h2>it's all done for you listen you own song and share.<br><h3 class='title'>you can close this box.</h3>`
+  document.getElementById("postageContainer").id = ''
 }
 window.onkeyup = function (e) {
   if (e.keyCode === 27 && toggleIsOpen) return hideContextMenu()

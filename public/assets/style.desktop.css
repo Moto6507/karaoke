@@ -683,12 +683,14 @@ input[type=range]::-moz-range-thumb {
   border-radius: 8px;
   height: 30px;
   width: 98%;
+  text-align: left;
   overflow: hidden
 }
 .progressBox span {
   background: #5fff58;
   height: 30px;
   display: inline-block;
+  transition: .2s;
   width: 0
 }
 
@@ -696,9 +698,14 @@ input[type=range]::-moz-range-thumb {
   background: #abffa7;
   padding: 10px;
   border-radius: 1in;
+  color: #fff;
   margin: 5px;
   font-size: 28px;
-  display: block;
+  display: flex;
+  justify-content: center;
+  margin-left: auto;
+  margin-right: auto;
+  align-items: center;
   width: 50px;
   height: 50px;
   animation: 2s pulse infinite
