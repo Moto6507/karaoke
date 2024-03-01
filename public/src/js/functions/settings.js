@@ -7,6 +7,7 @@ let
        document.getElementById('userAvatar').src = reader.result;
        imageSelected = reader.result
        document.getElementsByClassName('img')[0].style.opacity = 9
+       //savePendent()
      }
        if(e.files[0]) reader.readAsDataURL(e.files[0])
     },
@@ -72,7 +73,28 @@ function showSettings() {
       </div>`)
       changeSettingsTab(0,document.getElementsByClassName('option')[0])
 }
-
+async function setImage(type) {
+  const avatarId =  generateToken(18);
+  await fetch("http://localhost:8080/api/v3/upload", {
+      headers: {
+        "Content-Type":"application/json"
+      },
+     method:"POST",
+     cache: "default",
+     body: JSON.stringify({
+      avatar: {
+        id: avatarId,
+        last: user.avatar,
+        file: imageSelected
+      }
+     })
+    }).then(x=>x.json())
+    document.getElementsByClassName('img')[0].style.opacity = 9
+    db.update(user.email, "avatar", avatarId)
+    document.getElementsByClassName('userAvatar')[0].src = 'http://localhost:8080/api/v3/get/media/avatars/' + avatarId
+    user.avatar = avatarId
+    imageSelected = ''
+}
 function changeSettingsTab(tab, element) {
   const optionsElements = [].slice.call(document.getElementsByClassName('option'));
   const area = document.getElementsByClassName('scrollArea')[1]

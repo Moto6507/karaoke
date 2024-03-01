@@ -39,7 +39,7 @@ exports.creator = express_1.default.Router().get('/k/creator', (req, res) => __a
     });
     res.render('desktop/creatorPortal.html', {
         user: user.user,
-        postsName: posts.map(x => x.title),
+        postsName: posts.map((x) => x.title),
         postsLenght: posts.lenght,
         yourPosts: posts.map((x, i = 0) => `<div class='containerDevelop'><h3 class='title titleWhite'>${x.title}</h3> song #${i++}
     <br>
@@ -47,6 +47,6 @@ exports.creator = express_1.default.Router().get('/k/creator', (req, res) => __a
     <div class='staticBox'>
       listeners: ${x.listeners}
     </div>
-    </div>`).join('<br>')
+    </div>`).join('')
     });
 }));

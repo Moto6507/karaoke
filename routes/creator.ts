@@ -24,7 +24,7 @@ export const creator = express.Router().get('/k/creator', async(req: any, res: a
    })
    res.render('desktop/creatorPortal.html', {
     user: user.user,
-    postsName: posts.map(x=>x.title),
+    postsName: posts.map((x:any)=>x.title),
     postsLenght: posts.lenght,
     yourPosts: posts.map((x: any,i=0)=>`<div class='containerDevelop'><h3 class='title titleWhite'>${x.title}</h3> song #${i++}
     <br>
@@ -32,6 +32,6 @@ export const creator = express.Router().get('/k/creator', async(req: any, res: a
     <div class='staticBox'>
       listeners: ${x.listeners}
     </div>
-    </div>`).join('<br>')
+    </div>`).join('')
    })
 })

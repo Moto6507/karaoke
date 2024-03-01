@@ -1,4 +1,4 @@
-let 
+var
  openTab,
  mainSaved, 
  currentSong,
@@ -189,9 +189,9 @@ function selectTheme() {
   themeBox.style.display='block'
   setTimeout(()=>themeBox.style.opacity=9,200)
 }
-async function setMiniPlayer(options) {
+async function setMiniPlayer(options, forceClose) {
   const playerOverlay = document.getElementById('miniPlayer');
-  if(playerOverlay.opened) {
+  if(playerOverlay.opened && audio.src && (options?.songId && currentSong.id === options?.songId) || forceClose) {
     playerOverlay.style.bottom = '-100px'
     playerOverlay.opened = false
   return;
@@ -240,7 +240,7 @@ window.onkeyup = function (e) {
       selectedTheme = themeCount
       setTheme(themeCount)
     }
-  if (e.keyCode === 13 && document.getElementsByClassName('selectThemeBox')[0].style.display == 'block') {
+  if (e.keyCode === 13 && document.getElementsByClassName('selectThemeBox')[0]?.style.display == 'block') {
     document.getElementsByClassName('selectThemeBox')[0].style.opacity = 0
     setTimeout(()=>document.getElementsByClassName('selectThemeBox')[0].style.display = 'none',200);
     user.theme = selectedTheme

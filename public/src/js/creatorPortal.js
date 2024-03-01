@@ -91,7 +91,7 @@ let
 
   }
 
-function changeTab(element, tabToChange) {
+async function changeTab(element, tabToChange) {
     const content = document.getElementById('content')
     const routes = [].slice.call(document.getElementsByClassName('route'));
     const blocked = () => {
@@ -108,7 +108,11 @@ function changeTab(element, tabToChange) {
     openTab = tabToChange
     if(!mainSaved) mainSaved = content.innerHTML
     switch(openTab) {
-      case 'main': content.innerHTML = mainSaved
+      case 'main': {
+        content.innerHTML = mainSaved
+        loadGeralChart();
+        loadMusicChart();
+      }
         break;
       case 'post': {
         content.innerHTML = `
@@ -154,11 +158,41 @@ function changeTab(element, tabToChange) {
         `
       }
         break;
-    }
+      case 'managePosts': {
+        content.innerHTML = `<br><br>${loader}<h2 class='title'>loading</h2>loading the posts...`
+        const posts = await db.get(user.email, true)
+        console.log(posts)
+        content.innerHTML = posts.map((x,i=0)=>`
+        <div style='display: flex; justify-content: center; align-items: center'>
+        <div class="musicCard">
+         <img src="http://localhost:8080/api/v3/get/media/thumbnails/${x.thumbnail}" crossorigin='anonymous' class="background">
+         <div class='cardInfo'>
+           <div class='static'><i class='icon-music'></i> ${x.listeners}</div>
+           <div class='static'><i class='icon-star'></i> ${x.stars}</div>
+           <h2 class='title'>${x.title}</h2><h5 class='author'>${user.username}</h5>
+         </div>
+        </div><div style='flex-direction: column; text-align: left'>
+        <h2 class='title'>${x.title}</h2>
+        <div class='button'>edit</div>
+        <div class='button grey' onclick="overlay(\`<div class='container inOverlay'><h2 class='title'>you are sure to make it?</h2>if you continue, your post ewill not exists, it irreversible!<div class='button' onclick='deletePost(\\\`${x.id}\\\`,\\\`${i++}\\\`)'>yes</div><div class='button gray' onclick='overlay()'>no</div></div>\`)">delete</div>
+        </div>
+        </div>
+        <hr>`)
+      }
+        break;
+  }
 }
 audio.onended = () => {
   const finishElement = document.getElementById('finishSong');
   finishElement.innerHTML = `<div class='button' onclick="audio.play() \n this.style.display = 'none'">play again</div>`
+}
+async function deletePost(id, position) {
+  document.getElementsByClassName('inOverlay')[0].innerHTML = `<div class='loader'></div><h2 class='title'>waiting..</h2>deleting your post...</h2>`
+  const posts = await db.get(user.email, true);
+  posts.splice(position,1)
+  db.set(user.email, posts, true);
+  overlay();
+  changeTab(document.getElementsByClassName('route')[2],'managePosts')
 }
 async function postTheSong() {
   overlay(`<div class='container inOverlay' id='postageContainer'>${loader}<h2 class='title'>loading...</h2>collecting data, and performing...`)
@@ -182,10 +216,7 @@ async function postTheSong() {
         id: songObject.musicFile
       }
     }),
-    onUploadProgress: (p) => {
-      console.log(p)
-      document.getElementById('progress').style.width = p.loaded / p.total * 100 + '%'
-    }
+    onUploadProgress: (p) => document.getElementById('progress').style.width = p.loaded / p.total * 100 + '%'
 }).then (data => {
   document.getElementById('progress').style.width = "100%"
 }) 

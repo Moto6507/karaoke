@@ -4,7 +4,7 @@ let loadedAudio, isLooping;
   audio.volume = 1
   audio.preload = "auto"
   function play(songFile) {
-    if(!loadedAudio && !audio.src) return audio.src = 'http://localhost:8080/api/v3/get/media/songs/' + songFile
+    if(!loadedAudio && !audio.src || (audio.src && audio.src !== 'http://localhost:8080/api/v3/get/media/songs/' + songFile) && songFile) return audio.src = 'http://localhost:8080/api/v3/get/media/songs/' + songFile
     if(audio.paused) audio.play()
     else audio.pause()
   }
@@ -33,5 +33,5 @@ function seek(e) {
     if(!audio || !audio.currentTime) return;
    const progress = document.getElementsByClassName('bar')[0]
    const progressIn = audio.duration * (e/progress.clientWidth)
-   audio.currentTime = progressIn.toString()
+   audio.currentTime = Number(progressIn.toString()) 
   }

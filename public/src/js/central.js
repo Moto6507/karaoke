@@ -100,6 +100,14 @@ let res = await fetch("http://localhost:8080/api/v3/actions", {
    return res
   },
   get: async function get(collection, post) {
+    if(post) {
+      const res = await db.all(true);
+      const collectPosts = [];
+      res.map(x=>{
+         if(collection) collectPosts.push(x)
+        })
+      return collectPosts
+    }
 let res = await fetch("http://localhost:8080/api/v3/get/infos/" + collection + "?post=" + post, {
       headers: {
         "Content-Type":"application/json",

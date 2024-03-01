@@ -275,6 +275,7 @@
  .player .play-button {
    background: #989898;
    padding: 15px;
+   color: rgba(0, 0, 0, 0.464);
    width: 31px;
    font-size: 30px;
    border-radius: 1in;

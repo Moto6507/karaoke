@@ -5,8 +5,6 @@
     <link rel='stylesheet' href="/assets/style.desktop.css">
     <script>
         const 
-            postsName = "{{{json postsName}}}",
-            postsLenght = "{{{postsLenght}}}",
             user = JSON.parse(`{{{string user}}}`)
     </script>
     <script type='text/javascript' src="/src/js/functions/extensions/axios.js"></script>
@@ -31,6 +29,7 @@
     <h2 class="logo">Creator Portal</h2>
 <div class="route" onclick="changeTab(this,'main')"><i class="icon-home"></i> main</div>
 <div class="route" onclick="changeTab(this,'post')"><i class="icon-music"></i> post a song</div>
+<div class="route" onclick="changeTab(this,'managePosts')"><i class="icon-library"></i> manage posts</div>
 </div>
   </head>
   <body>
@@ -63,31 +62,25 @@
      </div>
     </div>
   <script>
-const posts = [{
-  title: "music #1",
-  listeners: 5
-}, {
-  title: "music #2",
-  listeners: 5
-}, {
-  title: "music #3",
-  listeners: 10
-}, {
-  title: "music #4",
-  listeners: 40
-}
-]
-function loadMusicChart() {
+async function loadMusicChart() {
  const ctx = document.getElementById('musicsChart');
+ const myPosts = await db.get(user.email, true)
 new Chart(ctx, {
     type: 'line',
     data: {
-      labels: typeof postsName !== String? [postsName] : postsName,
+      labels: myPosts.map(x=>x.title),
       datasets: [{
-      label: 'Activity of your post',
-      data: postsLenght,
+      label: 'listeners',
+      data: myPosts.map(x=>x.listeners),
       fill: true,
       borderColor: '#425fff',
+      tension: 0
+     },
+     {
+      label: 'stars',
+      data: myPosts.map(x=>x.stars),
+      fill: true,
+      borderColor: '#a1afff',
       tension: 0
      }]
     },
