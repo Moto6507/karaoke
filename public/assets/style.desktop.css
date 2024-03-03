@@ -124,7 +124,7 @@ body {
   }
   .musicCard .option .icon-comment {
     cursor: pointer;
-    background: rgb(255,255,255,0.5);
+    background: rgba(146, 146, 146, 0.5);
     padding: 6.5px;
     border-radius: 1in;
     margin-left: 5px;
@@ -132,7 +132,7 @@ body {
   }
   .musicCard .option .icon-play {
     cursor: pointer;
-    background: rgb(255,255,255,0.5);
+    background: rgba(146, 146, 146, 0.5);
     padding: 6.5px;
     border-radius: 1in;
     backdrop-filter: blur(8px)
@@ -151,28 +151,29 @@ body {
         display: none;
         opacity: 0;
       }
-  .notification {
-    background: #1b1b1b;
-    padding: 5px;
-    margin: 10px;
-    border-radius: 5px;
-    color: #464646;
-    display: flex
-  }
-  .notification .information  {
-    margin: 5px;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column
-  }
-  .notification img {
-    width: 80px;
-    height: 80px;
-    border-radius: 5px
-  }
-  .notification .title {
-    display: inline-block
-  }
+      .notification {
+        background: #101010;
+        color: rgb(255,255,255,0.5);
+        padding: 2px;
+        margin: 5px;
+        border: 1px solid #3ba3ff;
+        text-align: left;
+        display: flex;
+        justify-content: center;
+        align-content: center;
+        border-radius: 8px;
+      }
+      .notification .column {
+        flex-direction: column;
+        margin: 5px;
+        margin-right: auto;
+      }
+      .notification img {
+        width: 70px;
+        height: 70px;
+        margin: 3px;
+        border-radius: 10px;
+      }
 
   .musicCard.load {
   width: clamp(300px, 50vmin, 600px);

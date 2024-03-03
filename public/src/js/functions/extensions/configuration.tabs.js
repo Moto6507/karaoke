@@ -46,8 +46,21 @@ const pages = [
     <div class='card simple'>partners animation<span></span></div>
     will be disable/enable partners animations`,
     `ccc`,
-    `ddd`,
-    `ggg`,
+    `<img src='/images/plugin.webp' class='bodyImg' style='border-radius: 0'><h2 class='title'>compatibilities</h2>
+    see if your browser can execute somes functions and test some functions
+    <h3 class='title separate'>audio</h3>
+    <div class='card'><i class='icon-check'></i> working!<span></span></div>
+    <div class='card'><i class='icon-check'></i> filters working!<span></span></div>
+    <div class='card'><i class='icon-check'></i> lyrics working!<span></span></div>
+    <br>
+    <h3 class='title separate'>uploading</h3>
+    <div class='card'><i class='icon-check'></i> file working!<span></span></div>
+    <div class='card'><i class='icon-check'></i> receive working!<span></span></div>
+    <div class='card'><i class='icon-check'></i> ms: 13500<span></span></div>
+    <br>
+    <h3 class='title separate'>problems</h3>
+    <div class='card'><i>X</i> Firefox: problem with Overlay Effect, report 56<span></span></div>`,
+    ``,
     `<img src='/images/sound.webp' class='bodyImg' style='border-radius: 0'><h2 class='title'>Audio Preferences</h2>the karaoke offers preferences
     of the audio <strong>(karaoke not have access the hardware of your device, will be modify browser)</strong>
     <hr>

@@ -2,7 +2,7 @@ let toggleIsOpen, selectedTheme, loader = ` <div class='loader'></div>
 <div class='loader' style="--delay: 0.1s"></div>
 <div class='loader' style="--delay: 0.2s"></div>
 <div class='loader' style="--delay: 0.3s"></div>
-<div class='loader' style="--delay: 0.4s"></div>`;
+<div class='loader' style="--delay: 0.4s"></div>`, themeCount = 0, immersiveThemeCount = -1;
 
 function overlay(msg) {
    const overlayElement = document.getElementById('overlay');
@@ -61,7 +61,7 @@ function commentInterface (comments) {
         ${infos.content}
         </div>`).join(" ") : `<br><br><br><br><img src='images/startToComment.webp' class='bodyImg'><h2 class='title'>start to react</h2>start a news interactions, reacts and ideas.`}</div>
         </div>
-        <div style='position: fixed; bottom: 0; padding: 10px; width: 99%; background: #212121'><input type='text' class='textbox' placeholder='comment everthing!'> <i class='sendIcon icon-send'></i></div>
+        <div style='position: fixed; bottom: 0; padding: 10px; width: 99%; background: #212121; transition: height .2s'><div id='commentOption'></div><input type='text' class='textbox' onkeyup='collectComments(this,event)' placeholder='comment everthing!'> <i id='sendBtn' style='transition: .2s; opacity: 0.5' onclick='comment()' class='sendIcon icon-send'></i></div>
         `)
 }
 let db = {
@@ -217,4 +217,10 @@ function cardChangeSelect(element) {
   })
   element.classList.add('selected')
 }
-let themeCount = 0, immersiveThemeCount = -1
+
+async function gerateNotification(message, userIdentifier) {
+  const user = await db.get(userIdentifier);
+  let { notifications, email } = user.user
+  notifications.push(message)
+  db.update(email, "notifications", notifications);
+}

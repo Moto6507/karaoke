@@ -4,16 +4,21 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
   return `<div class='card select ${user.playlists[playlistPosition].musics.findIndex(x=>x==musicId)===position - 1? 'selected' : ''}'
   onclick="cardChangeSelect(this) \n ${musicPosition!==position - 1? `selectMusicPosition(${musicPosition}, ${position}, ${playlistPosition})` : ''}">
   <i class='icon-music'></i> #${position}<span></span></div>`
-}).join('')}</div>`);
+}).join('')}</div>`), fixPlaylist = async(id, playlist, playlistPosition) => {
+  playlist.musics.splice(playlist.musics.findIndex(x=>x===id),1);
+  console.log(playlist.musics)
+  db.update(user.email, "playlists." + playlistPosition + ".musics", playlist.musics)
+}
   function viewOwnerOfPlaylist() {
     overlay(`<div class='container inOverlay'><h2 class='title'>search configuration</h2>the search </div>`)
   }
   function musicPlaylistOptions(event, music, position, playlistPosition) {
-    const playlistMusicsLength = user.playlists[playlistPosition].musics.length
+    const playlistMusicsLength = user.playlists[playlistPosition].musics.length > 1;
+    console.log(playlistMusicsLength)
     contextmenu(event, `<h2 class='title'>${music.title} #${position}</h2>
    <div class='card simple' onclick="removeSongFromPlaylist('${music.id}', ${playlistPosition})"><i class='icon-trash danger'></i>remove<span></span></div>
-   <div class='card simple' ${playlistMusicsLength<0? "style='opacity: 0.5'" : ''}><i class='icon-no-vision'></i> hide ${music.title}<span></span></div>
-   <div class='card simple' ${playlistMusicsLength<0? "style='opacity: 0.5'" : `onclick="changeMusicPosition('${music.id}', ${user.playlists[playlistPosition].musics.findIndex(x=>x===music.id)}, ${playlistPosition})"`}><i class='icon-position'></i> change position<span></span></div></div>`)
+   <div class='card simple' ${playlistMusicsLength? '' : "style='opacity: 0.5'"}><i class='icon-no-vision'></i> hide ${music.title}<span></span></div>
+   <div class='card simple' ${playlistMusicsLength? `onclick="changeMusicPosition('${music.id}', ${user.playlists[playlistPosition].musics.findIndex(x=>x===music.id)}, ${playlistPosition})"` : "style='opacity: 0.5'"}><i class='icon-position'></i> change position<span></span></div></div>`)
   }
   async function removeSongFromPlaylist(musicId, playlistPosition) {
     const playlistForEdit = user.playlists[playlistPosition];
@@ -39,7 +44,11 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
    if(playlist.musics.length>0) {
      let posts = await db.all(true);
    results = await Promise.all(playlist.musics.map(async(x, i=0)=>{
-   x = await posts.find(y=>y.id===x)
+   x = await posts.find(y=>y.id===x) || x
+   if(!x.id) { 
+    fixPlaylist(x, playlist, playlistPosition)
+    return;
+   }
    if(!firstSong) firstSong = x
    const authorOfPost = await db.get(x.by)
    return `<div class='playlist-music-box' oncontextmenu='musicPlaylistOptions(event, ${JSON.stringify(x)}, ${i++}, ${playlistPosition})'><img src='http://localhost:8080/api/v3/get/media/thumbnails/${x.thumbnail}' crossorigin='anonymous'><div class='informations'><h3 class='song-name'>${x.title}</h3>3 minutes - By ${authorOfPost.user.username}</div></div>`
@@ -71,7 +80,8 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
       "by": user.identifier
     })
     db.update(user.email, "playlists", user.playlists);
-    content.innerHTML = "loading..."
+    content.innerHTML = loader + `<h2 class="title">loading...</h2>creating our playlist...`
+    gerateNotification(`<h2 class='title'>new playlist</h2> you have a new playlist, named <strong>${t.value}</strong>.`, user.identifier)
     changeTab(document.getElementsByClassName('route')[4],'library')
     if(document.getElementById('overlay').opened) overlay()
    }

@@ -177,7 +177,7 @@ async function changeTab(element, tabToChange) {
         <div class='button grey' onclick="overlay(\`<div class='container inOverlay'><h2 class='title'>you are sure to make it?</h2>if you continue, your post ewill not exists, it irreversible!<div class='button' onclick='deletePost(\\\`${x.id}\\\`,\\\`${i++}\\\`)'>yes</div><div class='button gray' onclick='overlay()'>no</div></div>\`)">delete</div>
         </div>
         </div>
-        <hr>`)
+        `).join(' ');
       }
         break;
   }
@@ -196,11 +196,16 @@ async function deletePost(id, position) {
 }
 async function postTheSong() {
   overlay(`<div class='container inOverlay' id='postageContainer'>${loader}<h2 class='title'>loading...</h2>collecting data, and performing...`)
-  const posts = await db.all(true), userPosts = [];
+  const posts = await db.all(true), userPosts = [], lyrics = {}
   posts.map(x=>{
     if(x.by===user.identifier) userPosts.push(x)
   });
   document.getElementById("postageContainer").innerHTML = `<div class='progressBox'><span id='progress'></span></div><h2 class='title'>downloading...</h2>downloading images, texts and audio... This action is not to slow on any time... Can be long...`
+  if(lyricsExtracted) {
+  lyrics['id'] = gerateId();
+  songObject.lyrics = lyrics.id
+  lyrics['content'] = lyricsExtracted;
+  }
   await axios.request("http://localhost:8080/api/v3/upload", {
     method: 'POST',
     headers: {
@@ -214,7 +219,8 @@ async function postTheSong() {
       song: {
         file: musicBase64,
         id: songObject.musicFile
-      }
+      },
+       lyrics
     }),
     onUploadProgress: (p) => document.getElementById('progress').style.width = p.loaded / p.total * 100 + '%'
 }).then (data => {

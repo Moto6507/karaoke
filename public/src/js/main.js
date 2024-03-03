@@ -132,7 +132,7 @@ function changeTab(element, tabToChange) {
     }
     break;
     case 'notifications': {
-      content.innerHTML = user.notifications? user.notifications : `<br><img src='images/noNotifications.webp' class='bodyImg'><h2 class='title'>no notifications</h2>weel, looks like no have notifications here...`
+      content.innerHTML = user.notifications? user.notifications.map(x=>`<div class='notification'><img src='/images/anonymous.webp'><div class='column'>${x}</div></div>`).join('') : `<br><img src='images/noNotifications.webp' class='bodyImg'><h2 class='title'>no notifications</h2>weel, looks like no have notifications here...`
     }
     break;
     case 'library': {
