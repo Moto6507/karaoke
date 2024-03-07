@@ -215,10 +215,11 @@ async function setMiniPlayer(options, forceClose) {
   let song = await db.get(options.songId);
   song = song.user
   currentSong = song
-  if(song.lyrics) {
+  if(song.lyrics !== "") {
     lyrics = song.lyrics
     openLyricsPopUp()
-  } else { 
+  } else {
+    loadedLyrics = true
     lyrics = ''
     closeLyricsPopUp()
   }
@@ -231,7 +232,8 @@ async function setMiniPlayer(options, forceClose) {
   <div class='skipIcons'><i class='icon-skip'></i></div>`
   playerOverlay.style.bottom = '0'
   playerOverlay.opened = true
-  console.log(lyrics)
+  loadedLyrics = false
+  if(Number(lyrics)) lyrics = await fetch(`http://localhost:8080/api/v3/get/media/lyrics/${lyrics}`).then(x=>x.text())
 }
 window.onkeyup = function (e) {
   if (e.keyCode === 27 && toggleIsOpen) return hideContextMenu()

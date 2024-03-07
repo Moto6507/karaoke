@@ -19,11 +19,10 @@ audio.oncanplaythrough = () => {
      document.getElementsByClassName('duration')[0].innerHTML = countMinutes + ":" + countSeconds;
      document.getElementsByClassName('duration')[1]? document.getElementsByClassName('duration')[1].innerHTML = calculateTotalValue(audio.duration) : ''
   if(!loadedLyrics) {
-    console.log(lyrics)
     liricle.load({ text: lyrics })
     loadedLyrics = true
   }
-  liricle.sync(audio.currentTime, false)
+  if(loadedLyrics && lyrics) liricle.sync(audio.currentTime, false)
  }
   audio.onplay = () => {
     const playIcon = [].slice.call(document.getElementsByClassName('playIcon'))
