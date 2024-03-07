@@ -2,6 +2,8 @@ var
  openTab,
  mainSaved, 
  currentSong,
+ lyrics,
+ isLyricsOnFullScreen,
  changeSearchContentFromHistory = (t) => {
   const searchContent = document.getElementById('searchContent');
   searchContent.innerHTML = ''
@@ -193,6 +195,7 @@ async function setMiniPlayer(options, forceClose) {
   const playerOverlay = document.getElementById('miniPlayer');
   if(playerOverlay.opened && audio.src && (options?.songId && currentSong.id === options?.songId) || forceClose) {
     playerOverlay.style.bottom = '-100px'
+    openLyricsPopUp()
     playerOverlay.opened = false
   return;
   }
@@ -212,6 +215,13 @@ async function setMiniPlayer(options, forceClose) {
   let song = await db.get(options.songId);
   song = song.user
   currentSong = song
+  if(song.lyrics) {
+    lyrics = song.lyrics
+    openLyricsPopUp()
+  } else { 
+    lyrics = ''
+    closeLyricsPopUp()
+  }
   songThumbnail.src = 'http://localhost:8080/api/v3/get/media/thumbnails/' + song.thumbnail;
   songTitle.innerHTML = song.title;
   if(!options.isPlaylist) controls.innerHTML = `<i onclick='play()' class='icon-pause playIcon'></i>`
@@ -221,6 +231,7 @@ async function setMiniPlayer(options, forceClose) {
   <div class='skipIcons'><i class='icon-skip'></i></div>`
   playerOverlay.style.bottom = '0'
   playerOverlay.opened = true
+  console.log(lyrics)
 }
 window.onkeyup = function (e) {
   if (e.keyCode === 27 && toggleIsOpen) return hideContextMenu()
@@ -254,6 +265,10 @@ window.onkeyup = function (e) {
     waitingResolveChanges = document.getElementById('overlay').innerHTML;
     overlay()
     return setTimeout(()=>overlay(`<div class='container inOverlay'><h2 class='title'>Wait!</h2>has changes no salved, you we need save?<div onclick="returnToSettings()" class='button'>yes, return</div><div onclick="overlay()" class='button gray'>no</div></div>`,true),200)
+  }
+  if (e.keyCode === 27 && document.getElementById('overlay').opened && isLyricsOnFullScreen) {
+    openLyricsPopUp()
+    overlay();
   }
   if (e.keyCode === 27 && !imageSelected && document.getElementsByClassName('configurationBox')[0]) overlay()
   if (e.keyCode === 27 && document.getElementById('playerOverlay').opened) closeMiniPlayer()

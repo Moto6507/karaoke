@@ -56,7 +56,7 @@ let
        if(e.files[0]) reader.readAsDataURL(e.files[0])
   },
   srcLyrics = (e) => {
-    const songInput = document.getElementsByClassName('select')[1];
+    const songInput = document.getElementById('lyricsSelect');
     if(!e.files[0]) return;
     const reader = new FileReader();
       reader.onload=()=> {
@@ -73,6 +73,7 @@ let
   },
   songEspecifications = (linkedOption) => {
     const especificationBox = document.getElementById('especifications');
+    if(!especificationBox) return;
     especificationBox.innerHTML += `<div class='card'><i class='icon-check'></i> ${linkedOption}<span></span></div>`
   },
   viewLyrics = () => {
@@ -145,7 +146,7 @@ async function changeTab(element, tabToChange) {
         <div id='finishSong'></div>
         <h3 class='title'>song lyrics</h3>
         <label for='songLyrics'>
-        <div class='card select'><i class='icon-music'></i>select song lyrics file<span></span></div>
+        <div class='card select' id='lyricsSelect'><i class='icon-music'></i>select song lyrics file<span></span></div>
         </label>
         <h3 class='title'>song especifications</h3>
         <div id='especifications'></div>
@@ -161,9 +162,7 @@ async function changeTab(element, tabToChange) {
       case 'managePosts': {
         content.innerHTML = `<br><br>${loader}<h2 class='title'>loading</h2>loading the posts...`
         const posts = await db.get(user.email, true)
-        console.log(posts)
         content.innerHTML = posts.map((x,i=0)=>`
-        <div style='display: flex; justify-content: center; align-items: center'>
         <div class="musicCard">
          <img src="http://localhost:8080/api/v3/get/media/thumbnails/${x.thumbnail}" crossorigin='anonymous' class="background">
          <div class='cardInfo'>
@@ -171,13 +170,9 @@ async function changeTab(element, tabToChange) {
            <div class='static'><i class='icon-star'></i> ${x.stars}</div>
            <h2 class='title'>${x.title}</h2><h5 class='author'>${user.username}</h5>
          </div>
-        </div><div style='flex-direction: column; text-align: left'>
-        <h2 class='title'>${x.title}</h2>
-        <div class='button'>edit</div>
-        <div class='button grey' onclick="overlay(\`<div class='container inOverlay'><h2 class='title'>you are sure to make it?</h2>if you continue, your post ewill not exists, it irreversible!<div class='button' onclick='deletePost(\\\`${x.id}\\\`,\\\`${i++}\\\`)'>yes</div><div class='button gray' onclick='overlay()'>no</div></div>\`)">delete</div>
         </div>
-        </div>
-        `).join(' ');
+        <div class='button' style='display: inline-block; width: 200px' onclick="editSongPopUp('${x.id}')">edit</div>
+        <div class='button grey' style='display: inline-block; width: 200px' onclick="overlay(\`<div class='container inOverlay'><h2 class='title'>you are sure to make it?</h2>if you continue, your post ewill not exists, it irreversible!<div class='button' onclick='deletePost(\\\`${x.id}\\\`,\\\`${i++}\\\`)'>yes</div><div class='button gray' onclick='overlay()'>no</div></div>\`)">delete</div>`).join(' ');
       }
         break;
   }
@@ -194,34 +189,61 @@ async function deletePost(id, position) {
   overlay();
   changeTab(document.getElementsByClassName('route')[2],'managePosts')
 }
+async function editSongPopUp(id) {
+  const posts = await db.get(user.email, true);
+  const post = posts.find(x=>x.id===id)
+  overlay(`<div class='container inOverlay'><h2 class='title'>${post.title}</h2> 
+  <label for='thumbnail'>
+  <img crossorigin='anonymous' src='http://localhost:8080/api/v3/get/media/thumbnails/${post.thumbnail}' class='musicThumbnail'>
+  </label>
+  <div style='text-align: left; padding-left: 20px'>
+  <h3 class='title'>title</h3>
+  <input type='text' placeholder='new title...' class='textbox'>
+  <h3 class='title'>keywords</h3>
+  <input type='text' placeholder='keywords... (use , to separate)' value='${post.keywords || ''}' class='textbox'>
+  <h3 class='title'>gender</h3>
+  <select class='selectBox'></select>
+  <h3 class='title'>lyrics</h3>
+  <label for='songLyrics'>
+  <div class='card select ${post.lyrics? 'selected' : ''}' id='lyricsSelect'><i class='icon-music'></i> ${post.lyrics? 'linked lyrics ' + post.lyrics : 'no lyrics'}<span></span></div>
+  </label>
+  </div>
+  <div class='button grey'>save changes</div>
+  <div class='button grey' onclick='overlay()'>cancel</div>
+  </div>
+  <input type='file' id='thumbnail' onclick="document.getElementsByClassName('musicThumbnail')[0].style.opacity=0.5" accept='image/png' onchange='srcThumbnail(this)'><input type='file' id='songLyrics' accept='text/plain' onchange='srcLyrics(this)'><br>
+  <input type='file' id='songLyrics' accept='text/plain' onchange='srcLyrics(this)'><br>`)
+}
+
 async function postTheSong() {
   overlay(`<div class='container inOverlay' id='postageContainer'>${loader}<h2 class='title'>loading...</h2>collecting data, and performing...`)
-  const posts = await db.all(true), userPosts = [], lyrics = {}
+  const posts = await db.all(true), userPosts = [], lyrics = {};
   posts.map(x=>{
     if(x.by===user.identifier) userPosts.push(x)
   });
   document.getElementById("postageContainer").innerHTML = `<div class='progressBox'><span id='progress'></span></div><h2 class='title'>downloading...</h2>downloading images, texts and audio... This action is not to slow on any time... Can be long...`
+  const dataToSend = {
+    thumbnail: {
+     file: thumbnailBase64,
+     id: songObject.thumbnail
+    },
+    song: {
+      file: musicBase64,
+      id: songObject.musicFile
+    }
+  }
   if(lyricsExtracted) {
-  lyrics['id'] = gerateId();
-  songObject.lyrics = lyrics.id
-  lyrics['content'] = lyricsExtracted;
+  dataToSend.lyrics = {}
+  dataToSend.lyrics['id'] = gerateId();
+  songEspecifications.lyrics = dataToSend.lyrics.id
+  dataToSend.lyrics['content'] = lyricsExtracted;
   }
   await axios.request("http://localhost:8080/api/v3/upload", {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    data: JSON.stringify({
-      thumbnail: {
-       file: thumbnailBase64,
-       id: songObject.thumbnail
-      },
-      song: {
-        file: musicBase64,
-        id: songObject.musicFile
-      },
-       lyrics
-    }),
+    data: JSON.stringify(dataToSend),
     onUploadProgress: (p) => document.getElementById('progress').style.width = p.loaded / p.total * 100 + '%'
 }).then (data => {
   document.getElementById('progress').style.width = "100%"

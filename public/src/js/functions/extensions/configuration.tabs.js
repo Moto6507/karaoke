@@ -45,7 +45,13 @@ const pages = [
     <br><br><hr>
     <div class='card simple'>partners animation<span></span></div>
     will be disable/enable partners animations`,
-    `ccc`,
+    `<img src='/images/language.webp' class='bodyImg' style='border-radius: 0'><h2 class='title'>language</h2>
+    translate karaoke to your language.
+    <div class='card select selected'><i></i> en-US<span></span></div>
+    <div class='card select'><i></i> pt-BR<span></span></div>
+    <div class='card select'><i></i> es<span></span></div>
+    <h1 class='title'>demonstration of language, breed, apple, pen, brazilian</h1>
+    the translates who translated by Google Translate, slangs may or may not translated correctly, making the texts a liitle incoherent or incorrects.`,
     `<img src='/images/plugin.webp' class='bodyImg' style='border-radius: 0'><h2 class='title'>compatibilities</h2>
     see if your browser can execute somes functions and test some functions
     <h3 class='title separate'>audio</h3>

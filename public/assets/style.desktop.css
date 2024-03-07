@@ -712,6 +712,26 @@ input[type=range]::-moz-range-thumb {
   animation: 2s pulse infinite
 }
 
+.lyricsBox {
+  background: #000000;
+  border: 1px solid #2f2f2f;
+  padding: 2px;
+  text-align: center;
+  border-radius: 5px;
+  position: fixed;
+  right: 5px;
+  bottom: 70px;
+  width: 45%;
+  display: block;
+  opacity: 0;
+  transition: .2s;
+  color: #fff
+}
+
+.lyricsBox h3 {
+  transition: .2s;
+  opacity: 9
+}
 
 @keyframes pulse {
   0% {
