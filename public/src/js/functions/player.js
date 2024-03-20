@@ -59,4 +59,8 @@ function lyricsAllScreen() {
   closeLyricsPopUp()
   overlay(`<div class='container inOverlay' style='background: none'><h2 style='transition: .2s' id='lyrics'class='title'>lyrics full screen!<br><div style='color: rgb(255,255,255,0.5);'>on ${currentSong.title}, stream on <i class='icon-karaoke'></i></div></h2></div>`)
   isLyricsOnFullScreen = true
+  const overlayEl = document.getElementsByClassName('inOverlay')[0]
+  if(overlayEl.requestFullscreen) {
+    overlayEl.requestFullscreen()
+  }
 }

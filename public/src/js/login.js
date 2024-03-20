@@ -27,7 +27,7 @@ async function login(t) {
   error.style.display = "none";
   error.innerHTML = ""
 }
-  t.innerHTML = "loading..."
+  t.innerHTML = loader
   const user = await db.get(email.value);
   if(!user.status) {
     showError("Email is wrong or user doens't exists")
@@ -51,6 +51,7 @@ async function login(t) {
   });
   if(res.status===200) {
     t.innerHTML = "sign up"
+    t.classList.add('grey')
     setTimeout(() => {
       window.location.reload()
     }, 1000);

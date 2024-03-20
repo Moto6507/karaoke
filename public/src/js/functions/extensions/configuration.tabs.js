@@ -20,7 +20,17 @@ const pages = [
     <div class='card'>verification<span></span></div>
     your profile can't be verified, verify <a href='a' class='link'>Community Terms</a>.
     `,
-    `${user.blockedUsers.length<1? "<img src='/images/demon.webp' class='bodyImg' style='border-radius: 0'><h2 class='title'>you no has blocked users</h2>it look's like you no have inimmies..." : ""}`,
+    `<img src='/images/user.webp' class='bodyImg' style='border-radius: 0'>
+    <h2 class='title'>account settings</h2>
+    manage your account on karaoke.
+    <hr>
+    well, it's be like your email is not verified, if you add the telephone number, your account it's confirmed.
+    <div class='button'>verify my email</div><hr>
+    <div class='card simple'><i class='icon-user'></i> password<span></span></div>
+    <div class='card simple'><i class='icon-user'></i> telephone number<span></span></div>
+    <div class='card simple'><i class='icon-user'></i> FACT20<span></span></div>
+    <div class='card simple'><i class='icon-user'></i> get my status<span></span></div>
+    `,
     `<img src='/images/security.webp' class='bodyImg' style='border-radius: 0'>
     <h2 class='title'>security</h2>
     your account has ways to make your account more security.
@@ -52,21 +62,6 @@ const pages = [
     <div class='card select'><i></i> es<span></span></div>
     <h1 class='title'>demonstration of language, breed, apple, pen, brazilian</h1>
     the translates who translated by Google Translate, slangs may or may not translated correctly, making the texts a liitle incoherent or incorrects.`,
-    `<img src='/images/plugin.webp' class='bodyImg' style='border-radius: 0'><h2 class='title'>compatibilities</h2>
-    see if your browser can execute somes functions and test some functions
-    <h3 class='title separate'>audio</h3>
-    <div class='card'><i class='icon-check'></i> working!<span></span></div>
-    <div class='card'><i class='icon-check'></i> filters working!<span></span></div>
-    <div class='card'><i class='icon-check'></i> lyrics working!<span></span></div>
-    <br>
-    <h3 class='title separate'>uploading</h3>
-    <div class='card'><i class='icon-check'></i> file working!<span></span></div>
-    <div class='card'><i class='icon-check'></i> receive working!<span></span></div>
-    <div class='card'><i class='icon-check'></i> ms: 13500<span></span></div>
-    <br>
-    <h3 class='title separate'>problems</h3>
-    <div class='card'><i>X</i> Firefox: problem with Overlay Effect, report 56<span></span></div>`,
-    ``,
     `<img src='/images/sound.webp' class='bodyImg' style='border-radius: 0'><h2 class='title'>Audio Preferences</h2>the karaoke offers preferences
     of the audio <strong>(karaoke not have access the hardware of your device, will be modify browser)</strong>
     <hr>
@@ -80,7 +75,7 @@ const pages = [
     <br><hr>
     <h2 class='title separate'>preferences</h3>
     <h4 class='title'>volume</h4>
-    <input type='range' max='1' step='0.5' min='0' oninput="settings.set('audio', { volume: this.value })" value='${settings.get('audio').volume || 0}'>
+    <input type='range' max='1' step='0.1' min='0' oninput="settings.set('audio', { volume: this.value })" value='${settings.get('audio').volume || 0}'>
     <br>
     <h4 class='title'>audio quality</h4>
     <select onchange="settings.set('audio', { quality: this.value })" class='selectBox'>
@@ -92,6 +87,6 @@ const pages = [
     `,
     ``
 ]
-if(page===7) setTimeout(()=>cardChangeSelect(document.getElementById(settings.get('audio').filter || "no")),30)
+if(page===5) setTimeout(()=>cardChangeSelect(document.getElementById(settings.get('audio').filter || "no")),30)
 return pages[page]
 }

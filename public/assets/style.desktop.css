@@ -408,7 +408,7 @@ body {
   color: rgb(255,255,255,0.5);
 }
 #miniPlayer .controls {
-  margin-right: 18px;
+  margin-right: 15px;
   margin-left: auto
 }
 #miniPlayer .controls .skipIcons:nth-child(1) {
@@ -421,6 +421,13 @@ body {
 }
 #miniPlayer .controls .playIcon {
   font-size: 20px;
+}
+#miniPlayer .control {
+  margin: 5px
+}
+#miniPlayer .control input[type='range'] {
+  width: 60%;
+  height: 7px
 }
 
 .selectThemeBox {
@@ -658,25 +665,6 @@ input[type=range]::-moz-range-thumb {
    border: 1px solid #6a6a6a; 
    border-radius: 5px;
    color: #fff
-}
-@keyframes loader {
-  0%,
-  100% {
-    background: #abb8ff;
-    margin-left: 1px
-  }
-  50% {
-    background: #425fff;
-    margin-left: 7px
-  }
-}
-
-.loader {
-  --delay: 0s;
-  animation: loader 1s var(--delay) infinite ease-in;
-  padding: 6px;
-  display: inline-block;
-  border-radius: 1in;
 }
 
 .progressBox {

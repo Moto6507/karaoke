@@ -16,7 +16,7 @@ let
       "musicFile": "", 
       "thumbnail": "",
       "lyrics": "",
-      "gender": "" 
+      "genre": "" 
     },
   audio = new Audio(),
   srcName = (text) => {
@@ -132,11 +132,37 @@ async function changeTab(element, tabToChange) {
         <br><h3 class='title'>keywords</h3>
         <input type='text' onkeyup="songObject.keywords = this.value \n enablePost()" placeholder='use , to separate' class='textbox'>
         keywords helps with song visibility, NOT use random keywords to turn more song more visibily
-        <h3 class='title'>gender</h3>
-        <select class='selectBox' onchange="songEspecifications('linked gender to ' + this.value) \n songObject.gender = this.value \n enablePost()">
-        <option value='rock'>rock</option>
-        <option value='jazz'>jazz</option>
-        <option value='all'>no gender</option>
+        <h3 class='title'>genre</h3>
+        <select class='selectBox' onchange="songEspecifications('linked genrer to ' + this.value) \n songObject.gender = this.value \n enablePost()">
+        <optgroup label='genres more listen'>
+        <option value='rock'>Rock</option>
+        <option value='jazz'>Jazz</option>
+        <option value='pop'>Pop</option>
+        <option value='hiphop'>HipHop</option>
+        <option value='tecno'>Tecno</option>
+        <option value='country'>Country</option>
+        </optgroup>
+        <optgroup label='Latino genrers'>
+        <option value='samba'>Samba (Brazil)</option>
+        <option value='choro'>Choro (Brazil)</option>
+        <option value='funk'>Funk Carioca (Brazil)</option>
+        <option value='axe'>Axé (Brazil)</option>
+        <option value='tango'>Tango (Argentine/Uruguayan)</option>
+        <option value='bambuco'>Bambuco (Colombian)</option>
+        <option value='cumbia'>Cumbia (Colombian)</option>
+        <option value='vallenatoz'>Vallenato (Colombian)</option>
+        <option value='folk'>Folk musics (all latinos countries)</option>
+        <option value='duruguense'>Duranguense</option>
+        <option value='mariachi'>Mariachi</option>
+        <option value='norteño'>Norteño</option>
+        <option value='ranchera'>Ranchera</option>
+        </optgroup>
+        <optgroup label='Another groups'>
+        <option value='karaoke'>Karaoke</option>
+        <option value='soundeffect'>Sound Effect</option>
+        <option value='test'>Test</option>
+        <option value=''>No genre</option>
+        </optgroup>
         </select>
         <br>
         <h3 class='title'>song file</h3>
@@ -161,8 +187,8 @@ async function changeTab(element, tabToChange) {
         break;
       case 'managePosts': {
         content.innerHTML = `<br><br>${loader}<h2 class='title'>loading</h2>loading the posts...`
-        const posts = await db.get(user.email, true)
-        content.innerHTML = posts.map((x,i=0)=>`
+        const posts = await db.get(user.identifier, true)
+        content.innerHTML = posts.length>0? posts.map((x,i=0)=>`
         <div class="musicCard">
          <img src="http://localhost:8080/api/v3/get/media/thumbnails/${x.thumbnail}" crossorigin='anonymous' class="background">
          <div class='cardInfo'>
@@ -172,8 +198,22 @@ async function changeTab(element, tabToChange) {
          </div>
         </div>
         <div class='button' style='display: inline-block; width: 200px' onclick="editSongPopUp('${x.id}')">edit</div>
-        <div class='button grey' style='display: inline-block; width: 200px' onclick="overlay(\`<div class='container inOverlay'><h2 class='title'>you are sure to make it?</h2>if you continue, your post ewill not exists, it irreversible!<div class='button' onclick='deletePost(\\\`${x.id}\\\`,\\\`${i++}\\\`)'>yes</div><div class='button gray' onclick='overlay()'>no</div></div>\`)">delete</div>`).join(' ');
+        <div class='button grey' style='display: inline-block; width: 200px' onclick="overlay(\`<div class='container inOverlay'><h2 class='title'>you are sure to make it?</h2>if you continue, your post ewill not exists, it irreversible!<div class='button' onclick='deletePost(\\\`${x.id}\\\`,\\\`${i++}\\\`)'>yes</div><div class='button gray' onclick='overlay()'>no</div></div>\`)">delete</div>`).join(' ') : `<img src='/images/sound.webp' class='bodyImg'><h2 class='title'>no songs</h2>well, it looks like  you didn't post nothing...`
       }
+        break;
+     case 'ofYou': {
+       content.innerHTML = `<img src='http://localhost:8080/api/v3/get/media/avatars/${user.avatar}' crossorigin='anonymous' style='border-radius: 1in; margin: 5px' class='bodyImg'>
+       <h1 class='title'>of you</h1>
+       <div class='container box'>
+       <h2 class='title'>teams</h2>
+       no team, you can join to a band!
+       </div>
+       <div class='container box'>
+       <h2 class='title'>albums</h2>
+       no albums...
+       </div>
+       `
+     }
         break;
   }
 }
@@ -182,15 +222,32 @@ audio.onended = () => {
   finishElement.innerHTML = `<div class='button' onclick="audio.play() \n this.style.display = 'none'">play again</div>`
 }
 async function deletePost(id, position) {
-  document.getElementsByClassName('inOverlay')[0].innerHTML = `<div class='loader'></div><h2 class='title'>waiting..</h2>deleting your post...</h2>`
-  const posts = await db.get(user.email, true);
+  document.getElementsByClassName('inOverlay')[0].innerHTML = `${loader}</div><h2 class='title'>waiting..</h2>deleting your post...</h2>`
+  const posts = await db.get(user.identifier, true);
+  console.log(posts)
+  const postToDelete = posts.find(x=>x.id===id)
   posts.splice(position,1)
+  console.log(postToDelete)
+  fetch("http://localhost:8080/api/v3/actions", {
+      headers: {
+        "Content-Type":"application/json"
+      },
+     method:"POST",
+     cache: "default",
+     body: JSON.stringify({
+       action: 'unlink',
+       id: 'thumbnails/' + postToDelete.thumbnail + '.png'
+     }, {
+       action: 'unlink',
+       id: 'lyrics/' + postToDelete.lyrics + '.lrc'
+     })
+    }).then(x=>x.json())
   db.set(user.email, posts, true);
   overlay();
   changeTab(document.getElementsByClassName('route')[2],'managePosts')
 }
 async function editSongPopUp(id) {
-  const posts = await db.get(user.email, true);
+  const posts = await db.get(user.identifier, true);
   const post = posts.find(x=>x.id===id)
   overlay(`<div class='container inOverlay'><h2 class='title'>${post.title}</h2> 
   <label for='thumbnail'>
@@ -201,8 +258,38 @@ async function editSongPopUp(id) {
   <input type='text' placeholder='new title...' class='textbox'>
   <h3 class='title'>keywords</h3>
   <input type='text' placeholder='keywords... (use , to separate)' value='${post.keywords || ''}' class='textbox'>
-  <h3 class='title'>gender</h3>
-  <select class='selectBox'></select>
+  <h3 class='title'>genrer</h3>
+  <select class='selectBox' onchange="songEspecifications('linked genrer to ' + this.value) \n songObject.gender = this.value \n enablePost()">
+  <optgroup label='genres more listen'>
+  <option value='rock'>Rock</option>
+  <option value='jazz'>Jazz</option>
+  <option value='pop'>Pop</option>
+  <option value='hiphop'>HipHop</option>
+  <option value='tecno'>Tecno</option>
+  <option value='country'>Country</option>
+  </optgroup>
+  <optgroup label='Latino genrers'>
+  <option value='samba'>Samba (Brazil)</option>
+  <option value='choro'>Choro (Brazil)</option>
+  <option value='funk'>Funk Carioca (Brazil)</option>
+  <option value='axe'>Axé (Brazil)</option>
+  <option value='tango'>Tango (Argentine/Uruguayan)</option>
+  <option value='bambuco'>Bambuco (Colombian)</option>
+  <option value='cumbia'>Cumbia (Colombian)</option>
+  <option value='vallenatoz'>Vallenato (Colombian)</option>
+  <option value='folk'>Folk musics (all latinos countries)</option>
+  <option value='duruguense'>Duranguense</option>
+  <option value='mariachi'>Mariachi</option>
+  <option value='norteño'>Norteño</option>
+  <option value='ranchera'>Ranchera</option>
+  </optgroup>
+  <optgroup label='Another groups'>
+  <option value='karaoke'>Karaoke</option>
+  <option value='soundeffect'>Sound Effect</option>
+  <option value='test'>Test</option>
+  <option value=''>No genre</option>
+  </optgroup>
+  </select>
   <h3 class='title'>lyrics</h3>
   <label for='songLyrics'>
   <div class='card select ${post.lyrics? 'selected' : ''}' id='lyricsSelect'><i class='icon-music'></i> ${post.lyrics? 'linked lyrics ' + post.lyrics : 'no lyrics'}<span></span></div>
@@ -233,9 +320,9 @@ async function postTheSong() {
     }
   }
   if(lyricsExtracted) {
+  songObject.lyrics = gerateId()
   dataToSend.lyrics = {}
-  dataToSend.lyrics['id'] = gerateId();
-  songEspecifications.lyrics = dataToSend.lyrics.id
+  dataToSend.lyrics['id'] = songObject.lyrics
   dataToSend.lyrics['content'] = lyricsExtracted;
   }
   await axios.request("http://localhost:8080/api/v3/upload", {

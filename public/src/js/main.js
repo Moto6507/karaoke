@@ -179,6 +179,9 @@ function touchMiniPlayer() {
   playerOverlay.innerHTML = playerTemplate
   defineTheme(user.theme)
   playerOverlay.opened = true
+  if(playerOverlay.requestFullscreen) {
+    playerOverlay.requestFullscreen()
+  }
 }
 function closeMiniPlayer() {
   const playerOverlay = document.getElementById('playerOverlay');

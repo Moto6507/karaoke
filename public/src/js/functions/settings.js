@@ -7,7 +7,7 @@ let
        document.getElementById('userAvatar').src = reader.result;
        imageSelected = reader.result
        document.getElementsByClassName('img')[0].style.opacity = 9
-       //savePendent()
+       savePendent()
      }
        if(e.files[0]) reader.readAsDataURL(e.files[0])
     },
@@ -45,21 +45,24 @@ function showSettings() {
   document.getElementById('overlay').style.overflow='hidden'
   overlay(`<div class='configurationBox'>
        <div class='scrollArea'>
+       <div class='button' onclick='saveChanges()'>save changes</div>
+       <div class='button grey'>discard changes</div>
+       <hr>
        <h3 class='title separate'>User</h3>
          <div class='option selected' onclick="changeSettingsTab(0, this)"><span>Profile</span></div>
-         <div class='option' onclick="changeSettingsTab(1, this)"><span>Blocked users</span></div>
+         <div class='option' onclick="changeSettingsTab(1, this)"><span>Account</span></div>
          <div class='option' onclick="changeSettingsTab(2, this)"><span>Security</span></div>
+         <div class='option' onclick="changeSettingsTab(2, this)"><span>Devices</span></div>
          <br>
          <br>
          <h3 class='title separate'>Site preferences</h4>
          <div class='option' onclick="changeSettingsTab(3, this)"><span>Accessibility</span></div>
          <div class='option' onclick="changeSettingsTab(4, this)"><span>Language</span></div>
-         <div class='option' onclick="changeSettingsTab(5, this)"><span>Compatibilities</span></div>
          <br>
          <br>
          <h3 class='title separate'>Audio settings</h3>
-         <div class='option' onclick="changeSettingsTab(7, this)"><span>Audio</span></div>
-         <div class='option' onclick="changeSettingsTab(8, this)"><span>Audio equalizer</span></div>
+         <div class='option' onclick="changeSettingsTab(5, this)"><span>Audio</span></div>
+         <div class='option' onclick="changeSettingsTab(6, this)"><span>Audio equalizer</span></div>
          <br>
          <br>
          <br>
@@ -101,4 +104,8 @@ function changeSettingsTab(tab, element) {
   optionsElements.map(x=>x.classList.remove('selected'));
   element.classList.add('selected')
   area.innerHTML = getTab(tab)
+}
+
+function saveChanges() {
+  if(imageSelected) setImage()
 }

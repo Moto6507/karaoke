@@ -6,6 +6,11 @@ export const
    if(req.session?.token) return res.redirect('/k')
   res.render('login.html')
 }),
+  logoutRoute = express.Router().get('/logout', (req: any, res: any) => {
+    if(!req.session?.token) return res.redirect('/login')
+    req.session?.token = null;
+    res.redirect('/')
+  }),
   loginIntern = express.Router().post('/login', (req: any, res: any) => {
    if(req.session?.token) return res.redirect('/k');
    const token = (Math.random() * 900000000).toString(36).substr(0, 10) + "_" + req.body.identifier;

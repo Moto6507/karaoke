@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <link rel='stylesheet' href="/assets/style.desktop.css">
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/karaoke.ico">
+    <title>User Profile - Karaoke</title>
+    <style>
+      .profile {
+        padding: 5px;
+        padding-top: 1px;
+      }
+      .profile.background {
+        width: 100%;
+        height: 170px;
+        padding: 0;
+        object-fit: cover;
+      }
+       .profile .avatar {
+          border-radius: 1in;
+          width: 80px;
+          position: absolute;
+          top: 21%;
+          border: 6px solid black;
+          height: 80px
+        }
+        .profile .username {
+          color: #fff;
+          margin: 0;
+          margin-top: 46px
+        }
+        .profile .statics {
+          color: rgb(255,255,255,0.7);
+          border-right: 1px solid rgb(80,80,80);
+          display: inline-block;
+          font-size: 18px;
+          padding-left: 5px;
+          padding-right: 5px
+        }
+        .profile .statics.noBorder {
+          border: none;
+        }
+        .profile .biography {
+          color: rgb(255,255,255,0.5);
+        }
+        .profile .option {
+          float: right;
+          margin: 2px;
+          color: #fff;
+          padding: 10px;
+          border-radius: 1in;
+          background: rgb(255,255,255,0.3);
+        }
+        .profile .option:nth-child(3) {
+          background: rgb(66,95,255);
+          font-weight: bold;
+        }
+        .profile.sectionBar {
+    background: #000000;
+    border-top: 2px solid #1d1d1d;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 10px;
+    top:0;
+    z-index: 2;
+    position: sticky;
+    overflow: auto;
+    white-space: nowrap;
+  }
+  .profile.sectionBar.main{
+    background:#0f1329
+  }
+  .profile.sectionBar .section {
+    display: inline-block;
+    margin-right: auto;
+    margin-left: auto;
+    font-weight: bold;
+    transition: .2s;
+    color: rgb(255,255,255,0.5)
+  }
+  .profile.sectionBar .section.selected {
+    color: rgb(255,255,255);
+    border-bottom: 2px solid #425fff;
+  }
+  .profile.sectionBar .section.pre-selection {
+    color: #889aff;
+    border-bottom: 2px dashed #bbc6ff
+  }
+      </style>
+    </head>
+    <body>
+      <img src='/images/defaultBackground.webp' class="profile background">
+      <div class='profile'>
+      <div class='option'><i class='icon-music'></i></div>
+      {{#if (equal user.adm true)}}
+      <div class='option'><i title='official account' class='icon-check'></i></div>
+      {{/if}}
+      {{#if (diference iFollow true)}}
+      {{#if (diference accessUser.identifier user.identifier)}}
+      <div class='option'>Follow</div>
+      {{/if}}
+      {{/if}}
+      <img src='http://localhost:8080/api/v3/get/media/avatars/{{{json user.avatar}}}' crossorigin='anonymous' class="avatar">
+      <h1 class='username'>{{{json user.username}}}</h1>
+      {{{statics}}}
+      <div class='biography'>{{{json user.biography}}}</div>
+      </div>
+      <div class='profile sectionBar'>
+        <div class='section'>MAIN</div>
+        <div class='section'>POSTS</div>
+        <div class='section selected'>COLLECTIONS</div>
+        <div class='section'>ABOUT</div>
+      </div>
+    </body>
+    </html>

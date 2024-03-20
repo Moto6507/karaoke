@@ -1,7 +1,7 @@
 window.onload=()=>{infosIsAlready()}
 let identifierOfUser;
 const usernameEditor = (username) => {
-    if(!identifierOfUser) identifierOfUser = gerateId()
+    if(!identifierOfUser) identifierOfUser = Number(gerateId())
     const usernameElement = document.getElementById('username')
     if(username.value.includes(' ')) username.value = username.value.replace(' ', '')
     if(usernameElement.value !== username.value) usernameElement.innerHTML = "<div style='font-size: 18px'>you are</div>" + username.value + "<br><div style='display: inline-block; margin: 0; font-size: 15px'>identified by</div>  <div style='display: inline-block; font-size: 15px; color: #425fff'>" + identifierOfUser + "</div>"

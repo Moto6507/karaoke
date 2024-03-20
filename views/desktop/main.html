@@ -31,7 +31,7 @@
   </head>
   <body>
   <div id="content">
-    <img title='you' src="http://localhost:8080/api/v3/get/media/avatars/{{{json user.avatar}}}" crossorigin="anonymous" class="userAvatar">
+  <img title='you' onclick="window.location.href='/k/profile/{{{json user.identifier}}}'" src="http://localhost:8080/api/v3/get/media/avatars/{{{json user.avatar}}}" crossorigin="anonymous" class="userAvatar">
     <br><br><br>{{{algorithm}}}
     </div>
     <div id="overlay"></div>

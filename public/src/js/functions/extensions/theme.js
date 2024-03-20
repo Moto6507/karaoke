@@ -65,6 +65,7 @@
       "#FCC3F4" //lolipop
        ],
         themeColor = themeValue;
+        console.log(user.theme)
        if(!themeValue && immersiveTheme !== undefined) themeColor = immersiveTypes[immersiveTheme]
        else themeColor = themeTypes[themeValue]
        let
@@ -83,7 +84,6 @@
        // progress static duration
        await sleep(250)
        player.style.background = themeColor
-       console.log(themeColor)
        // player background
        playButton.style.background = pSBC(0.30, themeColor)
        playButton.style.transform = "rotate(360deg)"
@@ -107,7 +107,6 @@
        // progress static duration
        await sleep(250)
        player.style.background = `linear-gradient(${pSBC(-0.40, "#EEAF61")}, ${pSBC(-0.40, "#FB9062")}, ${pSBC(-0.60, "#EE5D6C")}, ${pSBC(-0.70, "#CE4993")}, ${pSBC(-0.80, "#6A0D83")}, #000000)`
-       console.log(themeColor)
        // player background
        playButton.style.background = pSBC(0.30, themeColor)
        playButton.style.transform = "rotate(360deg)"
@@ -163,7 +162,7 @@
          x.style.color = "#f98de9"
        })
         },
-         setWithThumbnailColor = document.getElementsByClassName('thumbnail')[0].onload = async() => {
+         setWithThumbnailColor = () => document.getElementsByClassName('thumbnail')[0].onload = async() => {
       themeColor = getAverageColor(document.getElementsByClassName('thumbnail')[0]);
       title.style.color = pSBC(0.40, themeColor)
        // song title
@@ -179,7 +178,6 @@
        // progress static duration
        await sleep(250)
        player.style.background = `linear-gradient(${pSBC(-0.40, themeColor)}, #000000)`
-       console.log(themeColor)
        // player background
        playButton.style.background = pSBC(0.30, themeColor)
        playButton.style.transform = "rotate(360deg)"
@@ -215,7 +213,6 @@
        // progress static duration
        await sleep(250)
        player.style.background = `linear-gradient(${pSBC(-0.40, themeColor)}, #000000)`
-       console.log(themeColor)
        // player background
        playButton.style.background = pSBC(0.30, themeColor)
        playButton.style.transform = "rotate(360deg)"
@@ -227,8 +224,8 @@
     }
    function defineTheme(userTheme) {
       //theme is Number (0 - 6) or String im[0-4]
+      user.theme = userTheme
       userTheme = String(userTheme)
-      console.log(userTheme)
       if(userTheme.includes('im')) {
         immersiveThemeCount = Number(userTheme.slice(2,3));
         return setTheme(null,immersiveThemeCount);

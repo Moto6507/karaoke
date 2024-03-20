@@ -20,7 +20,7 @@ exports.creator = express_1.default.Router().get('/k/creator', (req, res) => __a
         return res.redirect('/k');
     let user = yield fetch("http://localhost:8080/api/v3/get/infos/" + ((_b = req.session) === null || _b === void 0 ? void 0 : _b.token), {
         method: 'GET'
-    }).then((x) => x.json()).catch(x => console.log(x)), posts = yield fetch("http://localhost:8080/api/v3/actions", {
+    }).then((x) => x.json()).catch(x => console.log(x)), postsMapped = yield fetch("http://localhost:8080/api/v3/actions", {
         headers: {
             "Content-Type": "application/json",
             "Access-Control-Allow-Origin": "*"
@@ -32,21 +32,21 @@ exports.creator = express_1.default.Router().get('/k/creator', (req, res) => __a
             type: "all",
             isPost: true
         })
-    }).then(x => x.json());
-    posts = posts.data.map((x) => {
+    }).then(x => x.json()), posts = [];
+    postsMapped.data.map((x) => {
         if (x.by === user.user.identifier)
-            return x;
+            posts.push(x);
     });
     res.render('desktop/creatorPortal.html', {
         user: user.user,
-        postsName: posts.map((x) => x.title),
-        postsLenght: posts.lenght,
-        yourPosts: posts.map((x, i = 0) => `<div class='containerDevelop'><h3 class='title titleWhite'>${x.title}</h3> song #${i++}
+        postsName: posts.length >= 1 ? posts.map((x) => x.title) : null,
+        postsLenght: posts.length,
+        yourPosts: posts.length >= 1 ? posts.map((x, i = 0) => `<div class='containerDevelop'><h3 class='title titleWhite'>${x.title}</h3> song #${i++}
     <br>
     <h5 class='title'>Some statics</h5>
     <div class='staticBox'>
       listeners: ${x.listeners}
     </div>
-    </div>`).join('')
+    </div>`).join('') : null
     });
 }));
