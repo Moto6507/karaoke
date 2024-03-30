@@ -64,3 +64,8 @@ function lyricsAllScreen() {
     overlayEl.requestFullscreen()
   }
 }
+function stop() {
+  setMiniPlayer(null, true)
+  closeLyricsPopUp()
+  audio.src=''
+}

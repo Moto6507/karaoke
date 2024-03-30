@@ -40,6 +40,10 @@ let
     }
    document.body.style.fontSize = typeof value == Number? value + 'px' : value
   },
+  passwordStep = () => {
+   const area = document.getElementsByClassName('scrollArea')[1]
+   area.innerHTML = `hvjuhgkjhvkhgcvkhgkhgckhgkhvkhgkhfckhgcfkhcfkhygytkhgcvkhyfgyfkygkhgf`
+  },
   imageSelected;
 function showSettings() {
   document.getElementById('overlay').style.overflow='hidden'
@@ -97,6 +101,9 @@ async function setImage(type) {
     document.getElementsByClassName('userAvatar')[0].src = 'http://localhost:8080/api/v3/get/media/avatars/' + avatarId
     user.avatar = avatarId
     imageSelected = ''
+}
+async function changePassword(){
+
 }
 function changeSettingsTab(tab, element) {
   const optionsElements = [].slice.call(document.getElementsByClassName('option'));

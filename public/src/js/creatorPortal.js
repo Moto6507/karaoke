@@ -201,16 +201,19 @@ async function changeTab(element, tabToChange) {
         <div class='button grey' style='display: inline-block; width: 200px' onclick="overlay(\`<div class='container inOverlay'><h2 class='title'>you are sure to make it?</h2>if you continue, your post ewill not exists, it irreversible!<div class='button' onclick='deletePost(\\\`${x.id}\\\`,\\\`${i++}\\\`)'>yes</div><div class='button gray' onclick='overlay()'>no</div></div>\`)">delete</div>`).join(' ') : `<img src='/images/sound.webp' class='bodyImg'><h2 class='title'>no songs</h2>well, it looks like  you didn't post nothing...`
       }
         break;
-     case 'ofYou': {
-       content.innerHTML = `<img src='http://localhost:8080/api/v3/get/media/avatars/${user.avatar}' crossorigin='anonymous' style='border-radius: 1in; margin: 5px' class='bodyImg'>
-       <h1 class='title'>of you</h1>
-       <div class='container box'>
-       <h2 class='title'>teams</h2>
-       no team, you can join to a band!
-       </div>
-       <div class='container box'>
-       <h2 class='title'>albums</h2>
-       no albums...
+     case 'community': {
+       content.innerHTML = `
+       <img src='/images/cosmetics.webp' class="bodyImg">
+       <h1 class='title'>Community terms</h1>
+       <br>
+       <div class='container' style='text-align: left; color: #fff'>
+        <h2 class='title' style='opacity: 0.5'>content</h2>
+        karaoke is attent to the contents posted, consume, share and uses on the platform, then about it,
+        karaoke createds rules to content.
+        <ul style='color: #fff'>
+        <li>no show screams, triggers, insults, racism, pornography, mention of real-life who affect persons.</li>
+        <li>no include arts of 
+        </ul>
        </div>
        `
      }

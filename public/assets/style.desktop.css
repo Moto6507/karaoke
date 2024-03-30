@@ -34,7 +34,7 @@ body {
   }
   .navBar .route.creatorPortal {
     position: fixed;
-    bottom: 30px
+    bottom: 0px
   }
   .navBar .logo {
     margin: 5px;
@@ -122,7 +122,7 @@ body {
    right: 0;
    margin: 10px
   }
-  .musicCard .option .icon-comment {
+  .musicCard .option .icon-share-nodes {
     cursor: pointer;
     background: rgba(146, 146, 146, 0.5);
     padding: 6.5px;

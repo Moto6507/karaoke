@@ -19,15 +19,10 @@ export class Algorithm {
      try {
      return this.posts.map((x: any)=>{
     const user: any = this.users.find((h: any)=>h.identifier===x.by);
-    const commentsOfPost = x.comments.map((x: any)=>{
-     const user = this.users.find((h: any)=>h.identifier===x.by);
-     x = { user, ...x }
-     return x
-     })
        return `<div class="musicCard">
         <div class="option">
         <i class='icon-play' onclick="setMiniPlayer({ songId: '${x.id}', isPlaylist: false }) \n if(audio.paused || audio.src !== 'http://localhost:8080/api/v3/get/media/songs/' + ${x.musicFile}) play('${x.musicFile}')"></i>
-        <i class='icon-comment' onclick="commentInterface(${commentsOfPost})"></i> ${x.comments.length} 
+        <i class='icon-share-nodes' onclick="shareItem({ uri: '${x.id}', label: 'share ${x.name}' })"></i> 
         <i class='icon-ellipsis'></i></div>
          <img src='http://localhost:8080/api/v3/get/media/thumbnails/${x.thumbnail}' crossorigin='anonymous' class="background">
          <div class='cardInfo'>

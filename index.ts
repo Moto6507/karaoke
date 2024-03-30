@@ -20,7 +20,7 @@ import {
 } from './routes/login'
 import {
   profile
-} from './routes/profile' 
+} from './routes/profile'
 const app = express();
 hbs.registerHelper('json', function(context: JSON) {
   return JSON.parse(JSON.stringify(context))

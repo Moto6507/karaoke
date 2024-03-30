@@ -29,6 +29,7 @@ async function login(t) {
 }
   t.innerHTML = loader
   const user = await db.get(email.value);
+  console.log(user)
   if(!user.status) {
     showError("Email is wrong or user doens't exists")
     return;

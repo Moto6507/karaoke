@@ -15,7 +15,11 @@ const pages = [
     <br><br><br>
     <hr>
     <h2 class='title'>profissional or public</h2>
-    <div class='card'>profissional account<span></span></div>
+    <div class='card simple'>profissional account <span></span>
+<label class="switch">
+  <input type="checkbox">
+  <span class="slider"></span>
+</label></div>
     This makes your profile completely professional, access will be restricted to only the /creator route
     <div class='card'>verification<span></span></div>
     your profile can't be verified, verify <a href='a' class='link'>Community Terms</a>.
@@ -26,9 +30,9 @@ const pages = [
     <hr>
     well, it's be like your email is not verified, if you add the telephone number, your account it's confirmed.
     <div class='button'>verify my email</div><hr>
-    <div class='card simple'><i class='icon-user'></i> password<span></span></div>
+    <div class='card simple' onclick='passwordStep()'><i class='icon-user'></i> password<i class='icon-right'></i></div>
     <div class='card simple'><i class='icon-user'></i> telephone number<span></span></div>
-    <div class='card simple'><i class='icon-user'></i> FACT20<span></span></div>
+    <div class='card simple'><i class='icon-user'></i> FACT20<i class='icon-right'></i></div>
     <div class='card simple'><i class='icon-user'></i> get my status<span></span></div>
     `,
     `<img src='/images/security.webp' class='bodyImg' style='border-radius: 0'>
@@ -53,9 +57,18 @@ const pages = [
     <input class='rangeConfigs' oninput='srcFontSize(this.value, true)' min='10' max='40' value='${settings.get('accessibility').iconSize || 10}' step='0.5' type='range'>
     <div class='card'><i class='icon-music' style='font-size: ${settings.get('accessibility').iconSize}px'></i> demonstrative font size<span></span></div>
     <br><br><hr>
-    <div class='card simple'>partners animation<span></span></div>
-    will be disable/enable partners animations`,
-    `<img src='/images/language.webp' class='bodyImg' style='border-radius: 0'><h2 class='title'>language</h2>
+    <div class='card simple'>partners animation<span></span><label class="switch">
+  <input type="checkbox">
+  <span class="slider"></span>
+</label></div>
+    will disable/enable partners animations
+    <div class='card simple'>simplify players<span></span><label class="switch">
+    <input type="checkbox" ${settings.get('accessibility').simplifyPlayer? 'checked' : ''} onclick="settings.set('accessibility', { simplifyPlayer: settings.get('accessibility').simplifyPlayer? false : true })">
+    <span class="slider"></span>
+    </label></div>
+    this option will simplify the players.
+    `,
+   `<img src='/images/language.webp' class='bodyImg' style='border-radius: 0'><h2 class='title'>language</h2>
     translate karaoke to your language.
     <div class='card select selected'><i></i> en-US<span></span></div>
     <div class='card select'><i></i> pt-BR<span></span></div>
@@ -85,7 +98,28 @@ const pages = [
     </select><br>
     the audio quality will affect the velocity of buffering of audio.<br><br>
     `,
-    ``
+    `<img src='/images/sound.webp' class='bodyImg' style='border-radius: 0'><h2 class='title'>Audio equalizer</h2>
+    user can manipulate the audio equalizing they.
+    <hr>
+    <div class='container' style='border: 1px solid #6a6a6a; border-radius: 5px; color: #fff '>
+    <input type='range' max='' min='0' value='0' style='width: 90%; display: inline-block'> 32
+    <input type='range' max='100' min='0' value='0' style='width: 90%; display: inline-block'> 64
+    <input type='range' max='100' min='0' value='0' style='width: 90%; display: inline-block'> 125
+    <input type='range' max='100' min='0' value='0' style='width: 90%; display: inline-block'> 250
+    <input type='range' max='100' min='0' value='0' style='width: 90%; display: inline-block'> 500
+    <input type='range' max='100' min='0' value='0' style='width: 90%; display: inline-block'> 1k
+    <input type='range' max='100' min='0' value='0' style='width: 90%; display: inline-block'> 2k
+    <input type='range' max='100' min='0' value='0' style='width: 90%; display: inline-block'> 4k
+    <input type='range' max='100' min='0' value='0' style='width: 90%; display: inline-block'> 8k
+    <input type='range' max='100' min='0' value='0' style='width: 90%; display: inline-block'> 16k
+    </div><br>
+    <div class='container' style='border: 1px solid #6a6a6a; border-radius: 5px; color: #fff'>
+    
+    </div>
+    <h2 class='title'>mono</h2>
+    <h2 class='title'>snap</h2>
+
+    `
 ]
 if(page===5) setTimeout(()=>cardChangeSelect(document.getElementById(settings.get('audio').filter || "no")),30)
 return pages[page]

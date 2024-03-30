@@ -225,3 +225,11 @@ async function gerateNotification(message, userIdentifier) {
   notifications.push(message)
   db.update(email, "notifications", notifications);
 }
+Array.prototype.shuffle = function() {
+  let currentIndex = this.length;
+  while (currentIndex != 0) {
+    let randomIndex = Math.floor(Math.random() * currentIndex);
+    currentIndex--;
+    [this[currentIndex], this[randomIndex]] = [this[randomIndex], this[currentIndex]]
+  }
+}

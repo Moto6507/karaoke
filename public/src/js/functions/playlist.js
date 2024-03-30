@@ -1,6 +1,5 @@
 const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overlay(`<div class='container inOverlay'><h2 class='title'>change position</h2>select position song to change the position.${user.playlists[playlistPosition].musics.map((x,i=0)=>{
   const position = i++ + 1;
-  console.log(musicId, musicPosition, playlistPosition)
   return `<div class='card select ${user.playlists[playlistPosition].musics.findIndex(x=>x==musicId)===position - 1? 'selected' : ''}'
   onclick="cardChangeSelect(this) \n ${musicPosition!==position - 1? `selectMusicPosition(${musicPosition}, ${position}, ${playlistPosition})` : ''}">
   <i class='icon-music'></i> #${position}<span></span></div>`
@@ -14,16 +13,38 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
   }
   function musicPlaylistOptions(event, music, position, playlistPosition) {
     const playlistMusicsLength = user.playlists[playlistPosition].musics.length > 1;
-    console.log(playlistMusicsLength)
     contextmenu(event, `<h2 class='title'>${music.title} #${position}</h2>
    <div class='card simple' onclick="removeSongFromPlaylist('${music.id}', ${playlistPosition})"><i class='icon-trash danger'></i>remove<span></span></div>
-   <div class='card simple' ${playlistMusicsLength? '' : "style='opacity: 0.5'"}><i class='icon-no-vision'></i> hide ${music.title}<span></span></div>
-   <div class='card simple' ${playlistMusicsLength? `onclick="changeMusicPosition('${music.id}', ${user.playlists[playlistPosition].musics.findIndex(x=>x===music.id)}, ${playlistPosition})"` : "style='opacity: 0.5'"}><i class='icon-position'></i> change position<span></span></div></div>`)
+   ${user.playlists[playlistPosition].musics.find(x=>x===music.id)? `<div class='card simple'  onclick="hideSong('${music.id}', ${playlistPosition})" ${playlistMusicsLength? '' : "style='opacity: 0.5'"}><i class='icon-no-vision'></i> hide ${music.title}<span></span></div>` : `<div class='card simple' onclick="showSong('${music.id}', ${playlistPosition})"><i class='icon-vision'></i> show ${music.title}<span></span></div>`}
+   <div class='card simple' ${user.playlists[playlistPosition].musics.find(x=>x===music.id) && playlistMusicsLength? `onclick="changeMusicPosition('${music.id}', ${user.playlists[playlistPosition].musics.findIndex(x=>x===music.id)}, ${playlistPosition})"` : "style='opacity: 0.5'"}><i class='icon-position'></i> change position<span></span></div></div>`)
   }
   async function removeSongFromPlaylist(musicId, playlistPosition) {
     const playlistForEdit = user.playlists[playlistPosition];
+    if(user.playlists[playlistPosition].musics.find(x=>x===musicId)) {
     playlistForEdit.musics.splice(playlistForEdit.musics.findIndex(x=>x===musicId),1)
     db.update(user.email, 'playlists.' + playlistPosition + '.musics', playlistForEdit.musics)
+    return openPlaylist(playlistForEdit)
+    }
+    playlistForEdit.hideMusics.splice(playlistForEdit.hideMusics.findIndex(x=>x===musicId),1)
+    db.update(user.email, 'playlists.' + playlistPosition + '.hideMusics', playlistForEdit.hideMusics)
+    openPlaylist(playlistForEdit)
+  }
+  async function hideSong(musicId, playlistPosition) {
+    const playlistForEdit = user.playlists[playlistPosition];
+    const musicPosition = user.playlists[playlistPosition].musics.findIndex(x=>x===musicId);
+    const hidedMusic = user.playlists[playlistPosition].musics.splice(musicPosition,1)[0];
+    user.playlists[playlistPosition].hideMusics.push(hidedMusic)
+    db.update(user.email, 'playlists.' + playlistPosition + '.musics', playlistForEdit.musics)
+    db.update(user.email, 'playlists.' + playlistPosition + '.hideMusics', playlistForEdit.hideMusics)
+    openPlaylist(playlistForEdit)
+  }
+  async function showSong(musicId, playlistPosition) {
+    const playlistForEdit = user.playlists[playlistPosition];
+    const musicPosition = user.playlists[playlistPosition].hideMusics.findIndex(x=>x===musicId);
+    const reshowMusic = user.playlists[playlistPosition].hideMusics.splice(musicPosition,1)[0];
+    user.playlists[playlistPosition].musics.push(reshowMusic)
+    db.update(user.email, 'playlists.' + playlistPosition + '.musics', playlistForEdit.musics)
+    db.update(user.email, 'playlists.' + playlistPosition + '.hideMusics', playlistForEdit.hideMusics)
     openPlaylist(playlistForEdit)
   }
   async function selectMusicPosition(positionToChange, newPosition, playlistPosition) {
@@ -40,7 +61,8 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
    let firstSong;
    const playlistPosition = user.playlists.findIndex(x=>x.id===playlist.id)
    content.innerHTML = `${loader}<h2 class='title'>loading...</h2>loading playlist for you..`
-   let results = "<div class='button addButton'><i class='icon-plus'></i>&ensp;add musics</div><img src='/images/emptyPlaylists.webp' class='bodyImg'><h2 class='title'>no musics here...</h2>looks like no have songs in this playlist.";
+   let results = "<div class='button addButton'><i class='icon-plus'></i>&ensp;add musics</div><img src='/images/emptyPlaylists.webp' class='bodyImg'><h2 class='title'>no musics here...</h2>looks like no have songs in this playlist.",
+   resultsForHidedSongs = "";
    if(playlist.musics.length>0) {
      let posts = await db.all(true);
    results = await Promise.all(playlist.musics.map(async(x, i=0)=>{
@@ -55,7 +77,21 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
    }))
    results = results.join('')
    }
-   if(playlist.musics.length>0) icons.push(`<div class='manipulateOptions' title='suffle queue sequence'><i class='icon-shuffle'></i></div>`)
+   if(playlist.hideMusics.length>0) {
+    let posts = await db.all(true);
+  resultsForHidedSongs = await Promise.all(playlist.hideMusics.map(async(x, i=0)=>{
+  x = await posts.find(y=>y.id===x) || x
+  if(!x.id) { 
+   fixPlaylist(x, playlist, playlistPosition)
+   return;
+  }
+  if(!firstSong) firstSong = x
+  const authorOfPost = await db.get(x.by)
+  return `<div class='playlist-music-box' style='opacity: 0.5' oncontextmenu='musicPlaylistOptions(event, ${JSON.stringify(x)}, ${i++}, ${playlistPosition})'><img src='http://localhost:8080/api/v3/get/media/thumbnails/${x.thumbnail}' crossorigin='anonymous'><div class='informations'><h3 class='song-name'>${x.title}</h3>3 minutes - By ${authorOfPost.user.username}</div></div>`
+  }))
+  resultsForHidedSongs = `<h2 class='title' style='text-align: left'>hided musics</h2>` + resultsForHidedSongs.join('')
+  }
+   if(playlist.musics.length>0) icons.push(`<div class='manipulateOptions' onclick="shuffleSequence(${playlistPosition})" title='suffle queue sequence'><i class='icon-shuffle'></i></div>`)
    icons.push(`<div class='manipulateOptions' title='playlist liberty'><i class='icon-flag'></i></div>`)
    if(playlist.by===user.identifier) icons.push(`<div class='manipulateOptions' title='your own playlist'><i class='icon-copy-playlist'></i></div>`)
    if(playlist.public) icons.push(`<div class='manipulateOptions' title='public playlist'><i class='icon-global'></i></div>`)      
@@ -66,6 +102,7 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
          ${icons.map(x=>x).join(' ')}
          <hr>
          ${results}
+         ${resultsForHidedSongs}
          <br><br><br><br>
          </div>`
   }
@@ -75,6 +112,7 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
       "name": t.value,
       "id": generateToken(13),
       "musics": [],
+      "hideMusics": [],
       "forks": 0,
       "public": false,
       "by": user.identifier
@@ -82,7 +120,7 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
     db.update(user.email, "playlists", user.playlists);
     content.innerHTML = loader + `<h2 class="title">loading...</h2>creating our playlist...`
     gerateNotification(`<h2 class='title'>new playlist</h2> you have a new playlist, named <strong>${t.value}</strong>.`, user.identifier)
-    changeTab(document.getElementsByClassName('route')[4],'library')
+    changeTab(document.getElementsByClassName('route')[3],'library')
     if(document.getElementById('overlay').opened) overlay()
    }
   async function deletePlaylist(position) {
@@ -125,4 +163,10 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
     playlistForEdit.musics.push(musicId)
     db.update(user.email, 'playlists.' + playlistPosition + '.musics', playlistForEdit.musics);
     overlay()
+  }
+  async function shuffleSequence(playlistPosition) {
+    const playlistForEdit = user.playlists[playlistPosition]
+    playlistForEdit.musics.shuffle()
+    db.update(user.email, 'playlists.' + playlistPosition + '.musics', playlistForEdit.musics);
+    changeTab(document.getElementsByClassName('route')[3],'library')
   }

@@ -21,13 +21,12 @@
       <h2 class="logo"><i class='icon-karaoke'></i> Karaoke</h2>
   <div class="route" onclick="changeTab(this,'main')"><i class="icon-home"></i> main</div>
   <div class="route" onclick="changeTab(this,'search')"><i class="icon-search"></i> search</div>
-  <div class="route" onclick="changeTab(this,'explore')"><i class="icon-compass"></i> explore</div>
+  <!--<div class="route" onclick="changeTab(this,'explore')"><i class="icon-compass"></i> explore</div>-->
   <div class="route" onclick="changeTab(this,'notifications')"><i class="icon-bell"></i> notifications</div>
   <div class="route" onclick="changeTab(this,'library')"><i class="icon-library"></i> library</div>
   <div class="route" onclick="showSettings()"><i class="icon-gear"></i> settings</div>
   <a href="/k/creator" class="route creatorPortal"><i class="icon-sparkle"></i> creator portal</a>
-  <a href="/logout" class="route logout"><i class="icon-outofbox"></i> logout</a>
-    </div>
+</div>
   </head>
   <body>
   <div id="content">
@@ -38,7 +37,9 @@
     <div id="contextmenu"></div>
     <div id='playerOverlay'></div>
     <div class="lyricsBox"><h3 class='title' id='lyrics' onclick="lyricsAllScreen()"></h3></div>
-    <div oncontextmenu="contextmenu(event, `<h2 class='title'>mini player popup</h2><div class='card simple' onclick='setMiniPlayer(null, true)'>close mini popup<span></span></div><div class='card simple' onclick='lyricsPopUp()'>close lyrics popup<span></span></div>`)" id='miniPlayer'>
+    <div oncontextmenu="contextmenu(event, `<h2 class='title'>mini player popup</h2><div class='card simple' onclick='setMiniPlayer(null, true)'>close mini popup<span></span></div>
+    <div class='card simple' onclick='lyricsPopUp()'>close lyrics popup<span></span></div>
+    <div class='card simple' onclick='stop()'>stop<span></span></div>`)" id='miniPlayer'>
       <img class='thumbnailOfSong' onclick='touchMiniPlayer()' crossorigin='anonymous'>
       <div class='infos'>
       <h3 class='titleOfSong'>song name</h3>

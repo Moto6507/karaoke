@@ -45,6 +45,9 @@ audio.oncanplaythrough = () => {
       audio.currentTime = 0
       play()
     }
+    setTimeout(() => {
+      if(document.getElementById('miniPlayer').opened && audio.paused) stop()
+    }, 5000);
   }
   liricle.on('sync',(line)=> {
      const lyrics = document.getElementById('lyrics');
