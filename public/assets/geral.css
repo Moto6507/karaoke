@@ -33,13 +33,6 @@
     font-size: 28px;
     display: block;
   }
-  .container.inOverlay {
-    margin: 35vh;
-    margin-top: 23vh;
-    border-radius: 5px;
-    text-align: center;
-    color: #4e4e4e
-  }
   .container.flex {
     display: flex;
     align-items: center;

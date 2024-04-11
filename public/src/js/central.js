@@ -45,6 +45,7 @@ function contextmenu(event, content) {
 }
 function hideContextMenu() {
   const contextmenu = document.getElementById('contextmenu');
+  if(!contextmenu) return;
    contextmenu.style.opacity='0';
    setTimeout(() =>contextmenu.style.display='none',2)
    contextmenu.innerHTML = ''
@@ -66,7 +67,7 @@ function commentInterface (comments) {
 }
 let db = {
   set: async function set(collection, struct, post) {
-let res = await fetch("http://localhost:8080/api/v3/actions", {
+let res = await fetch("https://kapi.loca.lt/api/v3/actions", {
       headers: {
         "Content-Type":"application/json"
       },
@@ -83,7 +84,7 @@ let res = await fetch("http://localhost:8080/api/v3/actions", {
    return res
   },
   update: async function update(collection, path, value, post) {
-  let res = await fetch("http://localhost:8080/api/v3/actions", {
+  let res = await fetch("https://kapi.loca.lt/api/v3/actions", {
       headers: {
         "Content-Type":"application/json"
       },
@@ -108,7 +109,7 @@ let res = await fetch("http://localhost:8080/api/v3/actions", {
       }))
       return collected
     }
-   let res = await fetch("http://localhost:8080/api/v3/get/infos/" + collection + "?post=" + post, {
+   let res = await fetch("https://kapi.loca.lt/api/v3/get/infos/" + collection + "?post=" + post, {
       headers: {
         "Content-Type":"application/json",
         "Access-Control-Allow-Origin": "*",
@@ -121,7 +122,7 @@ let res = await fetch("http://localhost:8080/api/v3/actions", {
   else return res
   },
   search: async function get(collection) {
-    let res = await fetch("http://localhost:8080/api/v3/get/infos/search?q=" + collection, {
+    let res = await fetch("https://kapi.loca.lt/api/v3/get/infos/search?q=" + collection, {
           headers: {
             "Content-Type":"application/json",
             "Access-Control-Allow-Origin": "*",
@@ -134,7 +135,7 @@ let res = await fetch("http://localhost:8080/api/v3/actions", {
       else return res.data
       },
   all: async function all(post) {
-let res = await fetch("http://localhost:8080/api/v3/actions", {
+let res = await fetch("https://kapi.loca.lt/api/v3/actions", {
       headers: {
         "Content-Type":"application/json",
         "Access-Control-Allow-Origin": "*"

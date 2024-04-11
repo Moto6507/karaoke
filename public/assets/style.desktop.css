@@ -415,12 +415,14 @@ body {
   transform: rotate(179deg)
 }
 #miniPlayer .controls .skipIcons {
-  margin: 5px;
-  font-size: 20px;
+  font-size: 22px;
+  transition: .5s all;
   display: inline-block
 }
 #miniPlayer .controls .playIcon {
   font-size: 20px;
+  margin-left: 15px;
+  margin-right: 15px
 }
 #miniPlayer .control {
   margin: 5px
@@ -566,7 +568,7 @@ input[type='file'] {
 
 
 input[type=range] {
-  -webkit-appearance: none;
+  appearance: none;
   background-color: rgba(198, 207, 255, 0.7);
   margin: 0;
   padding: 0;
@@ -765,4 +767,12 @@ input[type=range]::-moz-range-thumb {
   100% {
     transform: rotate(0deg)
   }
+}
+
+.container.inOverlay {
+  margin: 35vh;
+  margin-top: 23vh;
+  border-radius: 5px;
+  text-align: center;
+  color: #4e4e4e
 }

@@ -7,8 +7,8 @@ let
        document.getElementById('userAvatar').src = reader.result;
        imageSelected = reader.result
        document.getElementsByClassName('img')[0].style.opacity = 9
-       savePendent()
      }
+       unlockSave()
        if(e.files[0]) reader.readAsDataURL(e.files[0])
     },
   waitingResolveChanges, 
@@ -42,16 +42,24 @@ let
   },
   passwordStep = () => {
    const area = document.getElementsByClassName('scrollArea')[1]
-   area.innerHTML = `hvjuhgkjhvkhgcvkhgkhgckhgkhvkhgkhfckhgcfkhcfkhygytkhgcvkhyfgyfkygkhgf`
+   area.innerHTML = `<h2 class='title'>password</h2>
+   your password is`
   },
+  unlockSave = () => {
+   const saveOptions = document.getElementById('saveChanges');
+   saveOptions.style.display='block'
+  },
+  actualTab,
   imageSelected;
 function showSettings() {
   document.getElementById('overlay').style.overflow='hidden'
   overlay(`<div class='configurationBox'>
        <div class='scrollArea'>
+       <div id='saveChanges' style='display: none'>
        <div class='button' onclick='saveChanges()'>save changes</div>
-       <div class='button grey'>discard changes</div>
+       <div class='button grey' onclick='discardChanges()'>discard changes</div>
        <hr>
+       </div>
        <h3 class='title separate'>User</h3>
          <div class='option selected' onclick="changeSettingsTab(0, this)"><span>Profile</span></div>
          <div class='option' onclick="changeSettingsTab(1, this)"><span>Account</span></div>
@@ -110,9 +118,18 @@ function changeSettingsTab(tab, element) {
   const area = document.getElementsByClassName('scrollArea')[1]
   optionsElements.map(x=>x.classList.remove('selected'));
   element.classList.add('selected')
+  actualTab = tab
   area.innerHTML = getTab(tab)
 }
 
 function saveChanges() {
+  const saveOptions = document.getElementById('saveChanges');
   if(imageSelected) setImage()
+  saveOptions.style.display='none'
+}
+function discardChanges() {
+  const saveOptions = document.getElementById('saveChanges');
+  saveOptions.style.display='none'
+  imageSelected = null
+  changeSettingsTab(actualTab, document.getElementsByClassName('option')[actualTab])
 }

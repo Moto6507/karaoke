@@ -40,7 +40,7 @@ async function login(t) {
   }
   if(error.style.display==="block") showError()
   t.removeAttribute("onclick");
-  const res = await fetch("http://localhost:3000/login", {
+  const res = await fetch("https://karaoke.loca.lt/login", {
     method: "POST",
     headers: {
       "Content-Type":"application/json"

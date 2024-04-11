@@ -4,7 +4,11 @@
     <link rel='stylesheet' href="/assets/style.desktop.css">
     <link rel="shortcut icon" type="image/x-icon" href="/assets/karaoke.ico">
     <script>
-      const user = JSON.parse(`{{{string user}}}`)
+      let 
+        user = JSON.parse(`{{{string user}}}`),
+        currentSection,
+        currentSongPosition,
+        queue = [];
     </script>
     <script src="src/js/functions/playlist.js"></script>
     <script src="src/js/functions/extensions/comments.js"></script>
@@ -30,7 +34,7 @@
   </head>
   <body>
   <div id="content">
-  <img title='you' onclick="window.location.href='/k/profile/{{{json user.identifier}}}'" src="http://localhost:8080/api/v3/get/media/avatars/{{{json user.avatar}}}" crossorigin="anonymous" class="userAvatar">
+  <img title='you' onclick="window.location.href='/k/profile/{{{json user.identifier}}}'" src="https://kapi.loca.lt/api/v3/get/media/avatars/{{{json user.avatar}}}" crossorigin="anonymous" class="userAvatar">
     <br><br><br>{{{algorithm}}}
     </div>
     <div id="overlay"></div>

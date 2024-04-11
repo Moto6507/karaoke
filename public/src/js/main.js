@@ -85,7 +85,7 @@ async function search(t) {
      <h2 class='title'></h2><h5 class='author'></h5>
    </div>
   </div>`
-  const res = await fetch("http://localhost:8080/api/v3/get/infos/search?q=" + t.value, {
+  const res = await fetch("https://kapi.loca.lt/api/v3/get/infos/search?q=" + t.value, {
     method: "GET",
     headers: {
       "Content-Type":"application/json"
@@ -97,10 +97,10 @@ async function search(t) {
     return `<div class="musicCard" oncontextmenu="contextmenu(event, \`<h2 class='title'>${x.title}</h2>
     <div class='card simple' id='${x.id}' onclick='selectPlaylist(this.id)'><i class='icon-plus'></i> add music to playlist<span></span></div>\`)">
     <div class="option">
-    <i class='icon-play' onclick="setMiniPlayer({ songId: '${x.id}', isPlaylist: false }) \n play('${x.musicFile}')"></i>
+    <i class='icon-play' onclick=""></i>
     <i class='icon-comment'></i> ${x.comments.length}
     </div>
-     <img onclick="window.location.href='/k/player?song=${x.id}'" src="http://localhost:8080/api/v3/get/media/thumbnails/${x.thumbnail}" crossorigin='anonymous' class="background">
+     <img onclick="window.location.href='/k/player?song=${x.id}'" src="https://kapi.loca.lt/api/v3/get/media/thumbnails/${x.thumbnail}" crossorigin='anonymous' class="background">
      <div class='cardInfo'>
        <div class='static'><i class='icon-music'></i> ${x.listeners}</div>
        <div class='static'><i class='icon-star'></i> ${x.stars}</div>
@@ -154,7 +154,7 @@ function touchMiniPlayer() {
   const playerTemplate = `
 <div class='player' oncontextmenu="contextmenu(event, \`<h2 class='title'>player options</h2><div class='card simple' onclick='selectTheme()'>theme<span></span></div>\`)">
 <br><br>
-<img class='thumbnail' crossorigin='anonymous' src='http://localhost:8080/api/v3/get/media/thumbnails/${currentSong.thumbnail}'>
+<img class='thumbnail' crossorigin='anonymous' src='https://kapi.loca.lt/api/v3/get/media/thumbnails/${currentSong.thumbnail}'>
 <h1 class='title titleInOverlay'>${currentSong.title}</h1>
 <br>
 <div class='options'>
@@ -226,17 +226,17 @@ async function setMiniPlayer(options, forceClose) {
     lyrics = ''
     closeLyricsPopUp()
   }
-  songThumbnail.src = 'http://localhost:8080/api/v3/get/media/thumbnails/' + song.thumbnail;
+  songThumbnail.src = 'https://kapi.loca.lt/api/v3/get/media/thumbnails/' + song.thumbnail;
   songTitle.innerHTML = song.title;
   if(!options.isPlaylist) controls.innerHTML = `<i onclick='play()' class='icon-pause playIcon'></i>`
   else controls.innerHTML = `
-  <div class='skipIcons'><i class='icon-skip'></i></div>
-  <i class='icon-pause playIcon'></i>
-  <div class='skipIcons'><i class='icon-skip'></i></div>`
+  <div class='skipIcons'><i class='icon-skip' onclick='retrocess()'></i></div>
+  <i onclick='play()' class='icon-pause playIcon'></i>
+  <div class='skipIcons'><i class='icon-skip' onclick='skip()'></i></div>`
   playerOverlay.style.bottom = '0'
   playerOverlay.opened = true
   loadedLyrics = false
-  if(Number(lyrics)) lyrics = await fetch(`http://localhost:8080/api/v3/get/media/lyrics/${lyrics}`).then(x=>x.text())
+  if(Number(lyrics)) lyrics = await fetch(`https://kapi.loca.lt/api/v3/get/media/lyrics/${lyrics}`).then(x=>x.text())
 }
 window.onkeyup = function (e) {
   if (e.keyCode === 27 && toggleIsOpen) return hideContextMenu()

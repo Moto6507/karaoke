@@ -5,9 +5,14 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
   <i class='icon-music'></i> #${position}<span></span></div>`
 }).join('')}</div>`), fixPlaylist = async(id, playlist, playlistPosition) => {
   playlist.musics.splice(playlist.musics.findIndex(x=>x===id),1);
-  console.log(playlist.musics)
   db.update(user.email, "playlists." + playlistPosition + ".musics", playlist.musics)
-}
+}, loadPlaylist = async(playlistPosition) => {
+  const playlist = user.playlists[playlistPosition]
+  currentSection = playlist
+  const songs = await db.all(true);
+  playlist.musics.map(x=>queue.push(songs.find(h=>h.id===x)))
+  playPlaylist()
+ }
   function viewOwnerOfPlaylist() {
     overlay(`<div class='container inOverlay'><h2 class='title'>search configuration</h2>the search </div>`)
   }
@@ -73,7 +78,7 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
    }
    if(!firstSong) firstSong = x
    const authorOfPost = await db.get(x.by)
-   return `<div class='playlist-music-box' oncontextmenu='musicPlaylistOptions(event, ${JSON.stringify(x)}, ${i++}, ${playlistPosition})'><img src='http://localhost:8080/api/v3/get/media/thumbnails/${x.thumbnail}' crossorigin='anonymous'><div class='informations'><h3 class='song-name'>${x.title}</h3>3 minutes - By ${authorOfPost.user.username}</div></div>`
+   return `<div class='playlist-music-box' oncontextmenu='musicPlaylistOptions(event, ${JSON.stringify(x)}, ${i++}, ${playlistPosition})'><img src='https://kapi.loca.lt/api/v3/get/media/thumbnails/${x.thumbnail}' crossorigin='anonymous'><div class='informations'><h3 class='song-name'>${x.title}</h3>3 minutes - By ${authorOfPost.user.username}</div></div>`
    }))
    results = results.join('')
    }
@@ -87,18 +92,20 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
   }
   if(!firstSong) firstSong = x
   const authorOfPost = await db.get(x.by)
-  return `<div class='playlist-music-box' style='opacity: 0.5' oncontextmenu='musicPlaylistOptions(event, ${JSON.stringify(x)}, ${i++}, ${playlistPosition})'><img src='http://localhost:8080/api/v3/get/media/thumbnails/${x.thumbnail}' crossorigin='anonymous'><div class='informations'><h3 class='song-name'>${x.title}</h3>3 minutes - By ${authorOfPost.user.username}</div></div>`
+  return `<div class='playlist-music-box' style='opacity: 0.5' oncontextmenu='musicPlaylistOptions(event, ${JSON.stringify(x)}, ${i++}, ${playlistPosition})'><img src='https://kapi.loca.lt/api/v3/get/media/thumbnails/${x.thumbnail}' crossorigin='anonymous'><div class='informations'><h3 class='song-name'>${x.title}</h3>3 minutes - By ${authorOfPost.user.username}</div></div>`
   }))
   resultsForHidedSongs = `<h2 class='title' style='text-align: left'>hided musics</h2>` + resultsForHidedSongs.join('')
   }
+  currentSongPosition = 0;
+  queue = []
    if(playlist.musics.length>0) icons.push(`<div class='manipulateOptions' onclick="shuffleSequence(${playlistPosition})" title='suffle queue sequence'><i class='icon-shuffle'></i></div>`)
    icons.push(`<div class='manipulateOptions' title='playlist liberty'><i class='icon-flag'></i></div>`)
    if(playlist.by===user.identifier) icons.push(`<div class='manipulateOptions' title='your own playlist'><i class='icon-copy-playlist'></i></div>`)
    if(playlist.public) icons.push(`<div class='manipulateOptions' title='public playlist'><i class='icon-global'></i></div>`)      
    content.innerHTML = `<div class='playlist'>
-         ${playlist.musics.length>0? `<img class='playlistBackground' src='http://localhost:8080/api/v3/get/media/thumbnails/${firstSong.thumbnail}' crossorigin='anonymous'>` : `<img class='playlistBackground' src='/images/playlistBanner.webp'>`}
+         ${playlist.musics.length>0? `<img class='playlistBackground' src='https://kapi.loca.lt/api/v3/get/media/thumbnails/${firstSong.thumbnail}' crossorigin='anonymous'>` : `<img class='playlistBackground' src='/images/playlistBanner.webp'>`}
          <h2 class='playlist-title'>${playlist.name}</h2>
-         ${playlist.musics.length>1? "<div class='button'>Play</div>" : ""}
+         ${playlist.musics.length>1? `<div class='button' onclick="loadPlaylist('${playlistPosition}')">Play</div>` : ""}
          ${icons.map(x=>x).join(' ')}
          <hr>
          ${results}
@@ -129,7 +136,7 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
    if(user.playlists.length<1) db.update(user.email, "playlists", []);
    else db.update(user.email, "playlists", user.playlists);
    content.innerHTML = "loading..."
-   changeTab(document.getElementsByClassName('route')[4],'library')
+   changeTab(document.getElementsByClassName('route')[3],'library')
   }
   async function editPlaylist(playlistPosition) {
     const playlistForEdit = user.playlists[playlistPosition]
@@ -170,3 +177,28 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
     db.update(user.email, 'playlists.' + playlistPosition + '.musics', playlistForEdit.musics);
     changeTab(document.getElementsByClassName('route')[3],'library')
   }
+
+function playPlaylist() {
+  setMiniPlayer({ songId: queue[0].id, isPlaylist: true })
+  if(audio.paused || audio.src !== 'https://kapi.loca.lt/api/v3/get/media/songs/' + queue[0].musicFile) play(queue[0].musicFile)
+}
+
+function skip() {
+  const skip = document.getElementsByClassName('icon-skip')[1]
+  currentSongPosition++
+  if(currentSongPosition>queue.length - 1) currentSongPosition = 0
+  setMiniPlayer({ songId: queue[currentSongPosition].id, isPlaylist: true })
+  if(audio.paused || audio.src !== 'https://kapi.loca.lt/api/v3/get/media/songs/' + queue[currentSongPosition].musicFile) play(queue[currentSongPosition].musicFile)
+  skip.style.color='#1d1d1d'
+  setTimeout(()=>skip.style.color='#fff',800)
+}
+
+function retrocess() {
+  const skip = document.getElementsByClassName('icon-skip')[0]
+  currentSongPosition--
+  if(currentSongPosition===-1) currentSongPosition = queue.length - 1
+  setMiniPlayer({ songId: queue[currentSongPosition].id, isPlaylist: true })
+  if(audio.paused || audio.src !== 'https://kapi.loca.lt/api/v3/get/media/songs/' + queue[currentSongPosition].musicFile) play(queue[currentSongPosition].musicFile)
+  skip.style.color='#1d1d1d'
+  setTimeout(()=>skip.style.color='#fff',800)
+}

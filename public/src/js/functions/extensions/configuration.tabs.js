@@ -1,6 +1,6 @@
 function getTab(page) {
 const pages = [
-    `<br><br><img id='userAvatar' src='http://localhost:8080/api/v3/get/media/avatars/${user.avatar}' crossorigin='anonymous'> 
+    `<br><br><img id='userAvatar' src='${imageSelected || 'http://localhost:8080/api/v3/get/media/avatars/' + user.avatar}' crossorigin='anonymous'> 
     <label for='avatar'>
     <div class='img'><i class='icon-plus'></i><br></div>
     </label>

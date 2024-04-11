@@ -23,12 +23,12 @@ exports.main = express_1.default.Router().get('/k', (req, res) => __awaiter(void
     if (!((_a = req.session) === null || _a === void 0 ? void 0 : _a.token))
         return res.redirect('/login');
     var agent = express_useragent_1.default.parse(req.headers['user-agent']).isMobile;
-    const user = yield (0, undici_1.fetch)("http://localhost:8080/api/v3/get/infos/" + ((_b = req.session) === null || _b === void 0 ? void 0 : _b.token), {
+    const user = yield (0, undici_1.fetch)("https://kapi.loca.lt/api/v3/get/infos/" + ((_b = req.session) === null || _b === void 0 ? void 0 : _b.token), {
         method: 'GET',
         dispatcher: new undici_1.Agent({ connectTimeout: 30000 })
-    }).then((x) => x.json()).catch(x => console.log(x)), all = yield (0, undici_1.fetch)("http://localhost:8080/api/v3/get/infos/all", {
+    }).then((x) => x.json()).catch(x => console.log(x)), all = yield (0, undici_1.fetch)("https://kapi.loca.lt/api/v3/get/infos/all", {
         method: 'GET'
-    }).then(x => x.json()), allPosts = yield (0, undici_1.fetch)("http://localhost:8080/api/v3/get/infos/all?post=true", {
+    }).then(x => x.json()), allPosts = yield (0, undici_1.fetch)("https://kapi.loca.lt/api/v3/get/infos/all?post=true", {
         method: 'GET'
     }).then(x => x.json());
     if (user.status !== 200)
@@ -38,7 +38,7 @@ exports.main = express_1.default.Router().get('/k', (req, res) => __awaiter(void
     if (agent)
         res.render("main.html", {
             user: user.user,
-            algorithm: algorithmGerated
+            algorithm: algorithmGerated.join(' ')
         });
     else
         res.render("desktop/main.html", {

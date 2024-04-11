@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel='stylesheet' href="/assets/style.mobile.css">
+    <script>
+      let 
+        user = JSON.parse(`{{{string user}}}`),
+        currentSection,
+        currentSongPosition,
+        queue = [];
+    </script>
+    <script src="src/js/functions/main.mobile.js"></script>
+    <script src="src/js/central.js"></script>
+    <script src="src/js/functions/extensions/player.mobile.js"></script>
+    <script src="src/js/functions/playlist.js"></script>
+    <script src="src/js/functions/extensions/player.mobile.events.js"></script>
+    <link rel="shortcut icon" type="image/x-icon" href="/assets/karaoke.ico">
+    <title>Is Karaoke!</title>
+    <div class='menuBar'>
+      <div class='flex'>
+    <h3 class='logoName'><i class='icon-karaoke'></i> Karaoke</h3>
+    <img src='https://kapi.loca.lt/api/v3/get/media/avatars/{{{json user.avatar}}}' crossorigin='anonymous' class='userAvatar'>
+    </div>
+    <hr>
+    </div>
+  </head>
+  <body><div id="overlay"></div><div id="contextmenu"></div>
+    <div oncontextmenu="contextmenu(event, `<h2 class='title'>mini player popup</h2><div class='card simple' onclick='setMiniPlayer(null, true)'>close mini popup<span></span></div>
+    <div class='card simple' onclick='lyricsPopUp()'>close lyrics popup<span></span></div>
+    <div class='card simple' onclick='stop()'>stop<span></span></div>`)" id='miniPlayer'>
+      <img class='thumbnailOfSong' onclick='touchMiniPlayer()' crossorigin='anonymous'>
+      <div class='infos'>
+      <h3 class='titleOfSong'>song name</h3>
+      <div class='duration' id="duration">00:00</div>
+      </div>
+      <div class='controls'>
+        <i class='icon-skip skipIcons'></i>
+      </div>
+      </div>
+    <div id='content'>{{{algorithm}}}<br><br><br><br></div>
+    <div class='navBar'>
+      <div class='flex'>
+      <i onclick="changeTab(this, 'main')" class='icon-home selected navigateTo route'></i>
+      <i onclick="changeTab(this, 'search')" class='icon-search navigateTo route'></i>
+      <i class='icon-plus navigateTo'></i>
+      <i onclick="changeTab(this, 'notifications')" class='icon-bell navigateTo route'></i>
+      <i onclick="changeTab(this, 'library')" class='icon-library navigateTo route'></i>
+    </div>
+  </body>
+</html>

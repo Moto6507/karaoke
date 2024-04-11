@@ -2,6 +2,7 @@ import express from 'express';
 import session from 'express-session'
 import hbs from 'hbs';
 import cors from "cors"
+import localtunnel from 'localtunnel'
 import bodyParser from 'body-parser';
 import path from 'path'
 import {
@@ -46,7 +47,11 @@ app.use(session({
   secret: 'GcYCYGTvY786fTC8tt6',
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: false }
+  cookie: { 
+    path: '/',
+    secure: false, 
+    maxAge: 60000 * 60 * 24
+  }
 }))
 app.get('/', (req, res)=>res.redirect('/k'));
 app.get('/k', main)
@@ -60,3 +65,7 @@ app.use(async(req: any, res: any)=>{
   res.status(404).sendFile(path.resolve() + '/views/desktop/noFound.html')
 });
 app.listen(3000, () => console.log('sever running 3000'));
+(async()=>{
+  const tunnel = await localtunnel({ port: 3000, subdomain: 'karaoke' })
+console.log(tunnel.url)
+})()

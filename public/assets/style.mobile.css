@@ -1,3 +1,6 @@
+@import "font.css";
+@import "geral.css";
+
 body {
     margin: 0;
     padding: 0;
@@ -37,6 +40,7 @@ body {
     background: rgb(24,24,24,0.5);
     backdrop-filter: blur(5px);
     bottom: 0;
+    z-index: 2;
     width: 100%
   }
   .navBar .flex {
@@ -45,23 +49,29 @@ body {
     align-items: center;
     padding: 5px;
   }
-  .navBar .fa {
+  .navBar i {
     font-size: 20px;
     color: rgb(255,255,255,0.5);
     margin-left: auto;
     margin-right: auto;
+    transition: .2s all;
   }
-  .navBar .fa-plus {
+  .navBar .icon-plus {
     background: #272727;
     padding: 0;
     overflow: hidden;
     padding: 10px;
-    width: 18px;
+    width: 20px;
     height: 20px;
     border-radius: 1in;
     color: #fff;
   }
  
+  .navBar i.selected {
+    color: #fff;
+    padding-bottom: 3px;
+    border-bottom: 2px solid #fff;
+  }
 .musicCard {
   width: clamp(340px, 50vmin, 600px);
   aspect-ratio: 4 / 3;
@@ -106,18 +116,280 @@ body {
  right: 0;
  margin: 10px
 }
-.musicCard .option .icon-comment {
+.musicCard .option .icon-play {
   cursor: pointer;
-  background: rgb(255,255,255,0.5);
-  padding: 6.5px;
+  background: rgba(146, 146, 146, 0.5);
+  padding: 7px;
   border-radius: 1in;
   margin-left: 5px;
   backdrop-filter: blur(8px)
 }
-.musicCard .option .icon-share {
+.musicCard .option .icon-share-nodes {
   cursor: pointer;
-  background: rgb(255,255,255,0.5);
-  padding: 6.5px;
+  background: rgba(146, 146, 146, 0.5);
+  padding: 7px;
   border-radius: 1in;
   backdrop-filter: blur(8px)
+}
+
+.textbox {
+  background: none;
+  border: none;
+  width: 92%;
+  margin-right: 5px;
+  outline: none;
+  padding: 10px;
+  color: #fff;
+  border-radius: 5px;
+  border: 2px solid #5e5e5e;
+}
+
+.container #search {
+  color: #fff;
+  font-size: 23px;
+}
+
+#content {
+  text-align: center;
+}
+
+.musicCard.load {
+  width: clamp(300px, 50vmin, 600px);
+  aspect-ratio: 4 / 3;
+  display: inline-block;
+  border-radius: 13px;
+  margin: 10px;
+  text-decoration: none;
+  color: #fff;
+  background: rgb(75,75,75,0.5);
+  overflow: hidden;
+  animation: 3s imgLoadAnimation infinite;
+  transform: translateZ(0);
+}
+.musicCard.load .cardInfo {
+ padding: 10px;
+ position: absolute;
+ bottom: 0;
+ left: 0;
+ height: 30px;
+ width: 95%;
+ text-align: left;
+ background: rgb(32,40,61,0.4);
+ backdrop-filter: blur(3px);
+}
+.musicCard.load .cardInfo .title {
+ color: #fff;
+ padding: 10px;
+ border-radius: 5px;
+ width: 70px;
+ margin: 10px;
+ animation: 3s staticsLoadAnimation infinite;
+ background: rgb(99,99,99,0.5);
+ margin: 0
+}
+.musicCard.load .cardInfo .static {
+ float: right;
+ margin-left: 5px
+}
+.musicCard.load .cardInfo .author {
+ margin: 0;
+ padding: 5px;
+ margin: 5px;
+ border-radius: 5px;
+ width: 30px;
+ animation: 3s staticsLoadAnimation infinite;
+ background: rgb(99,99,99,0.5);
+ color: rgb(255,255,255,0.8)
+}
+.musicCard.load .option {
+ position: absolute;
+ right: 0;
+ margin: 10px
+}
+.musicCard.load .option .comment {
+  cursor: pointer;
+  background: rgb(255,255,255,0.5);
+  padding: 15px;
+  border-radius: 1in;
+  margin-left: 8px;
+  backdrop-filter: blur(8px)
+}
+.musicCard.load .option .share {
+  cursor: pointer;
+  background: rgb(255,255,255,0.3);
+  padding: 20px;
+  border-radius: 1in;
+  animation: 3s staticsLoadAnimation infinite;
+  backdrop-filter: blur(8px)
+}
+
+.playlist .playlistBackground {
+  width: 90%;
+  margin: 17px;
+  object-fit: cover;
+  border-radius: 5px;
+  height: 200px
+}
+.playlist .playlist-title {
+ margin: 5px;
+ color: #fff;
+}
+.playlist .manipulateOptions {
+ background: rgb(115,115,115,0.6);
+ padding: 10px;
+ font-size: 20px;
+ width: 25px;
+ display: flex;
+ justify-content: center;
+ align-items: center;
+ border-radius: 1in;
+ display: inline-block;
+}
+.playlist .playlist-music-box {
+ border: 3px solid rgb(45,45,45);
+ border-radius: 5px;
+ padding: 5px;
+ margin: 5px;
+ display: flex;
+ justify-content: center;
+ align-items: center
+}
+.playlist .playlist-music-box img {
+ width: 20%;
+ height: 20%;
+ border-radius: 10px;
+ object-fit: cover;
+}
+.playlist .playlist-music-box .informations {
+ margin: 5px;
+ margin-right: auto;
+ color: rgb(200,200,200,0.5)
+}
+.playlist .playlist-music-box .informations .song-name {
+ margin: 0;
+ color: #fff
+}
+
+.notification {
+  background: #101010;
+  color: rgb(255,255,255,0.5);
+  padding: 2px;
+  margin: 5px;
+  border: 1px solid #3ba3ff;
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  border-radius: 8px;
+}
+.notification .column {
+  flex-direction: column;
+  margin: 5px;
+  margin-right: auto;
+}
+.notification img {
+  width: 70px;
+  height: 70px;
+  margin: 3px;
+  border-radius: 10px;
+}
+#overlay {
+  background: rgb(0,0,0,0.2);
+  height: 50vh;
+  width: 50%;
+  overflow-y: scroll;
+  position: fixed;
+  top: 0;
+  margin: 100px;
+  transition: .1s, opacity .2s, margin .2s, height .1s, background .5s;
+  z-index: 999;
+  display: none;
+  opacity: 0;
+}
+
+.container.inOverlay {
+  margin: 7vh;
+  margin-top: 23vh;
+  border-radius: 5px;
+  text-align: center;
+  color: #4e4e4e
+}
+
+.cancel {
+  float: left;
+  color: #fff;
+  font-size: 25px;
+  margin: 10px
+}
+
+
+#miniPlayer {
+  background: #000000;
+  border-top: 1px solid #1d1d1d;
+  padding: 5px;
+  overflow: hidden;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: fixed;
+  bottom: -100px;
+  width: 100%;
+  z-index: 1;
+  transition: all .2s;
+}
+#miniPlayer .thumbnailOfSong {
+  width: 55px;
+  height: 55px;
+  border-radius: 10px;
+}
+#miniPlayer .bar {
+   background: #2d2d2d;
+   width: 70%;
+   height: 7px;
+   text-align: center;
+   border-radius: 5px;
+ }
+ #miniPlayer .bar .progress-bar {
+   background: #cdcdcd;
+   width: 0%;
+   height: 7px;
+   transition: width .3s;
+   border-radius: 5px
+ }
+#miniPlayer .infos {
+  flex-direction: column;
+  margin-left: 5px;
+  margin-right: auto;
+  text-align: left;
+}
+#miniPlayer .infos .titleOfSong {
+  margin: 0;
+  color: #fff
+}
+#miniPlayer .infos .duration {
+  color: rgb(255,255,255,0.5);
+}
+#miniPlayer .controls {
+  margin-right: 15px;
+  color: #fff
+}
+#miniPlayer .controls .skipIcons:nth-child(1) {
+  transform: rotate(179deg)
+}
+#miniPlayer .controls .skipIcons {
+  font-size: 22px;
+  transition: .5s all;
+  display: inline-block
+}
+#miniPlayer .controls .playIcon {
+  font-size: 20px;
+  margin-left: 15px;
+  margin-right: 15px
+}
+#miniPlayer .control {
+  margin: 5px
+}
+#miniPlayer .control input[type='range'] {
+  width: 60%;
+  height: 7px
 }

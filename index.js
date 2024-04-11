@@ -16,6 +16,7 @@ const express_1 = __importDefault(require("express"));
 const express_session_1 = __importDefault(require("express-session"));
 const hbs_1 = __importDefault(require("hbs"));
 const cors_1 = __importDefault(require("cors"));
+const localtunnel_1 = __importDefault(require("localtunnel"));
 const path_1 = __importDefault(require("path"));
 const main_1 = require("./routes/main");
 const create_1 = require("./routes/create");
@@ -47,7 +48,11 @@ app.use((0, express_session_1.default)({
     secret: 'GcYCYGTvY786fTC8tt6',
     resave: false,
     saveUninitialized: true,
-    cookie: { secure: false }
+    cookie: {
+        path: '/',
+        secure: false,
+        maxAge: 60000 * 60 * 24
+    }
 }));
 app.get('/', (req, res) => res.redirect('/k'));
 app.get('/k', main_1.main);
@@ -61,3 +66,7 @@ app.use((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.status(404).sendFile(path_1.default.resolve() + '/views/desktop/noFound.html');
 }));
 app.listen(3000, () => console.log('sever running 3000'));
+(() => __awaiter(void 0, void 0, void 0, function* () {
+    const tunnel = yield (0, localtunnel_1.default)({ port: 3000, subdomain: 'karaoke' });
+    console.log(tunnel.url);
+}))();

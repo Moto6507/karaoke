@@ -4,7 +4,7 @@ let loadedAudio, isLooping;
   audio.volume = 1
   audio.preload = "auto"
   async function play(songFile) {
-    if(!loadedAudio && !audio.src || (audio.src && audio.src !== 'http://localhost:8080/api/v3/get/media/songs/' + songFile) && songFile) return audio.src = 'http://localhost:8080/api/v3/get/media/songs/' + songFile
+    if(!loadedAudio && !audio.src || (audio.src && audio.src !== 'https://kapi.loca.lt/api/v3/get/media/songs/' + songFile) && songFile) return audio.src = 'https://kapi.loca.lt/api/v3/get/media/songs/' + songFile
     if(audio.paused) audio.play()
     else audio.pause()
   }
@@ -51,7 +51,7 @@ function openLyricsPopUp() {
   const lyricsBox = document.getElementsByClassName('lyricsBox')[0];
   const lyrics = document.getElementById('lyrics');
   lyricsBox.style.display = 'block'
-  lyricsBox.style.opacity = 0.6
+  lyricsBox.style.opacity = 9
   lyrics.innerHTML = 'Lyrics'
 }
 
