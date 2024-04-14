@@ -9,7 +9,7 @@ export const
 }),
   logoutRoute = express.Router().get('/logout', (req: any, res: any) => {
     if(!req.session?.token) return res.redirect('/login')
-    req.session?.token = null;
+    req.session.token = null;
     res.redirect('/')
   }),
   loginIntern = express.Router().post('/login', (req: any, res: any) => {

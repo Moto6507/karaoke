@@ -44,6 +44,7 @@ audio.oncanplaythrough = () => {
     if(isLooping) {
       audio.currentTime = 0
       play()
+      return;
     }
     if(currentSection) skip()
     setTimeout(() => {

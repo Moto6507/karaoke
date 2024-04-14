@@ -190,7 +190,7 @@ async function changeTab(element, tabToChange) {
         const posts = await db.get(user.identifier, true)
         content.innerHTML = posts.length>0? posts.map((x,i=0)=>`
         <div class="musicCard">
-         <img src="http://localhost:8080/api/v3/get/media/thumbnails/${x.thumbnail}" crossorigin='anonymous' class="background">
+         <img src="https://kapi.loca.lt/api/v3/get/media/thumbnails/${x.thumbnail}" crossorigin='anonymous' class="background">
          <div class='cardInfo'>
            <div class='static'><i class='icon-music'></i> ${x.listeners}</div>
            <div class='static'><i class='icon-star'></i> ${x.stars}</div>
@@ -231,7 +231,7 @@ async function deletePost(id, position) {
   const postToDelete = posts.find(x=>x.id===id)
   posts.splice(position,1)
   console.log(postToDelete)
-  fetch("http://localhost:8080/api/v3/actions", {
+  fetch("https://kapi.loca.lt/api/v3/actions", {
       headers: {
         "Content-Type":"application/json"
       },
@@ -328,7 +328,7 @@ async function postTheSong() {
   dataToSend.lyrics['id'] = songObject.lyrics
   dataToSend.lyrics['content'] = lyricsExtracted;
   }
-  await axios.request("http://localhost:8080/api/v3/upload", {
+  await axios.request("https://kapi.loca.lt/api/v3/upload", {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'

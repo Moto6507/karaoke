@@ -20,7 +20,7 @@ export const main = express.Router().get('/k', async (req: any, res: any) => {
   }).then(x=>x.json());
   if(user.status!==200) return res.send("aaaa")
   algorithm.register(allPosts, all, user)
-  const algorithmGerated: Array<string> = algorithm.gerate();
+  const algorithmGerated: Array<string> | any = algorithm.gerate();
   if(agent) res.render("main.html", {
     user: user.user,
     algorithm: algorithmGerated.join(' ')
