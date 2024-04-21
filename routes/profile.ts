@@ -1,4 +1,5 @@
 import express from 'express'
+import useragent from "express-useragent"
 import path from 'path';
 export const profile = express.Router().get('/k/profile/:user',async (req: any, res: any) => {
   if(!req.session?.token) return res.redirect('/k');
@@ -34,7 +35,15 @@ export const profile = express.Router().get('/k/profile/:user',async (req: any, 
        if(x.by===user.user.identifier) userPosts.push(x)
     })
   const iFollow = accessUser.follow?.find((x: any)=>x===user.identifier)? true : false
-  res.render('desktop/profile.html', {
+  var agent = useragent.parse(req.headers['user-agent']).isMobile;
+  if(agent) res.render('profile.html', {
+    user: user.user,
+    accessUser: accessUser.user,
+    iFollow,
+    posts: userPosts,
+    statics: `<div class='statics'><strong>${posts.data.length}</strong> posts</div><div class='statics noBorder'><strong>${user.user.followers.length}</strong> Followers</div>`
+  })
+    else res.render('desktop/profile.html', {
     user: user.user,
     accessUser: accessUser.user,
     iFollow,

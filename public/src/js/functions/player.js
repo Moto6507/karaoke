@@ -8,22 +8,6 @@ let loadedAudio, isLooping;
     if(audio.paused) audio.play()
     else audio.pause()
   }
-  
-function calculateTotalValue(length) {
-    var minutes = Math.floor(length / 60);
-      var  seconds_int = length - minutes * 60;
-  if(seconds_int < 10){
-    seconds_int = "0"+seconds_int;
-  }
-  if(minutes < 10){
-    minutes = "0"+minutes;
-  }
-      var seconds_str = seconds_int.toString();
-       var  seconds = seconds_str.substr(0, 2);
-        var time = minutes + ':' + seconds;
-//console.info(seconds_int)
-    return time
-}
 function loop(el) {
   isLooping = isLooping? false : true;
   el.style.transform = isLooping? 'rotate(360deg)' : 'rotate(0deg)'
@@ -41,14 +25,14 @@ function playerDebug() {
 }
 
 function closeLyricsPopUp() {
-  const lyricsBox = document.getElementsByClassName('lyricsBox')[0];
+  const lyricsBox = document.getElementsByClassName('mainLyrics')[0];
   const lyrics = document.getElementById('lyrics');
     lyricsBox.style.opacity = 0
     lyricsBox.style.display = 'none'
     lyrics.innerHTML = 'Lyrics'
   }
 function openLyricsPopUp() {
-  const lyricsBox = document.getElementsByClassName('lyricsBox')[0];
+  const lyricsBox = document.getElementsByClassName('mainLyrics')[0];
   const lyrics = document.getElementById('lyrics');
   lyricsBox.style.display = 'block'
   lyricsBox.style.opacity = 9
@@ -57,7 +41,12 @@ function openLyricsPopUp() {
 
 function lyricsAllScreen() {
   closeLyricsPopUp()
-  overlay(`<div class='container inOverlay' style='background: none'><h2 style='transition: .2s' id='lyrics'class='title'>lyrics full screen!<br><div style='color: rgb(255,255,255,0.5);'>on ${currentSong.title}, stream on <i class='icon-karaoke'></i></div></h2></div>`)
+  overlay(`<div oncontextmenu='overlay()' class='full-lyrics'>
+    <div class='logo'>Listening on Karaoke</div>
+    <div class='lyricsBox'><h2 id='lyrics'>${currentSong.title} lyrics</h2></div>
+    <div class='shadow'></div>
+    <img src='https://kapi.loca.lt/api/v3/get/media/thumbnails/${currentSong.thumbnail}' crossorigin='anonymous'>
+    </div>`)
   isLyricsOnFullScreen = true
   const overlayEl = document.getElementsByClassName('inOverlay')[0]
   if(overlayEl.requestFullscreen) {

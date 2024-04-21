@@ -100,12 +100,8 @@ async function changeTab(element, tabToChange) {
       setTimeout(() => routes[1].style.animation='',200);
     }
     if(thumbnailBase64) return blocked()
-    routes.map(x=>{
-      if(x.href) return;
-      if(tabToChange!=='main') x.style.opacity='0.5'
-      else x.style.opacity='9'
-    }) 
-    element.style.opacity='9'
+    routes.map(x=>x.classList.remove('selected'))
+    element.classList.add('selected')
     openTab = tabToChange
     if(!mainSaved) mainSaved = content.innerHTML
     switch(openTab) {
@@ -126,7 +122,7 @@ async function changeTab(element, tabToChange) {
         <img src='/images/confuse.webp' class='musicThumbnail'>
         </label>
         <h1 class='songTitle'></h1>
-        <div style='text-align: left; padding-left: 20px'>
+        <div style='text-align: left'>
         <h3 class='title'>title</h3>
         <input type='text' onkeyup='srcName(this.value)' placeholder='title...' class='textbox'>
         <br><h3 class='title'>keywords</h3>
@@ -179,9 +175,9 @@ async function changeTab(element, tabToChange) {
         <hr>
         <div class='button grey' onclick='postTheSong()'>post</div>
         </div>
-        <input type='file' id='background' onclick="document.getElementsByClassName('musicThumbnail')[0].style.opacity=0.5" accept='image/png' onchange='srcThumbnail(this)'><br>
+        <input type='file' id='background' onclick="document.getElementsByClassName('musicThumbnail')[0].style.opacity=0.5" accept='image/png, .jpg, .jpeg' onchange='srcThumbnail(this)'><br>
         <input type='file' id='songFile' accept='audio/mpeg' onchange='srcAudio(this)'><br>
-        <input type='file' id='songLyrics' accept='text/plain' onchange='srcLyrics(this)'><br>
+        <input type='file' id='songLyrics' accept='text/*' onchange='srcLyrics(this)'><br>
         `
       }
         break;
@@ -224,131 +220,101 @@ audio.onended = () => {
   const finishElement = document.getElementById('finishSong');
   finishElement.innerHTML = `<div class='button' onclick="audio.play() \n this.style.display = 'none'">play again</div>`
 }
-async function deletePost(id, position) {
-  document.getElementsByClassName('inOverlay')[0].innerHTML = `${loader}</div><h2 class='title'>waiting..</h2>deleting your post...</h2>`
-  const posts = await db.get(user.identifier, true);
-  console.log(posts)
-  const postToDelete = posts.find(x=>x.id===id)
-  posts.splice(position,1)
-  console.log(postToDelete)
-  fetch("https://kapi.loca.lt/api/v3/actions", {
-      headers: {
-        "Content-Type":"application/json"
-      },
-     method:"POST",
-     cache: "default",
-     body: JSON.stringify({
-       action: 'unlink',
-       id: 'thumbnails/' + postToDelete.thumbnail + '.png'
-     }, {
-      action: 'unlink',
-      id: 'songs/' + postToDelete.musicFile + '.mp3'
-     }, {
-       action: 'unlink',
-       id: 'lyrics/' + postToDelete.lyrics +  '.lrc'
-     })
-    }).then(x=>x.json())
-  db.set(user.email, posts, true);
-  overlay();
-  changeTab(document.getElementsByClassName('route')[2],'managePosts')
-}
-async function editSongPopUp(id) {
-  const posts = await db.get(user.identifier, true);
-  const post = posts.find(x=>x.id===id)
-  overlay(`<div class='container inOverlay'><h2 class='title'>${post.title}</h2> 
-  <label for='thumbnail'>
-  <img crossorigin='anonymous' src='http://localhost:8080/api/v3/get/media/thumbnails/${post.thumbnail}' class='musicThumbnail'>
-  </label>
-  <div style='text-align: left; padding-left: 20px'>
-  <h3 class='title'>title</h3>
-  <input type='text' placeholder='new title...' class='textbox'>
-  <h3 class='title'>keywords</h3>
-  <input type='text' placeholder='keywords... (use , to separate)' value='${post.keywords || ''}' class='textbox'>
-  <h3 class='title'>genrer</h3>
-  <select class='selectBox' onchange="songEspecifications('linked genrer to ' + this.value) \n songObject.gender = this.value \n enablePost()">
-  <optgroup label='genres more listen'>
-  <option value='rock'>Rock</option>
-  <option value='jazz'>Jazz</option>
-  <option value='pop'>Pop</option>
-  <option value='hiphop'>HipHop</option>
-  <option value='tecno'>Tecno</option>
-  <option value='country'>Country</option>
-  </optgroup>
-  <optgroup label='Latino genrers'>
-  <option value='samba'>Samba (Brazil)</option>
-  <option value='choro'>Choro (Brazil)</option>
-  <option value='funk'>Funk Carioca (Brazil)</option>
-  <option value='axe'>Axé (Brazil)</option>
-  <option value='tango'>Tango (Argentine/Uruguayan)</option>
-  <option value='bambuco'>Bambuco (Colombian)</option>
-  <option value='cumbia'>Cumbia (Colombian)</option>
-  <option value='vallenatoz'>Vallenato (Colombian)</option>
-  <option value='folk'>Folk musics (all latinos countries)</option>
-  <option value='duruguense'>Duranguense</option>
-  <option value='mariachi'>Mariachi</option>
-  <option value='norteño'>Norteño</option>
-  <option value='ranchera'>Ranchera</option>
-  </optgroup>
-  <optgroup label='Another groups'>
-  <option value='karaoke'>Karaoke</option>
-  <option value='soundeffect'>Sound Effect</option>
-  <option value='test'>Test</option>
-  <option value=''>No genre</option>
-  </optgroup>
-  </select>
-  <h3 class='title'>lyrics</h3>
-  <label for='songLyrics'>
-  <div class='card select ${post.lyrics? 'selected' : ''}' id='lyricsSelect'><i class='icon-music'></i> ${post.lyrics? 'linked lyrics ' + post.lyrics : 'no lyrics'}<span></span></div>
-  </label>
-  </div>
-  <div class='button grey'>save changes</div>
-  <div class='button grey' onclick='overlay()'>cancel</div>
-  </div>
-  <input type='file' id='thumbnail' onclick="document.getElementsByClassName('musicThumbnail')[0].style.opacity=0.5" accept='image/png' onchange='srcThumbnail(this)'><input type='file' id='songLyrics' accept='text/plain' onchange='srcLyrics(this)'><br>
-  <input type='file' id='songLyrics' accept='text/plain' onchange='srcLyrics(this)'><br>`)
-}
 
 async function postTheSong() {
-  overlay(`<div class='container inOverlay' id='postageContainer'>${loader}<h2 class='title'>loading...</h2>collecting data, and performing...`)
-  const posts = await db.all(true), userPosts = [], lyrics = {};
-  posts.map(x=>{
-    if(x.by===user.identifier) userPosts.push(x)
-  });
-  document.getElementById("postageContainer").innerHTML = `<div class='progressBox'><span id='progress'></span></div><h2 class='title'>downloading...</h2>downloading images, texts and audio... This action is not to slow on any time... Can be long...`
-  const dataToSend = {
-    thumbnail: {
-     file: thumbnailBase64,
-     id: songObject.thumbnail
-    },
-    song: {
-      file: musicBase64,
-      id: songObject.musicFile
+    overlay(`<div class='container inOverlay' id='postageContainer'>${loader}<h2 class='title'>loading...</h2>collecting data, and performing...`)
+    const posts = await db.all(true), userPosts = [], lyrics = {};
+    posts.map(x=>{
+      if(x.by===user.identifier) userPosts.push(x)
+    });
+    document.getElementById("postageContainer").innerHTML = `<div class='progressBox'><span id='progress'></span></div><h2 class='title'>downloading...</h2>downloading images, texts and audio... This action is not to slow on any time... Can be long...`
+    const dataToSend = {
+      thumbnail: {
+       file: thumbnailBase64,
+       id: songObject.thumbnail
+      },
+      song: {
+        file: musicBase64,
+        id: songObject.musicFile
+      }
     }
+    if(lyricsExtracted) {
+    songObject.lyrics = gerateId()
+    dataToSend.lyrics = {}
+    dataToSend.lyrics['id'] = songObject.lyrics
+    dataToSend.lyrics['content'] = lyricsExtracted;
+    }
+    await axios.request("https://kapi.loca.lt/api/v3/upload", {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      data: JSON.stringify(dataToSend),
+      onUploadProgress: (p) => document.getElementById('progress').style.width = p.loaded / p.total * 100 + '%'
+  }).then (data => {
+    document.getElementById('progress').style.width = "100%"
+  }) 
+    document.getElementById("postageContainer").innerHTML = `<img src='/images/cosmetics.webp' class='bodyImg'><h2 class='title'>cosmetics</h2>setting some cosmetics...`
+    songObject.id = generateToken(16);
+    userPosts.push(songObject);
+    await db.set(user.email, userPosts, true)
+    document.getElementById("postageContainer").innerHTML = `<div class='finishCircle'><i class='icon-check'></i></div><h2 class='title'>all done!</h2>it's all done for you listen you own song and share.<br><h3 class='title'>you can close this box.</h3>`
+    document.getElementById("postageContainer").id = ''
   }
-  if(lyricsExtracted) {
-  songObject.lyrics = gerateId()
-  dataToSend.lyrics = {}
-  dataToSend.lyrics['id'] = songObject.lyrics
-  dataToSend.lyrics['content'] = lyricsExtracted;
+
+
+  async function editSongPopUp(id) {
+    const posts = await db.get(user.identifier, true);
+    const post = posts.find(x=>x.id===id)
+    overlay(`<div class='container'><h2 class='title'>${post.title}</h2> 
+    <label for='thumbnail'>
+    <img crossorigin='anonymous' src='http://localhost:8080/api/v3/get/media/thumbnails/${post.thumbnail}' class='musicThumbnail'>
+    </label>
+    <div style='text-align: left; padding-left: 20px'>
+    <h3 class='title'>title</h3>
+    <input type='text' placeholder='new title...' class='textbox'>
+    <h3 class='title'>keywords</h3>
+    <input type='text' placeholder='keywords... (use , to separate)' value='${post.keywords || ''}' class='textbox'>
+    <h3 class='title'>genrer</h3>
+    <select class='selectBox' onchange="songEspecifications('linked genrer to ' + this.value) \n songObject.gender = this.value \n enablePost()">
+    <optgroup label='genres more listen'>
+    <option value='rock'>Rock</option>
+    <option value='jazz'>Jazz</option>
+    <option value='pop'>Pop</option>
+    <option value='hiphop'>HipHop</option>
+    <option value='tecno'>Tecno</option>
+    <option value='country'>Country</option>
+    </optgroup>
+    <optgroup label='Latino genrers'>
+    <option value='samba'>Samba (Brazil)</option>
+    <option value='choro'>Choro (Brazil)</option>
+    <option value='funk'>Funk Carioca (Brazil)</option>
+    <option value='axe'>Axé (Brazil)</option>
+    <option value='tango'>Tango (Argentine/Uruguayan)</option>
+    <option value='bambuco'>Bambuco (Colombian)</option>
+    <option value='cumbia'>Cumbia (Colombian)</option>
+    <option value='vallenatoz'>Vallenato (Colombian)</option>
+    <option value='folk'>Folk musics (all latinos countries)</option>
+    <option value='duruguense'>Duranguense</option>
+    <option value='mariachi'>Mariachi</option>
+    <option value='norteño'>Norteño</option>
+    <option value='ranchera'>Ranchera</option>
+    </optgroup>
+    <optgroup label='Another groups'>
+    <option value='karaoke'>Karaoke</option>
+    <option value='soundeffect'>Sound Effect</option>
+    <option value='test'>Test</option>
+    <option value=''>No genre</option>
+    </optgroup>
+    </select>
+    <h3 class='title'>lyrics</h3>
+    <label for='songLyrics'>
+    <div class='card select ${post.lyrics? 'selected' : ''}' id='lyricsSelect'><i class='icon-music'></i> ${post.lyrics? 'linked lyrics ' + post.lyrics : 'no lyrics'}<span></span></div>
+    </label>
+    </div>
+    <div class='button grey'>save changes</div>
+    <div class='button grey' onclick='overlay()'>cancel</div>
+    </div>
+    <input type='file' id='thumbnail' onclick="document.getElementsByClassName('musicThumbnail')[0].style.opacity=0.5" accept='image/png' onchange='srcThumbnail(this)'><input type='file' id='songLyrics' accept='text/plain' onchange='srcLyrics(this)'><br>
+    <input type='file' id='songLyrics' accept='text/plain' onchange='srcLyrics(this)'><br>`)
   }
-  await axios.request("https://kapi.loca.lt/api/v3/upload", {
-    method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    data: JSON.stringify(dataToSend),
-    onUploadProgress: (p) => document.getElementById('progress').style.width = p.loaded / p.total * 100 + '%'
-}).then (data => {
-  document.getElementById('progress').style.width = "100%"
-}) 
-  document.getElementById("postageContainer").innerHTML = `<img src='/images/cosmetics.webp' class='bodyImg'><h2 class='title'>cosmetics</h2>setting some cosmetics...`
-  songObject.id = generateToken(16);
-  userPosts.push(songObject);
-  await db.set(user.email, userPosts, true)
-  document.getElementById("postageContainer").innerHTML = `<div class='finishCircle'><i class='icon-check'></i></div><h2 class='title'>all done!</h2>it's all done for you listen you own song and share.<br><h3 class='title'>you can close this box.</h3>`
-  document.getElementById("postageContainer").id = ''
-}
-window.onkeyup = function (e) {
-  if (e.keyCode === 27 && toggleIsOpen) return hideContextMenu()
-  if (e.keyCode === 27 && document.getElementById('overlay').opened && !document.getElementById("postageContainer")) overlay()
-}

@@ -43,7 +43,6 @@ audio.oncanplaythrough = () => {
   audio.onended = () => {
     if(isLooping) {
       audio.currentTime = 0
-      play()
       return;
     }
     if(currentSection) skip()

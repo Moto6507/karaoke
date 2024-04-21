@@ -14,6 +14,7 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.profile = void 0;
 const express_1 = __importDefault(require("express"));
+const express_useragent_1 = __importDefault(require("express-useragent"));
 const path_1 = __importDefault(require("path"));
 exports.profile = express_1.default.Router().get('/k/profile/:user', (req, res) => __awaiter(void 0, void 0, void 0, function* () {
     var _a, _b, _c;
@@ -52,11 +53,21 @@ exports.profile = express_1.default.Router().get('/k/profile/:user', (req, res) 
             userPosts.push(x);
     });
     const iFollow = ((_c = accessUser.follow) === null || _c === void 0 ? void 0 : _c.find((x) => x === user.identifier)) ? true : false;
-    res.render('desktop/profile.html', {
-        user: user.user,
-        accessUser: accessUser.user,
-        iFollow,
-        posts: userPosts,
-        statics: `<div class='statics'><strong>${posts.data.length}</strong> posts</div><div class='statics noBorder'><strong>${user.user.followers.length}</strong> Followers</div>`
-    });
+    var agent = express_useragent_1.default.parse(req.headers['user-agent']).isMobile;
+    if (agent)
+        res.render('profile.html', {
+            user: user.user,
+            accessUser: accessUser.user,
+            iFollow,
+            posts: userPosts,
+            statics: `<div class='statics'><strong>${posts.data.length}</strong> posts</div><div class='statics noBorder'><strong>${user.user.followers.length}</strong> Followers</div>`
+        });
+    else
+        res.render('desktop/profile.html', {
+            user: user.user,
+            accessUser: accessUser.user,
+            iFollow,
+            posts: userPosts,
+            statics: `<div class='statics'><strong>${posts.data.length}</strong> posts</div><div class='statics noBorder'><strong>${user.user.followers.length}</strong> Followers</div>`
+        });
 }));

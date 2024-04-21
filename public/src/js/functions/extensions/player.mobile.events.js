@@ -1,9 +1,10 @@
+let liricle = new Liricle(), loadedLyrics;
 audio.ontimeupdate = () => {
-    /*const progressBar = [].slice.call(document.getElementsByClassName('progress-bar'))
-    progressBar.map((x,i=0)=>{
-    const progressIn = audio.currentTime * (document.getElementsByClassName('bar')[i++].offsetWidth / audio.duration)
-    x.style.width = progressIn + "px"
-    })*/
+    const progressBar = document.getElementsByClassName('progress-bar')[0]
+    if(progressBar) {
+    const progressIn = audio.currentTime * (document.getElementsByClassName('bar')[0]?.offsetWidth / audio.duration)
+    progressBar.style.width = progressIn + "px"
+    }
     var length = audio.duration;
     var countSeconds = parseInt(audio.currentTime % 60)
     var countMinutes = parseInt((audio.currentTime / 60) % 60)
@@ -12,7 +13,12 @@ audio.ontimeupdate = () => {
      document.getElementById('duration').innerHTML = countMinutes + ":" + countSeconds;
      document.getElementsByClassName('duration')[0].innerHTML = countMinutes + ":" + countSeconds;
      document.getElementsByClassName('duration')[1]? document.getElementsByClassName('duration')[1].innerHTML = calculateTotalValue(audio.duration) : ''
-}
+     if(!loadedLyrics) {
+      liricle.load({ text: lyrics })
+      loadedLyrics = true
+    }
+    if(loadedLyrics && lyrics) liricle.sync(audio.currentTime, false)
+    }
 
 audio.onplay = () => {
     const playIcon = [].slice.call(document.getElementsByClassName('playIcon'))
@@ -21,6 +27,9 @@ audio.onplay = () => {
     x.classList.remove('icon-play')
     x.classList.add('icon-pause')
     })
+    document.title = "playing " + currentSong.title
+    const shortcutIcon = ['disc.png','karaoke.png','singging.png','band.webp']
+    changeFavicon('/assets/' + shortcutIcon[randomInt(1, 4)])
   }
   audio.onpause = () => {
     const playIcon = [].slice.call(document.getElementsByClassName('playIcon'))
@@ -30,3 +39,22 @@ audio.onplay = () => {
     x.classList.add('icon-play')
     })
   }
+  audio.onended = () => {
+    if(isLooping) {
+      audio.currentTime = 0
+      return;
+    }
+    if(currentSection) skip()
+    setTimeout(() => {
+      if(document.getElementById('miniPlayer').opened && audio.paused) stop()
+    }, 5000);
+  }
+  liricle.on('sync',(line)=> {
+    const lyrics = document.getElementById('lyrics');
+    if(!lyrics) return;
+    lyrics.style.opacity = 0
+    setTimeout(() => {
+     lyrics.innerHTML = line.text
+     lyrics.style.opacity = 9
+    }, 200);
+ })

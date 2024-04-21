@@ -562,10 +562,6 @@ body {
   padding: 5px;
   margin-right: 5px;
 }
-input[type='file'] {
-  display: none
-}
-
 
 input[type=range] {
   appearance: none;
@@ -702,7 +698,7 @@ input[type=range]::-moz-range-thumb {
   animation: 2s pulse infinite
 }
 
-.lyricsBox {
+.mainLyrics {
   background: #000000;
   border: 1px solid #2f2f2f;
   padding: 2px;
@@ -718,22 +714,11 @@ input[type=range]::-moz-range-thumb {
   color: #fff
 }
 
-.lyricsBox h3 {
+.mainLyrics h3 {
   transition: .2s;
   opacity: 9
 }
 
-@keyframes pulse {
-  0% {
-    box-shadow: 0 0 0 0 rgb(171,255,167)
-  }
-  70% {
-    box-shadow: 0 0 0 10px rgb(171,255,167, 0)
-  }
-  100% {
-    box-shadow: 0 0 0 0 rgb(171,255,167, 0)
-  }
-}
 
 @keyframes staticsLoadAnimation {
   0% {
@@ -775,4 +760,142 @@ input[type=range]::-moz-range-thumb {
   border-radius: 5px;
   text-align: center;
   color: #4e4e4e
+}
+.pickgradient {
+  display:inline-block;
+  z-index: 1;
+  background: -moz-linear-gradient(top, rgba(0,0,0,0) 0%, rgba(0,0,0,0.65) 100%); /* FF3.6+ */
+  background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,rgba(0,0,0,0.65)), color-stop(100%,rgba(0,0,0,0))); /* Chrome,Safari4+ */
+  background: -webkit-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Chrome10+,Safari5.1+ */
+  background: -o-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* Opera 11.10+ */
+  background: -ms-linear-gradient(top, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* IE10+ */
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%,rgba(0,0,0,0.65) 100%); /* W3C */
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#a6000000', endColorstr='#00000000',GradientType=0 ); /* IE6-9 */
+}
+
+
+.full-lyrics {
+  overflow: hidden
+}
+.full-lyrics img {
+  width: 100%;
+  height: 100vh;
+  display: inline-block;
+  z-index: 2;
+  object-fit: cover
+}
+.full-lyrics .shadow {
+  z-index: 1;
+  width: 100%;
+  height: 100vh;
+  position: fixed;
+  background: linear-gradient(to right bottom, transparent 0%, rgb(0,0,0,0.9) 90%)
+}
+.full-lyrics .logo {
+  position: fixed;
+  color: rgb(255,255,255,0.5);
+  font-weight: bold;
+  right: 5px;
+  z-index: 2
+}
+.full-lyrics .lyricsBox {
+  text-align: center;
+  position: fixed;
+  color: rgb(255,255,255);
+  z-index: 2;
+  width: 100%;
+  margin: 5px;
+  top: 35%;
+}
+.full-lyrics .lyricsBox #lyrics {
+  transition: .2s all;
+  display: inline-block;
+  break-word: break-all
+}
+
+
+.player {
+  padding: 5px;
+  background: #000000;
+  color: #fff;
+  transition: 1s;
+  text-align: center;
+}
+
+.player .thumbnail {
+  width: 30%;
+  height: 0%;
+  border-radius: 10px;
+  object-fit: cover;
+}
+
+.player .options {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 5px;
+}
+
+.player .options .icon {
+  margin-left: 300px;
+  color: #fff;
+  font-size: 25px;
+  transition: .5s;
+}
+
+.player .options .icon:nth-child(1) {
+  margin-right: 300px;
+  margin-left: 0;
+}
+
+.player #slash {
+  color: #a1a1a1;
+  display: inline-block;
+  margin: 5px;
+}
+
+.player .duration {
+  display: inline-block;
+  margin-left: 0;
+  transition: .5s;
+  color: #666666
+}
+
+.player .duration:nth-child(1) {
+  color: #fff;
+  margin-left: auto
+}
+
+.player .bar {
+  background: #2d2d2d;
+  width: 70%;
+  height: 7px;
+  text-align: center;
+  transition: .5s;
+  border-radius: 5px;
+}
+
+.player .bar .progress-bar {
+  background: #cdcdcd;
+  width: 0%;
+  height: 7px;
+  transition: .2s;
+  border-radius: 5px
+}
+
+.player .title {
+  color: white;
+  margin: 0;
+}
+
+.player .play-button {
+  background: #989898;
+  padding: 15px;
+  color: rgba(0, 0, 0, 0.464);
+  width: 31px;
+  font-size: 30px;
+  border-radius: 1in;
+  margin: 5px;
+  transition: .5s;
+  display: inline-block
 }

@@ -12,10 +12,10 @@ exports.loginPage = express_1.default.Router().get('/login', (req, res) => {
     console.log((_b = req.session) === null || _b === void 0 ? void 0 : _b.token);
     res.render('login.html');
 }), exports.logoutRoute = express_1.default.Router().get('/logout', (req, res) => {
-    var _a, _b;
+    var _a;
     if (!((_a = req.session) === null || _a === void 0 ? void 0 : _a.token))
         return res.redirect('/login');
-    (_b = req.session) === null || _b === void 0 ? void 0 : _b.token = null;
+    req.session.token = null;
     res.redirect('/');
 }), exports.loginIntern = express_1.default.Router().post('/login', (req, res) => {
     var _a;

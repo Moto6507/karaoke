@@ -1,4 +1,5 @@
 import express from 'express'
+import useragent from "express-useragent"
 
 export const creator = express.Router().get('/k/creator', async(req: any, res: any) => {
     if(!req.session?.token) return res.redirect('/k')
@@ -23,7 +24,20 @@ export const creator = express.Router().get('/k/creator', async(req: any, res: a
    postsMapped.data.map((x: any)=>{
       if(x.by===user.user.identifier) posts.push(x)
    })
-   res.render('desktop/creatorPortal.html', {
+   var agent = useragent.parse(req.headers['user-agent']).isMobile;
+   if(agent) res.render('creatorPortal.html', {
+    user: user.user,
+    postsName: posts.length >= 1? posts.map((x:any)=>x.title) : null,
+    postsLenght: posts.length,
+    yourPosts: posts.length >= 1? posts.map((x: any,i=0)=>`<div class='containerDevelop'><h3 class='title titleWhite'>${x.title}</h3> song #${i++}
+    <br>
+    <h5 class='title'>Some statics</h5>
+    <div class='staticBox'>
+      listeners: ${x.listeners}
+    </div>
+    </div>`).join('') : null
+   })
+   else res.render('desktop/creatorPortal.html', {
     user: user.user,
     postsName: posts.length >= 1? posts.map((x:any)=>x.title) : null,
     postsLenght: posts.length,

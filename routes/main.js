@@ -31,8 +31,11 @@ exports.main = express_1.default.Router().get('/k', (req, res) => __awaiter(void
     }).then(x => x.json()), allPosts = yield (0, undici_1.fetch)("https://kapi.loca.lt/api/v3/get/infos/all?post=true", {
         method: 'GET'
     }).then(x => x.json());
-    if (user.status !== 200)
-        return res.send("aaaa");
+    if (user.status !== 200) {
+        req.session.token = null;
+        res.redirect('/');
+        return;
+    }
     algorithm.register(allPosts, all, user);
     const algorithmGerated = algorithm.gerate();
     if (agent)

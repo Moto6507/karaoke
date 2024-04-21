@@ -35,7 +35,7 @@ function contextmenu(event, content) {
   const mouseX = event.clientX;
   const mouseY = event.clientY;
   const contextmenu = document.getElementById('contextmenu');
-   event.preventDefault()
+   if(event.preventDefault) event.preventDefault()
    contextmenu.style.display='block';
    setTimeout(() =>contextmenu.style.opacity=9,10)
    contextmenu.innerHTML = content
@@ -233,4 +233,34 @@ Array.prototype.shuffle = function() {
     currentIndex--;
     [this[currentIndex], this[randomIndex]] = [this[randomIndex], this[currentIndex]]
   }
+}
+
+function changeFavicon(src) {
+  var link = document.createElement('link')
+  link.id = 'dynamic-favicon';
+  link.rel = 'shortcut icon';
+  link.href = src;
+  document.head.appendChild(link);
+ }
+
+ function randomInt(min, max) {
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+}
+
+ 
+function calculateTotalValue(length) {
+  var minutes = Math.floor(length / 60);
+    var  seconds_int = length - minutes * 60;
+if(seconds_int < 10){
+  seconds_int = "0"+seconds_int;
+}
+
+if(minutes < 10){
+  minutes = "0"+minutes;
+}
+    var seconds_str = seconds_int.toString();
+     var  seconds = seconds_str.substr(0, 2);
+      var time = minutes + ':' + seconds;
+//console.info(seconds_int)
+  return time
 }

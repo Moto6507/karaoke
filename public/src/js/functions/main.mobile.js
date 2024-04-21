@@ -1,6 +1,9 @@
 var
  openTab,
  mainSaved,
+ currentSong,
+ lyrics,
+ isLyricsOnFullScreen,
  changeSearchContentFromHistory = (t) => {
   const searchContent = document.getElementById('searchContent');
   searchContent.innerHTML = ''
@@ -79,7 +82,7 @@ async function search(t) {
      <h2 class='title'></h2><h5 class='author'></h5>
    </div>
   </div>`
-  const res = await fetch("https://kapi.loca.lt/api/v3/get/infos/search?q=" + t.value, {
+  const res = await fetch("https://kapi.loca.lt/api/v3/get/infos/search?q=" + t.value?.toLowerCase(), {
     method: "GET",
     headers: {
       "Content-Type":"application/json"
@@ -108,12 +111,6 @@ async function search(t) {
 function changeTab(element, tabToChange) {
     const content = document.getElementById('content')
     const routes = [].slice.call(document.getElementsByClassName('navigateTo'));
-    /*routes.map(x=>{
-      if(x.href) return;
-      if(tabToChange!=='main') x.style.opacity='0.5'
-      else x.style.opacity='9'
-    }) 
-    element.style.opacity='9'*/
     routes.map(x=>x.classList.remove('selected'))
     element.classList.add('selected')
     openTab = tabToChange
@@ -151,7 +148,6 @@ async function setMiniPlayer(options, forceClose) {
   const playerOverlay = document.getElementById('miniPlayer');
   if(playerOverlay.opened && audio.src && (options?.songId && currentSong.id === options?.songId) || forceClose) {
     playerOverlay.style.bottom = '-100px'
-    openLyricsPopUp()
     playerOverlay.opened = false
   return;
   }
@@ -173,11 +169,9 @@ async function setMiniPlayer(options, forceClose) {
   currentSong = song
   if(song.lyrics !== "") {
     lyrics = song.lyrics
-    openLyricsPopUp()
   } else {
     loadedLyrics = true
     lyrics = ''
-    closeLyricsPopUp()
   }
   songThumbnail.src = 'https://kapi.loca.lt/api/v3/get/media/thumbnails/' + song.thumbnail;
   songTitle.innerHTML = song.title;
@@ -192,6 +186,58 @@ async function setMiniPlayer(options, forceClose) {
   if(Number(lyrics)) lyrics = await fetch(`https://kapi.loca.lt/api/v3/get/media/lyrics/${lyrics}`).then(x=>x.text())
 }
 
+
 function touchMiniPlayer() {
-  
+  const playerOverlay = document.getElementById('playerOverlay');
+  const playerTemplate = `
+<div class='player' oncontextmenu='selectTheme()'>
+<h3 class='title return' onclick='closeMiniPlayer()'><i class='icon-arrow-left'></i></h3><h3 style='float: right' class='title return' onclick='lyricsAllScreen()'><i class='icon-file-text2'></i></h3>
+<br><extraBr></extraBr><extraBr></extraBr><extraBr></extraBr><hr><br>
+<img class='thumbnail' crossorigin='anonymous' src='https://kapi.loca.lt/api/v3/get/media/thumbnails/${currentSong.thumbnail}'>
+<h1 class='title titleInOverlay'>${currentSong.title}</h1>
+<br>
+<div class='options'>
+<div class='bar' onclick='seek(event.offsetX)'>
+<div class='progress-bar'></div>
+</div>
+</div>
+<div class='options'>
+  <div class='duration'>00:00</div>
+  <div id='slash'>/</div>
+  <div class='duration'>00:00</div>
+</div>
+<div class='options'>
+<i style='color: white' class='icon-star icon'></i>
+<i onclick='play()' class='play-button playIcon ${audio.paused? "icon-play" : "icon-pause"}'></i>
+<div onclick='loop(this)' style='opacity: 0.5' class='icon'><i class='icon-loop'></i></div>
+</div>
+<div class='selectThemeBox'>
+<i class='icon-arrow-left'></i>
+<div class='square'></div>
+<i class='icon-arrow-right'></i>
+<div class='button'>select</div>
+use the arrows to change the theme, and click on button to select</div>
+</div>
+`
+  playerOverlay.style.top = "0"
+  setTimeout(()=>playerOverlay.style.opacity = 9,70)
+  document.body.style.overflow='hidden'
+  playerOverlay.innerHTML = playerTemplate
+  defineTheme(user.theme)
+  playerOverlay.opened = true
+}
+
+
+function closeMiniPlayer() {
+  const playerOverlay = document.getElementById('playerOverlay');
+  playerOverlay.style.opacity = 0
+  document.body.style.overflow='scroll'
+  setTimeout(()=>playerOverlay.style.top = "100%",5);
+  playerOverlay.opened = false
+}
+
+function selectTheme() {
+  const themeBox = document.getElementsByClassName('selectThemeBox')[0];
+  themeBox.style.display='block'
+  setTimeout(()=>themeBox.style.opacity=9,200)
 }
