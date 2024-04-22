@@ -24,7 +24,7 @@ function seek(e) {
   function lyricsAllScreen() {
     overlay(`<div oncontextmenu='overlay()' class='full-lyrics'>
     <div class='logo'>Listening on Karaoke</div>
-    <div class='lyricsBox'><h2 id='lyrics'>${currentSong.title} lyrics</h2></div>
+    <div class='lyricsBox'><h3 id='lyrics'>${currentSong.title} lyrics</h3></div>
     <div class='shadow'></div>
     <img src='https://kapi.loca.lt/api/v3/get/media/thumbnails/${currentSong.thumbnail}' crossorigin='anonymous'>
     </div>`)

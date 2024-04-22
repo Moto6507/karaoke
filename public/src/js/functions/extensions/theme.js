@@ -222,7 +222,7 @@
        })
       }
     }
-   function defineTheme(userTheme) {
+    function defineTheme(userTheme) {
       //theme is Number (0 - 6) or String im[0-4]
       user.theme = userTheme
       userTheme = String(userTheme)

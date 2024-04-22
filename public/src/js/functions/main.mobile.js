@@ -8,7 +8,38 @@ var
   const searchContent = document.getElementById('searchContent');
   searchContent.innerHTML = ''
   document.getElementsByTagName('input')[0].value = t
- };
+ },
+ closeThemeBoxForced = () => {
+  document.getElementsByClassName('selectThemeBox')[0].style.opacity = 0
+  setTimeout(()=>document.getElementsByClassName('selectThemeBox')[0].style.display = 'none',200);
+ },
+ themeUtils = {
+   progress: function() {
+    themeCount = themeCount + 1
+    if(themeCount>6 || immersiveThemeCount) { 
+      immersiveThemeCount = immersiveThemeCount + 1
+      themeCount = 0;
+      if(immersiveThemeCount>4) {
+        themeCount = 0;
+        immersiveThemeCount = -1;
+        return setTheme(0);
+      }
+       selectedTheme = 'im' + immersiveThemeCount
+       return setTheme(null,immersiveThemeCount);
+    }
+    selectedTheme = themeCount
+    setTheme(themeCount)
+   },
+   set: function() {
+    document.getElementsByClassName('selectThemeBox')[0].style.opacity = 0
+    setTimeout(()=>document.getElementsByClassName('selectThemeBox')[0].style.display = 'none',200);
+    user.theme = selectedTheme
+    db.update(user.email, "theme", selectedTheme)
+   },
+   forward: function() {
+    
+   }
+ }
  
 function addHistory(text) {
   const history = JSON.parse(localStorage.getItem('history')) || [];
@@ -191,7 +222,7 @@ function touchMiniPlayer() {
   const playerOverlay = document.getElementById('playerOverlay');
   const playerTemplate = `
 <div class='player' oncontextmenu='selectTheme()'>
-<h3 class='title return' onclick='closeMiniPlayer()'><i class='icon-arrow-left'></i></h3><h3 style='float: right' class='title return' onclick='lyricsAllScreen()'><i class='icon-file-text2'></i></h3>
+<h3 class='title return' onclick="closeMiniPlayer() \n closeThemeBoxForced()"><i class='icon-arrow-left'></i></h3><h3 style='float: right' class='title return' onclick='lyricsAllScreen()'><i class='icon-file-text2'></i></h3>
 <br><extraBr></extraBr><extraBr></extraBr><extraBr></extraBr><hr><br>
 <img class='thumbnail' crossorigin='anonymous' src='https://kapi.loca.lt/api/v3/get/media/thumbnails/${currentSong.thumbnail}'>
 <h1 class='title titleInOverlay'>${currentSong.title}</h1>
@@ -212,10 +243,11 @@ function touchMiniPlayer() {
 <div onclick='loop(this)' style='opacity: 0.5' class='icon'><i class='icon-loop'></i></div>
 </div>
 <div class='selectThemeBox'>
-<i class='icon-arrow-left'></i>
+<i class='icon-arrow-left arrowsThemeBox' onclick='themeUtils.forward()'></i>
 <div class='square'></div>
-<i class='icon-arrow-right'></i>
-<div class='button'>select</div>
+<i class='icon-arrow-right arrowsThemeBox' onclick='themeUtils.progress()'></i>
+<div class='button' onclick='themeUtils.set()'>select</div>
+<div class='button grey' onclick="document.getElementsByClassName('selectThemeBox')[0].style.opacity = 0 \n setTimeout(()=>document.getElementsByClassName('selectThemeBox')[0].style.display = 'none',200)">cancel</div>
 use the arrows to change the theme, and click on button to select</div>
 </div>
 `

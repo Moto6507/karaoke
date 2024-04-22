@@ -1,4 +1,7 @@
 let liricle = new Liricle(), loadedLyrics;
+audio.oncanplaythrough = () => {
+  loadedAudio = true
+  }
 audio.ontimeupdate = () => {
     const progressBar = document.getElementsByClassName('progress-bar')[0]
     if(progressBar) {
@@ -40,15 +43,20 @@ audio.onplay = () => {
     })
   }
   audio.onended = () => {
+    try {
     if(isLooping) {
       audio.currentTime = 0
+      audio.play()
       return;
     }
     if(currentSection) skip()
     setTimeout(() => {
       if(document.getElementById('miniPlayer').opened && audio.paused) stop()
     }, 5000);
+  } catch(e) {
+    alert(e)
   }
+}
   liricle.on('sync',(line)=> {
     const lyrics = document.getElementById('lyrics');
     if(!lyrics) return;
