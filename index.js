@@ -65,8 +65,8 @@ app.get('/create', create_1.createAccount);
 app.use((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     res.status(404).sendFile(path_1.default.resolve() + '/views/desktop/noFound.html');
 }));
-app.listen(3000, () => console.log('sever running 3000'));
+app.listen(80, () => console.log('sever running 80'));
 (() => __awaiter(void 0, void 0, void 0, function* () {
-    const tunnel = yield (0, localtunnel_1.default)({ port: 3000, subdomain: 'karaoke' });
+    const tunnel = yield (0, localtunnel_1.default)({ port: 80, subdomain: 'karaooke' });
     console.log(tunnel.url);
 }))();

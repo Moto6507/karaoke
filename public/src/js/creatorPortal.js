@@ -230,7 +230,6 @@ async function deletePost(id, position) {
   console.log(posts)
   const postToDelete = posts.find(x=>x.id===id)
   posts.splice(position,1)
-  console.log(postToDelete)
   fetch("https://kapi.loca.lt/api/v3/actions", {
       headers: {
         "Content-Type":"application/json"
@@ -239,13 +238,7 @@ async function deletePost(id, position) {
      cache: "default",
      body: JSON.stringify({
        action: 'unlink',
-       id: 'thumbnails/' + postToDelete.thumbnail + '.png'
-     }, {
-      action: 'unlink',
-      id: 'songs/' + postToDelete.musicFile + '.mp3'
-     }, {
-       action: 'unlink',
-       id: 'lyrics/' + postToDelete.lyrics +  '.lrc'
+       id: ['thumbnails/' + postToDelete.thumbnail + '.png', 'songs/' + postToDelete.musicFile + '.mp3', 'lyrics/' + postToDelete.lyrics +  '.lrc']
      })
     }).then(x=>x.json())
   db.set(user.email, posts, true);

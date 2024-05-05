@@ -375,11 +375,8 @@ body {
   margin-right: 15px;
   color: #fff
 }
-#miniPlayer .controls .skipIcons:nth-child(1) {
-  transform: rotate(179deg)
-}
 #miniPlayer .controls .skipIcons {
-  font-size: 22px;
+  font-size: 25px;
   transition: .5s all;
   display: inline-block
 }
@@ -434,7 +431,6 @@ body {
 .full-lyrics .lyricsBox #lyrics {
   transition: .2s all;
   display: inline-block;
-  break-word: break-all
 }
 
 
@@ -514,6 +510,7 @@ body {
 }
 .progressBox span {
   background: #5fff58;
+  animation: .5s progressBar infinite linear;
   height: 30px;
   display: inline-block;
   transition: .2s;
@@ -669,15 +666,11 @@ body {
   padding: 10px;
   font-size: 20px;
   border-radius: 1in;
+  margin-left: 80px;
   display: inline-block;
 }
-.selectThemeBox .square {
-  background: #474747;
-  padding: 20px;
-  display: inline-block;
-  border-radius: 5px; 
-  margin-right: 50px;
-  margin-left: 50px
+.selectThemeBox i:nth-child(2) {
+  margin-right: 80px;
 }
 
 .selectThemeBox .icon-music {
@@ -732,4 +725,115 @@ body {
   border-radius: 50%;
   -webkit-animation: spinner-border .75s linear infinite;
   animation: spinner-border .75s linear infinite;
+}
+
+.userOptions {
+    position: fixed;
+    right: 5px;
+    top: 60px;
+    background: #171717;
+    display: none;
+    opacity: 0;
+    backdrop-filter: blur(5px);
+    transition: all .1s, opacity .3s;
+    border: 2px solid #3a3a3a;
+    border-radius: 5px;
+    z-index: 999;
+    padding: 5px
+}
+  
+.configurationBox {
+  background: #101010;
+  text-align: left;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: 90vh;
+  color: #6e6e6e;
+}
+
+.configurationBox img {
+  width: 80px;
+  height: 80px;
+  border-radius: 1in;
+  object-fit: cover;
+  display: inline-block;
+}
+
+.configurationBox .img {
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background: rgb(0,0,0,0.5);
+  border-radius: 1in;
+  transition: .2s;
+  display: inline-block
+}
+
+.configurationBox .scrollArea .separate {
+  opacity: 0.5;
+}
+
+.configurationBox .scrollArea {
+  padding: 10px;
+  width: 50%;
+  flex: 1 1 auto;
+  overflow-y: auto;
+  height: 100vh;
+  border-right: 1px solid #1d1d1d
+}
+
+.configurationBox .scrollArea:nth-child(2) {
+  border: none; 
+  align-self: flex-start;
+  top: 0;
+  height: 95vh;
+  padding-bottom: 30px;
+}
+
+.configurationBox .option {
+  padding: 10px;
+  border-bottom: 1px solid #4d4d4d;
+  font-size: 20px;
+  color: #fff;
+  text-align: left;
+  transition: .2s;
+  cursor: pointer
+}
+
+input[type=range] {
+  appearance: none;
+  background-color: rgba(198, 207, 255, 0.7);
+  margin: 0;
+  padding: 0;
+  width: 96%;
+  margin: 5px;
+  height: 10px;
+  border-radius: 1rem;
+  overflow: hidden;
+  cursor: pointer;
+}
+input[type=range]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 0;
+  transition: .2s all;
+  box-shadow: -20rem 0 0 20rem #425fff;
+}
+input[type=range]::-moz-range-thumb {
+  border: none;
+  transition: .2s all;
+  width: 0;
+  box-shadow: -20rem 0 0 20rem #425fff;
+}
+
+@keyframes progressBar {
+  0%,
+  100% {
+    background: #0ac700;
+  }
+  50% {
+    background: #5fff58;
+  }
 }

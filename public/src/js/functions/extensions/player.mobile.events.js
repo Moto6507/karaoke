@@ -16,6 +16,11 @@ audio.ontimeupdate = () => {
      document.getElementById('duration').innerHTML = countMinutes + ":" + countSeconds;
      document.getElementsByClassName('duration')[0].innerHTML = countMinutes + ":" + countSeconds;
      document.getElementsByClassName('duration')[1]? document.getElementsByClassName('duration')[1].innerHTML = calculateTotalValue(audio.duration) : ''
+     if(settings.get("audio")?.filter && !kamper.nodesIsConnected){
+      kamper.connect()
+      kamper.filter.type = settings.get("audio")?.filter
+    }
+    if(settings.get("audio")?.filter !== kamper.filter.type) kamper.filter.type = settings.get("audio")?.filter
      if(!loadedLyrics) {
       liricle.load({ text: lyrics })
       loadedLyrics = true
@@ -43,7 +48,6 @@ audio.onplay = () => {
     })
   }
   audio.onended = () => {
-    try {
     if(isLooping) {
       audio.currentTime = 0
       audio.play()
@@ -53,9 +57,6 @@ audio.onplay = () => {
     setTimeout(() => {
       if(document.getElementById('miniPlayer').opened && audio.paused) stop()
     }, 5000);
-  } catch(e) {
-    alert(e)
-  }
 }
   liricle.on('sync',(line)=> {
     const lyrics = document.getElementById('lyrics');

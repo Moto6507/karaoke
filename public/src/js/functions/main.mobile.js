@@ -37,8 +37,18 @@ var
     db.update(user.email, "theme", selectedTheme)
    },
    forward: function() {
+    if (immersiveThemeCount > 0) {
+        immersiveThemeCount--;
+    } else {
+        themeCount--;
+        if (themeCount <= -1) {
+            themeCount = 6;
+        }
+    }
     
-   }
+    selectedTheme = immersiveThemeCount > 0 ? 'im' + immersiveThemeCount : themeCount;
+    setTheme(selectedTheme)
+}
  }
  
 function addHistory(text) {
@@ -208,9 +218,9 @@ async function setMiniPlayer(options, forceClose) {
   songTitle.innerHTML = song.title;
   if(!options.isPlaylist) controls.innerHTML = `<i onclick='play()' class='icon-pause playIcon'></i>`
   else controls.innerHTML = `
-  <div class='skipIcons'><i class='icon-skip' onclick='retrocess()'></i></div>
+  <div class='skipIcons'><i class='icon-skip-left' onclick='retrocess()'></i></div>
   <i onclick='play()' class='icon-pause playIcon'></i>
-  <div class='skipIcons'><i class='icon-skip' onclick='skip()'></i></div>`
+  <div class='skipIcons'><i class='icon-skip-right' onclick='skip()'></i></div>`
   playerOverlay.style.bottom = '45px'
   playerOverlay.opened = true
   loadedLyrics = false
@@ -240,11 +250,10 @@ function touchMiniPlayer() {
 <div class='options'>
 <i style='color: white' class='icon-star icon'></i>
 <i onclick='play()' class='play-button playIcon ${audio.paused? "icon-play" : "icon-pause"}'></i>
-<div onclick='loop(this)' style='opacity: 0.5' class='icon'><i class='icon-loop'></i></div>
+<div onclick='loop(this)' style='${isLooping? "transform: rotate(360deg); color: opacity: 9" : 'opacity: 0.5'}' class='icon'><i class='icon-loop'></i></div>
 </div>
 <div class='selectThemeBox'>
 <i class='icon-arrow-left arrowsThemeBox' onclick='themeUtils.forward()'></i>
-<div class='square'></div>
 <i class='icon-arrow-right arrowsThemeBox' onclick='themeUtils.progress()'></i>
 <div class='button' onclick='themeUtils.set()'>select</div>
 <div class='button grey' onclick="document.getElementsByClassName('selectThemeBox')[0].style.opacity = 0 \n setTimeout(()=>document.getElementsByClassName('selectThemeBox')[0].style.display = 'none',200)">cancel</div>
@@ -272,4 +281,21 @@ function selectTheme() {
   const themeBox = document.getElementsByClassName('selectThemeBox')[0];
   themeBox.style.display='block'
   setTimeout(()=>themeBox.style.opacity=9,200)
+}
+
+function openUserOptions() {
+  const userOPtions = document.getElementsByClassName('userOptions')[0];
+  userOPtions.style.display='block';
+  setTimeout(() =>userOPtions.style.opacity=9,10)
+}
+function closeUserOptions() {
+  const userOPtions = document.getElementsByClassName('userOptions')[0];
+  userOPtions.style.display='none';
+  setTimeout(() =>userOPtions.style.opacity=0,10)
+}
+
+document.onclick = (e) => {
+  const userOPtions = document.getElementsByClassName('userOptions')[0]
+  const userAvatar = document.getElementsByClassName('userAvatar')[0]
+  if(userOPtions !== e.target && userAvatar !== e.target) closeUserOptions()
 }

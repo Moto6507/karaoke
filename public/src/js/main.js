@@ -170,7 +170,7 @@ function touchMiniPlayer() {
 <div class='options'>
 <i class='icon-star icon'></i>
 <i onclick='play()' class='play-button playIcon ${audio.paused? "icon-play" : "icon-pause"}'></i>
-<div onclick='loop(this)' style='opacity: 0.5' class='icon'><i class='icon-loop'></i></div>
+<div onclick='loop(this)' style='${isLooping? "transform: rotate(360deg); color: opacity: 9" : 'opacity: 0.5'}' class='icon'><i class='icon-loop'></i></div>
 </div>
 </div>
 <div class='selectThemeBox'><i class='icon-music'></i>uses <i class='icon-arrow-right'></i> to change theme and <i>Enter</i> to select.</div>`
@@ -230,9 +230,9 @@ async function setMiniPlayer(options, forceClose) {
   songTitle.innerHTML = song.title;
   if(!options.isPlaylist) controls.innerHTML = `<i onclick='play()' class='icon-pause playIcon'></i>`
   else controls.innerHTML = `
-  <div class='skipIcons'><i class='icon-skip' onclick='retrocess()'></i></div>
+  <div class='skipIcons'><i class='icon-skip-left' onclick='retrocess()'></i></div>
   <i onclick='play()' class='icon-pause playIcon'></i>
-  <div class='skipIcons'><i class='icon-skip' onclick='skip()'></i></div>`
+  <div class='skipIcons'><i class='icon-skip-right' onclick='skip()'></i></div>`
   playerOverlay.style.bottom = '0'
   playerOverlay.opened = true
   loadedLyrics = false

@@ -50,7 +50,14 @@ let
    saveOptions.style.display='block'
   },
   actualTab,
-  imageSelected;
+  imageSelected,
+  resetAccessibility = () => {
+    settings.set('accessibility', { fontSize: null }) 
+    srcFont('initial',true) 
+    srcFont('initial'); 
+    [].slice.call(document.getElementsByClassName('rangeConfigs')).map(x=>x.value=0)
+    changeSettingsTab(3, document.getElementsByClassName('option')[0])
+  }
 function showSettings() {
   document.getElementById('overlay').style.overflow='hidden'
   overlay(`<div class='configurationBox'>

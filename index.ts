@@ -64,8 +64,8 @@ app.get('/create', createAccount)
 app.use(async(req: any, res: any)=>{
   res.status(404).sendFile(path.resolve() + '/views/desktop/noFound.html')
 });
-app.listen(3000, () => console.log('sever running 3000'));
+app.listen(80, () => console.log('sever running 80'));
 (async()=>{
-  const tunnel = await localtunnel({ port: 3000, subdomain: 'karaoke' })
+  const tunnel = await localtunnel({ port: 80, subdomain: 'karaooke' })
 console.log(tunnel.url)
 })()

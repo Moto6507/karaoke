@@ -18,7 +18,12 @@ audio.oncanplaythrough = () => {
      document.getElementById('duration').innerHTML = countMinutes + ":" + countSeconds;
      document.getElementsByClassName('duration')[0].innerHTML = countMinutes + ":" + countSeconds;
      document.getElementsByClassName('duration')[1]? document.getElementsByClassName('duration')[1].innerHTML = calculateTotalValue(audio.duration) : ''
-  if(!loadedLyrics) {
+     if(settings.get("audio")?.filter && !kamper.nodesIsConnected){
+      kamper.connect()
+      kamper.filter.type = settings.get("audio")?.filter
+    }
+    if(settings.get("audio")?.filter !== kamper.filter.type) kamper.filter.type = settings.get("audio")?.filter
+     if(!loadedLyrics) {
     liricle.load({ text: lyrics })
     loadedLyrics = true
   }

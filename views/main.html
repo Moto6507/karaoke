@@ -10,9 +10,12 @@
         currentSongPosition,
         queue = [];
     </script>
+    <script src="src/js/central.js"></script>
     <script src="src/js/functions/extensions/liricle.js"></script>
     <script src="src/js/functions/main.mobile.js"></script>
-    <script src="src/js/central.js"></script>
+    <script src="src/js/functions/extensions/kamper.js"></script>
+    <script src="src/js/functions/extensions/configuration.tabs.js"></script>
+    <script src="src/js/functions/extensions/settings.mobile.js"></script>
     <script src="src/js/functions/extensions/player.mobile.js"></script>
     <script src="src/js/functions/playlist.js"></script>
     <script src="src/js/functions/extensions/player.mobile.events.js"></script>
@@ -22,10 +25,16 @@
     <div class='menuBar'>
       <div class='flex'>
     <h3 class='logoName'><i class='icon-karaoke'></i> Karaoke</h3>
-    <img onclick="contextmenu(this, `<h2 class='title'>{{{json user.username}}}</h2>=`)" src='https://kapi.loca.lt/api/v3/get/media/avatars/{{{json user.avatar}}}' crossorigin='anonymous' class='userAvatar'>
+    <img onclick="openUserOptions()" src='https://kapi.loca.lt/api/v3/get/media/avatars/{{{json user.avatar}}}' crossorigin='anonymous' class='userAvatar'>
     </div>
     <hr>
     </div>
+    <div class="userOptions">
+      <a class='card simple' style="text-decoration: none;" href="/k/creator">creator portal</a>
+      <div class='card simple'>you profile</div>
+      <div class='card simple' onclick='showSettings()'>settings</div>
+      <a href="/logout" class='card simple' style="text-decoration: none; color: #ff0000">logout</a>
+  </div>
   </head>
   <body><div id="overlay"></div><div id="contextmenu"></div><div class="lyricsBox"></div>
     <div id='playerOverlay'></div>

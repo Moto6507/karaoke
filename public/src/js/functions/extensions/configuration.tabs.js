@@ -47,7 +47,7 @@ const pages = [
     `<img src='/images/confuse.webp' class='bodyImg' style='border-radius: 0'><h2 class='title'>accessibility</h2>
     transform your experience on karaoke more better.
     <hr>
-    ${settings.get('accessibility').fontSize || settings.get('accessibility').iconSize? `<div class='button grey' onclick="settings.set('accessibility', { fontSize: null }) \n settings.set('accessibility', { iconSize: null }) \n srcFont('initial',true) \n srcFont('initial'); \n [].slice.call(document.getElementsByClassName('rangeConfigs')).map(x=>x.value=0)">reset to default</div>
+    ${settings.get('accessibility').fontSize || settings.get('accessibility').iconSize? `<div class='button grey' onclick="resetAccessibility()">reset to default</div>
     reset all changes to default configuration.
     <hr>` : ''}
     <h4 class='title'>font size</h4>
@@ -70,9 +70,9 @@ const pages = [
     `,
    `<img src='/images/language.webp' class='bodyImg' style='border-radius: 0'><h2 class='title'>language</h2>
     translate karaoke to your language.
-    <div class='card select selected'><i></i> en-US<span></span></div>
-    <div class='card select'><i></i> pt-BR<span></span></div>
-    <div class='card select'><i></i> es<span></span></div>
+    <div class='card select selected'><i class='icon-global'></i> en-US<span></span></div>
+    <div class='card select'><i class='icon-global'></i> pt-BR<span></span></div>
+    <div class='card select'><i class='icon-global'></i> es<span></span></div>
     <h1 class='title'>demonstration of language, breed, apple, pen, brazilian</h1>
     the translates who translated by Google Translate, slangs may or may not translated correctly, making the texts a liitle incoherent or incorrects.`,
     `<img src='/images/sound.webp' class='bodyImg' style='border-radius: 0'><h2 class='title'>Audio Preferences</h2>the karaoke offers preferences
@@ -80,11 +80,13 @@ const pages = [
     <hr>
     <h2 class='title separate'>filter</h3>
     <div class='card select' onclick="changeFilter(null,this)" id='no'><i class='icon-volume-high'></i> no filter<span></span></div>
+    <div class='card select' onclick="changeFilter('lowpass',this)" id='lowpass'><i class='icon-volume-high'></i> lowpass<span></span></div>
+    <div class='card select' onclick="changeFilter('highpass',this)" id='highpass'><i class='icon-volume-high'></i> highpass<span></span></div>
+    <div class='card select' onclick="changeFilter('bandpass',this)" id='bandpass'><i class='icon-volume-high'></i> bandpass<span></span></div>
+    <div class='card select' onclick="changeFilter('lowshelf',this)" id='lowshelf'><i class='icon-volume-high'></i> lowshelf<span></span></div>
+    <div class='card select' onclick="changeFilter('highshelf',this)" id='highshelf'><i class='icon-volume-high'></i> highshelf<span></span></div>
     <div class='card select' onclick="changeFilter('peaking',this)" id='peaking'><i class='icon-volume-high'></i> peaking<span></span></div>
-    <div class='card select' onclick="changeFilter('lowbass',this)" id='lowbass'><i class='icon-volume-high'></i> lowbass<span></span></div>
     <div class='card select' onclick="changeFilter('notch',this)" id='notch'><i class='icon-volume-high'></i> notch<span></span></div>
-    <div class='card select'><i class='icon-volume-high'></i> no filter<span></span></div>
-    <div class='card select'><i class='icon-volume-high'></i> no filter<span></span></div>
     <br><hr>
     <h2 class='title separate'>preferences</h3>
     <h4 class='title'>volume</h4>
@@ -101,7 +103,7 @@ const pages = [
     `<img src='/images/sound.webp' class='bodyImg' style='border-radius: 0'><h2 class='title'>Audio equalizer</h2>
     user can manipulate the audio equalizing they.
     <hr>
-    <div class='container' style='border: 1px solid #6a6a6a; border-radius: 5px; color: #fff '>
+    ${settings.get("audio")? `<div class='container' style='border: 1px solid #6a6a6a; border-radius: 5px; color: #fff '>
     <input type='range' max='' min='0' value='0' style='width: 90%; display: inline-block'> 32
     <input type='range' max='100' min='0' value='0' style='width: 90%; display: inline-block'> 64
     <input type='range' max='100' min='0' value='0' style='width: 90%; display: inline-block'> 125
@@ -114,10 +116,10 @@ const pages = [
     <input type='range' max='100' min='0' value='0' style='width: 90%; display: inline-block'> 16k
     </div><br>
     <div class='container' style='border: 1px solid #6a6a6a; border-radius: 5px; color: #fff'>
-    
+    <input type='range' max='12' min='0' value='0' oninput='kamper.filter.gain.value=this.value' style='width: 90%; display: inline-block'> +12db
     </div>
     <h2 class='title'>mono</h2>
-    <h2 class='title'>snap</h2>
+    <h2 class='title'>snap</h2>` : `<h1 class='title'>first, start on audio settings.</h1>`}
 
     `
 ]

@@ -177,7 +177,6 @@ let settings = {
     if(!keys.find(x=>x===item)) return false;
     return true
   },
-  clearSettings: () => localStorage.clear(),
   clear: () => localStorage.clear(),
   get: (item) => {
     const data = JSON.parse(localStorage.getItem("settings")) || {}
@@ -263,4 +262,13 @@ if(minutes < 10){
       var time = minutes + ':' + seconds;
 //console.info(seconds_int)
   return time
+}
+
+function base64ToArrayBuffer(base64) {
+  var binaryString = btoa(base64)
+  var bytes = new Uint8Array(binaryString.length)
+  for (var i = 0; i < binaryString.length; i++) {
+    bytes[i] = binaryString.charCodeAt(i++)
+  }
+  return bytes.buffer
 }

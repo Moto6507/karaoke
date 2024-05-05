@@ -184,7 +184,7 @@ function playPlaylist() {
 }
 
 function skip() {
-  const skip = document.getElementsByClassName('icon-skip')[1]
+  const skip = document.getElementsByClassName('icon-skip-right')[0]
   currentSongPosition++
   if(currentSongPosition>queue.length - 1) currentSongPosition = 0
   setMiniPlayer({ songId: queue[currentSongPosition].id, isPlaylist: true })

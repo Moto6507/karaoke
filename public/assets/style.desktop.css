@@ -411,9 +411,6 @@ body {
   margin-right: 15px;
   margin-left: auto
 }
-#miniPlayer .controls .skipIcons:nth-child(1) {
-  transform: rotate(179deg)
-}
 #miniPlayer .controls .skipIcons {
   font-size: 22px;
   transition: .5s all;
@@ -810,7 +807,6 @@ input[type=range]::-moz-range-thumb {
 .full-lyrics .lyricsBox #lyrics {
   transition: .2s all;
   display: inline-block;
-  break-word: break-all
 }
 
 
