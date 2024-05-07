@@ -21,7 +21,7 @@ class Algorithm {
                 return `<div class="musicCard">
         <div class="option">
         <i class='icon-play' onclick="setMiniPlayer({ songId: '${x.id}', isPlaylist: false }) \n if(audio.paused || audio.src !== 'https://kapi.loca.lt/api/v3/get/media/songs/' + ${x.musicFile}) play('${x.musicFile}')"></i>
-        <i class='icon-share-nodes' onclick="shareItem({ uri: '${x.id}', label: 'share ${x.name}' })"></i> 
+        <i class='icon-share-nodes' onclick="shareItem({ url: '${x.id}', title: 'share ${x.name}', text: 'share song' })"></i> 
         <i class='icon-ellipsis'></i></div>
          <img src='https://kapi.loca.lt/api/v3/get/media/thumbnails/${x.thumbnail}' crossorigin='anonymous' class="background">
          <div class='cardInfo'>

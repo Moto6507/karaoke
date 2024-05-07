@@ -272,3 +272,8 @@ function base64ToArrayBuffer(base64) {
   }
   return bytes.buffer
 }
+
+function shareItem(data) {
+  if(!navigator.share) return alert('you navigator is not compatible with this function 😢')
+    navigator.share(data)
+}

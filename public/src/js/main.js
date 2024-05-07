@@ -97,10 +97,10 @@ async function search(t) {
     return `<div class="musicCard" oncontextmenu="contextmenu(event, \`<h2 class='title'>${x.title}</h2>
     <div class='card simple' id='${x.id}' onclick='selectPlaylist(this.id)'><i class='icon-plus'></i> add music to playlist<span></span></div>\`)">
     <div class="option">
-    <i class='icon-play' onclick=""></i>
-    <i class='icon-comment'></i> ${x.comments.length}
-    </div>
-     <img onclick="window.location.href='/k/player?song=${x.id}'" src="https://kapi.loca.lt/api/v3/get/media/thumbnails/${x.thumbnail}" crossorigin='anonymous' class="background">
+    <i class='icon-play' onclick="setMiniPlayer({ songId: '${x.id}', isPlaylist: false }) \n if(audio.paused || audio.src !== 'https://kapi.loca.lt/api/v3/get/media/songs/' + ${x.musicFile}) play('${x.musicFile}')"></i>
+    <i class='icon-share-nodes' onclick="shareItem({ uri: '${x.id}', label: 'share ${x.name}' })"></i> 
+    <i class='icon-ellipsis'></i></div>
+     <img src="https://kapi.loca.lt/api/v3/get/media/thumbnails/${x.thumbnail}" crossorigin='anonymous' class="background">
      <div class='cardInfo'>
        <div class='static'><i class='icon-music'></i> ${x.listeners}</div>
        <div class='static'><i class='icon-star'></i> ${x.stars}</div>

@@ -54,7 +54,7 @@ var
 function addHistory(text) {
   const history = JSON.parse(localStorage.getItem('history')) || [];
   if(history.find(x=>x===text)) return;
-  if(history.length>15) history.pop();
+  if(history?.length>15) history.pop();
   history.push(text);
   localStorage.setItem('history', JSON.stringify(history));
 }
@@ -134,11 +134,10 @@ async function search(t) {
     const user = await db.get(x.by);
     return `<div class="musicCard" oncontextmenu="contextmenu(event, \`<h2 class='title'>${x.title}</h2>
     <div class='card simple' id='${x.id}' onclick='selectPlaylist(this.id)'><i class='icon-plus'></i> add music to playlist<span></span></div>\`)">
-    <div class="option">
-    <i class='icon-play' onclick=""></i>
-    <i class='icon-comment'></i> ${x.comments.length}
-    </div>
-     <img onclick="window.location.href='/k/player?song=${x.id}'" src="https://kapi.loca.lt/api/v3/get/media/thumbnails/${x.thumbnail}" crossorigin='anonymous' class="background">
+    <div class="option"><i class='icon-play' onclick="setMiniPlayer({ songId: '${x.id}', isPlaylist: false }) \n if(audio.paused || audio.src !== 'https://kapi.loca.lt/api/v3/get/media/songs/' + ${x.musicFile}) play('${x.musicFile}')"></i>
+    <i class='icon-share-nodes' onclick="shareItem({ url: '${x.id}', title: 'share ${x.name}', text: 'share song' })"></i> 
+    <i class='icon-ellipsis'></i></div>
+     <img src="https://kapi.loca.lt/api/v3/get/media/thumbnails/${x.thumbnail}" crossorigin='anonymous' class="background">
      <div class='cardInfo'>
        <div class='static'><i class='icon-music'></i> ${x.listeners}</div>
        <div class='static'><i class='icon-star'></i> ${x.stars}</div>
@@ -147,7 +146,6 @@ async function search(t) {
     </div>`
   }))
   return searchContent.innerHTML = searchResults.join(' ')
-
 }
 function changeTab(element, tabToChange) {
     const content = document.getElementById('content')
