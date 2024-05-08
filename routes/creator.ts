@@ -21,6 +21,11 @@ export const creator = express.Router().get('/k/creator', async(req: any, res: a
   })
  }).then(x=>x.json()),
  posts: Array<any> = [];
+ if(user.status!==200) {
+  req.session.token = null;
+  res.redirect('/')
+  return;
+}
    postsMapped.data.map((x: any)=>{
       if(x.by===user.user.identifier) posts.push(x)
    })

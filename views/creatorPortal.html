@@ -36,114 +36,12 @@
   </head>
   <body>
     <div id="content">
-        <br>
-    <img src='/images/band.webp' class="bodyImg">
-    <h1 class='title'>Creator Portal</h1>
-    here your can manage your group and manage your works!
-    <hr>
-    <div class='containerDevelop'>
-      <h3 class="title">My Rithm</h3>
-      your rithm is calculated based on your statics.
-      <div class="containerDevelop mini">
-        <div class='statics'>Your Musics</div>
-        <div>
-      <canvas id="musicsChart" height="90"></canvas>
-       </div>
-       post statics uses the listeners of your post.
-       {{{yourPosts}}}
-       <hr>
-        <div class='statics'>Your Followers</div>
-         <h4 class="title">no followers...</h4>
-       <div class='statics'>Geral</div>
-       general statics of your profile.
-       <h3 class='title'></h3>
-       <div>
-         <canvas id='geralChart' height='90'></canvas>
-       </div>
-      </div>
-     </div>
+      <img src='/images/band.webp' class="bodyImg">
+      <h1 class='title'>Creator Portal</h1>
+      <hr>
+      Hi singer! it's very good see you here! on this page, you will manage your profile, your songs, your activy and more...
     </div>
     <br><br><br>
-  <script>
-async function loadMusicChart() {
- const ctx = document.getElementById('musicsChart');
- const myPosts = await db.get(user.email, true)
-new Chart(ctx, {
-    type: 'line',
-    data: {
-      labels: myPosts.map(x=>x.title),
-      datasets: [{
-      label: 'listeners',
-      data: myPosts.map(x=>x.listeners),
-      fill: true,
-      borderColor: '#425fff',
-      tension: 0
-     },
-     {
-      label: 'stars',
-      data: myPosts.map(x=>x.stars),
-      fill: true,
-      borderColor: '#a1afff',
-      tension: 0
-     }]
-    },
-    options: {
-        layout: {
-                padding: 0
-            },
-        scales: {
-            y: {
-                stacked: true
-            }
-        }
-    }
-});
-}
-function loadGeralChart() {
- const ctx = document.getElementById('geralChart');
-const data = {
-  labels: ["posts"],
-  datasets: [{
-    label: 'Activity of profile',
-    data: [0, 59, 80, 81, 0, 55, 800],
-    fill: false,
-    borderColor: '#425fff',
-    tension: 0
-  }, {
-  label: 'Activity of profile',
-    data: [0, 59, 80, 81, 0, 55, 40],
-    fill: false,
-    borderColor: '#8295ff',
-    tension: 0.1
-  },
-  {label: 'Activity of profile',
-    data: [0, 59, 80, 81, 0, 55, 40],
-    fill: false,
-    borderColor: '#b2beff',
-    tension: 0.1
-  }]
-};
-
-  const config = {
-  type: 'line',
-  data: data,
-};
-
-const stackedLine = new Chart(ctx, {
-    type: 'line',
-    data: data,
-    options: {
-        scales: {
-            y: {
-                stacked: true
-            }
-        }
-    }
-});
-}
-loadGeralChart();
-loadMusicChart();
-  </script>
   <div class='navBar' style="backdrop-filter: none; padding: 2px; height: 50px">
     <div class='flex'>
     <i onclick="changeTab(this, 'main')" class='icon-home selected navigateTo route'></i>
