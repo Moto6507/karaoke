@@ -1,71 +1,289 @@
 <!DOCTYPE html>
 <html>
-<head>
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <link rel="shortcut icon" type="image/x-icon" href="/assets/karaoke.ico">
+  <script type='text/javascript' src="/src/js/functions/extensions/axios.js"></script>
   <script src="src/js/central.js"></script>
   <script src='src/js/createAccount.js'></script>
-  <title>New on Karaoke</title>
-<style>
-  @import "/assets/font.css";
-  @import "/assets/geral.css";
-  body {
-    margin: 0;
-    padding: 0;
-    background: url(images/background.png) no-repeat;
-    background-position: center;
-    background-size: cover;
-    display: flex;
-    align-items: center;
-    justify-content: center
-  }
-  .avatar {
-    width: 65px;
-    height: 65px;
-    border-radius: 1in;
-  }
-  #username {
-    color: #fff;
-    word-break: break-all;
-    margin: 0;
-  }
-  .signIn {
-    background: rgb(56,56,56,0.6);
-    padding: 18px;
-    width: 300px;
-    color: rgb(255,255,255,0.5);
-    text-align: left;
-    border-radius: 10px
-  }
-  .signIn .center {
+  <title>new on karaoke</title>
+  <head>
+    <style>
+      @import "/assets/font.css";
+      @import "/assets/geral.css";
+    body {
+      background: #000000;
+      color: rgb(255,255,255,0.5)
+    }
+    .title {
+      margin: 0;
+      color: #fff
+    } 
+    .button {
+    background: #425fff;
+    padding: 10px;
+    margin: 5px;
+    border-radius: 5px;
     text-align: center;
+    font-weight: bold;
+    transition: .2s;
+    cursor: pointer;
+    color: #fff
   }
-</style>
-</head>
-<body>
-  <div class='container flex'>
-    <i class='icon-karaoke logo'></i>
-  <div class='signIn'>
-    <h1 class='title'>Welcome to karaoke!</h1>
-    Is very good see you here :D<br>
-    <div class="center">
-    <img src="https://kapi.loca.lt/api/v3/get/media/avatars/user" crossorigin="anonymous" class="avatar">
-    <h2 id="username"></h2>
+  .button.grey {
+    background: #373737;
+  }
+      .button.modern {
+        border: 1.5px solid #373737;
+        border-radius: 5px;
+        padding: 4px;
+        margin: 5px;
+        display: flex;
+        justify-content: center;
+        align-items: center
+      }
+     .button.modern:nth-child(1) {
+        border: 2.5px dashed #373737;
+        padding: 8px;
+     }
+     .button.modern .fa {
+       padding: 10px;
+       background: #464646;
+       border-radius: 5px;
+       margin-right: 5px
+     }
+     .button.modern .fa-plus {
+       border-radius: 1in;
+       padding: 5px;
+       background: #464646;
+       width: 15px;
+       height: 15px;
+       margin-right: 5px
+     }
+     .button span {
+       margin-right: auto;
+     }
+     .section {
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       height: 50px
+     }
+     .section .spot {
+       padding: 15px;
+       background: #b0bcff;
+       border-radius: 1in;
+       width: 10px;
+       height: 10px;
+       display: flex;
+       justify-content: center;
+       align-items: center;
+       color: white;
+       transition: .1s
+     }
+     .section span {
+       background: #2b2b2b;
+       padding: 0.5px;
+       height: 0.5px;
+       width: 30px;
+       margin-left: 10px;
+       margin-right: 10px;
+       transition: .2s
+     }
+     .section .spot.current {
+       background: #425fff;
+       border: 1px dashed #b0bcff;
+     }
+     .section .spot.passed {
+       background: #425fff;
+       border: none;
+       opacity: 0.5;
+     }
+     .section span.current{
+       background: #425fff;
+     } 
+     .textbox {
+    background: none;
+    border: none;
+    width: 94%;
+    margin-right: 5px;
+    outline: none;
+    padding: 10px;
+    color: #fff;
+    border-radius: 5px;
+    border: 2px solid #5e5e5e;
+  }
+  
+.selectBox {
+  border: 1px solid #494949;
+  background: #1b1b1b;
+  padding: 8px;
+  border-radius: 5px;
+  outline: none;
+  color: #fff;
+  width: 97%;
+  margin: 8px;
+  border: none;
+} 
+
+#overlay {
+  background: rgb(0,0,0,0.2);
+  height: 50vh;
+  width: 50%;
+  overflow-y: scroll;
+  position: fixed;
+  top: 0;
+  margin: 100px;
+  transition: .1s, opacity .2s, margin .2s, height .1s, background .5s;
+  z-index: 999;
+  display: none;
+  opacity: 0;
+}
+
+
+.progressBox {
+  border: 2px solid #888888;
+  border-radius: 8px;
+  height: 30px;
+  width: 98%;
+  text-align: left;
+  overflow: hidden
+}
+.progressBox span {
+  background: #5fff58;
+  animation: .5s progressBar infinite linear;
+  height: 30px;
+  display: inline-block;
+  transition: .2s;
+  width: 0
+}
+    </style>
+    <script>
+      function next() {
+        const spot = document.getElementsByClassName('spot');
+        const lineSpan = document.getElementsByTagName('span')
+        const returnButton = document.getElementById('return')
+        if(currentSection>3) return startCreatingAccount();
+        spot[currentSection].classList.remove('selected')
+        lineSpan[currentSection].classList.add('current') 
+        spot[currentSection].classList.add('passed')
+        currentSection++
+        spot[currentSection].classList.add('current')
+        if(currentSection>0 && returnButton.style.display !== 'block') returnButton.style.display = 'block'
+        disableNext()
+        nextLoginSection()
+      }
+      function back() {
+        const spot = document.getElementsByClassName('spot');
+        const lineSpan = document.getElementsByTagName('span')
+        const returnButton = document.getElementById('return')
+        if(currentSection<1) return;
+        spot[currentSection - 1].classList.remove('passed')
+        spot[currentSection].classList.remove('current')
+        currentSection--
+        lineSpan[currentSection].classList.remove('current') 
+        spot[currentSection].classList.add('current')
+        if(currentSection<1) returnButton.style.display = 'none'
+        hableNext()
+        nextLoginSection()
+      }
+    function nextLoginSection() {
+      const content = document.getElementById('content')
+      if(currentSection===0) content.innerHTML = `
+      <h1 class="title"><i class="icon-karaoke"></i></h1>
+    <h1 class='title'>Hi new User!</h1>
+    Welcome to karaoke, it's very exciting to have you here!
+    <h2 class="title">enter your username</h2>
+    <input type="text" class="textbox" value='${userCredentials.username}' placeholder="coolUser..." oninput="userCredentials.username = this.value \n if(this.value.length > 3) hableNext()">
+  `
+      if(currentSection===1) content.innerHTML = `<img src='images/email.png' style='width: 100px'><h1 class='title'>we need communication</h1>
+      Enter your email so we can communicate with you!
+    <input type="text" class="textbox" value='${userCredentials.email}' placeholder="some@example.com...." oninput="userCredentials.email = this.value \n if(this.value && isAnEmail(this.value)) hableNext()">
+    <div id='error' style='display: none; color: red'></div>`
+     if(currentSection===2) content.innerHTML = `
+      <img src='images/lock.png' style='width: 100px'><h1 class='title'>Secure your account</h1>
+      Enter a good and strong password so that your account is protected. (use different characters, lowercase and uppercase letters and numbers)
+      <div id='passwordChecker'></div>
+      <input type="text" class="textbox" value='${userCredentials.password}' placeholder="123456..." oninput="checkPasswordVeracity(this.value) \n userCredentials.password = this.value \n if(passwordIsCorrect) hableNext()">`
+      if(currentSection===3) content.innerHTML = ` <img src='images/user.png' style='width: 100px'><h1 class='title'>I want to know a little more about you!</h1>
+      Now ${ userCredentials.username}, I want to know a little more about you, so tell me your biography
+      <input type="text" class="textbox" value='${userCredentials.biography}' placeholder="im cool..." oninput="userCredentials.biography = this.value \n if(this.value.length > 3) hableNext()">
+      <br><br>
+      <h2 class='title'>Say more!</h2>
+      what a genre of music do you listen?
+      <select class='selectBox' onchange="songEspecifications('linked genrer to ' + this.value) \n songObject.gender = this.value \n enablePost()" multiple>
+        <optgroup label='genres more listen'>
+        <option value='rock'>Rock</option>
+        <option value='jazz'>Jazz</option>
+        <option value='pop'>Pop</option>
+        <option value='hiphop'>HipHop</option>
+        <option value='tecno'>Tecno</option>
+        <option value='country'>Country</option>
+        </optgroup>
+        <optgroup label='Latino genrers'>
+        <option value='samba'>Samba (Brazil)</option>
+        <option value='choro'>Choro (Brazil)</option>
+        <option value='funk'>Funk Carioca (Brazil)</option>
+        <option value='axe'>Axé (Brazil)</option>
+        <option value='tango'>Tango (Argentine/Uruguayan)</option>
+        <option value='bambuco'>Bambuco (Colombian)</option>
+        <option value='cumbia'>Cumbia (Colombian)</option>
+        <option value='vallenatoz'>Vallenato (Colombian)</option>
+        <option value='folk'>Folk musics (all latinos countries)</option>
+        <option value='duruguense'>Duranguense</option>
+        <option value='mariachi'>Mariachi</option>
+        <option value='norteño'>Norteño</option>
+        <option value='ranchera'>Ranchera</option>
+        </optgroup>
+        <optgroup label='Another groups'>
+        <option value='karaoke'>Karaoke</option>
+        <option value='soundeffect'>Sound Effect</option>
+        <option value='test'>Test</option>
+        <option value=''>No genre</option>
+        </optgroup>
+        </select>
+      <br><br>
+      Will you like it if you receive notifications/news about singers, albums or songs?<br>
+      <div class='button grey'>yes</div>
+      <br>
+      Are you a Singer?<br><div class='button grey'>yes</div></div>
+      <br><br><hr>
+      `
+      if(currentSection===4) {
+        content.innerHTML = `
+      <img src='images/security.webp' style='width: 100px'><h1 class='title'>Is everything ok to join ${userCredentials.username}?</h1>
+      Are you sure everything is ok to join karaoke? you can check your details before confirming.`
+        const button = document.getElementsByClassName('button')[0]
+         button.classList.remove('grey')
+         button.setAttribute('onclick','startCreatingAccount()')
+      }
+    }
+    </script>
+  </head>  
+  <body>
+    <div class='section'>
+      <div class='spot current'>1</div>
+      <span></span>
+      <div class='spot'>2</div>
+      <span></span>
+      <div class='spot'>3</div>
+      <span></span>
+      <div class='spot'>4</div>
+      <span></span>
+      <div class='spot'>5</div>
     </div>
-    <h3 class='miniTitle'>Username</h3>
-    <input type='text' maxlength='30' class='textbox' placeholder="coolUser..." oninput='infosIsAlready()'><br><br>
-    <h3 class='miniTitle'>Biography</h3>
-    <input type='text' class='textbox' placeholder="cool biography..." onkeyup='infosIsAlready()'><br><br>
-    <h3 class='miniTitle'>Email</h3>
-    <input type='text' class='textbox' placeholder="user@example.com..." onkeyup='infosIsAlready()'><br><br>
-    <h3 class='miniTitle'>Password</h3>
-    <input type='text' maxlength='35' class='textbox' placeholder="12345678..." onkeyup='infosIsAlready()'>
-    <div id="passwordChecker"></div>
-    <div id='error' style='display: none; color: red'></div><br>
-    <div class="button grey">sign in</div>
+    <hr>
+    <br>
+    <div {{{screen}}} id="container">
+    <div id='content'>
+      <h1 class="title"><i class="icon-karaoke"></i></h1>
+    <h1 class='title'>Hi new User!</h1>
+    Welcome to karaoke, it's very exciting to have you here!
+    <h2 class="title">enter your username</h2>
+    <input type="text" class="textbox" placeholder="coolUser..." oninput="userCredentials.username = this.value 
+     if(this.value.length > 3) hableNext()">
   </div>
-  <a href='/login' class='link'>i have account</a>
-  </div>
-  <div id="overlay"></div>
-</body>
+    <div class='button grey'>NEXT</div>
+    <div class='button grey' onclick='back()' style='display: none' id="return">RETURN</div>
+    <div id="overlay"></div></div>
+  </body>
 </html>

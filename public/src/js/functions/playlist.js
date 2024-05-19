@@ -10,7 +10,13 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
   const playlist = user.playlists[playlistPosition]
   currentSection = playlist
   const songs = await db.all(true);
-  playlist.musics.map(x=>queue.push(songs.find(h=>h.id===x)))
+  playlist.musics.map(x=>{
+    const audioLoaded = new Audio('https://kapi.loca.lt/api/v3/get/media/songs/' + songs.find(h=>h.id===x).musicFile)
+    audioLoaded.preload='auto'
+    audioLoaded.crossOrigin='anonymous'
+    queueSongs.push(audioLoaded)
+    queue.push(songs.find(h=>h.id===x))
+})
   playPlaylist()
  }
   function viewOwnerOfPlaylist() {
@@ -180,25 +186,37 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
 
 function playPlaylist() {
   setMiniPlayer({ songId: queue[0].id, isPlaylist: true })
-  if(audio.paused || audio.src !== 'https://kapi.loca.lt/api/v3/get/media/songs/' + queue[0].musicFile) play(queue[0].musicFile)
+  if(audio.paused || audio.src !== 'https://kapi.loca.lt/api/v3/get/media/songs/' + queue[0].musicFile) audio = queueSongs[currentSongPosition]
+  loadEvents()
+  audio.play()
 }
 
 function skip() {
   const skip = document.getElementsByClassName('icon-skip-right')[0]
   currentSongPosition++
   if(currentSongPosition>queue.length - 1) currentSongPosition = 0
+  audio.pause()
+  audio.currentTime = 0
   setMiniPlayer({ songId: queue[currentSongPosition].id, isPlaylist: true })
-  if(audio.paused || audio.src !== 'https://kapi.loca.lt/api/v3/get/media/songs/' + queue[currentSongPosition].musicFile) play(queue[currentSongPosition].musicFile)
+  if(audio.paused || audio.src !== 'https://kapi.loca.lt/api/v3/get/media/songs/' + queue[currentSongPosition].musicFile) audio = queueSongs[currentSongPosition]
   skip.style.color='#1d1d1d'
+  loadEvents()
+  currentSong = queue[currentSongPosition]
+  audio.play()
   setTimeout(()=>skip.style.color='#fff',800)
 }
 
 function retrocess() {
-  const skip = document.getElementsByClassName('icon-skip')[0]
+  const skip = document.getElementsByClassName('icon-skip-left')[0]
   currentSongPosition--
   if(currentSongPosition===-1) currentSongPosition = queue.length - 1
+  audio.pause()
+  audio.currentTime = 0
   setMiniPlayer({ songId: queue[currentSongPosition].id, isPlaylist: true })
-  if(audio.paused || audio.src !== 'https://kapi.loca.lt/api/v3/get/media/songs/' + queue[currentSongPosition].musicFile) play(queue[currentSongPosition].musicFile)
+  if(audio.paused || audio.src !== 'https://kapi.loca.lt/api/v3/get/media/songs/' + queue[currentSongPosition].musicFile) audio = queueSongs[currentSongPosition]
+  loadEvents()
   skip.style.color='#1d1d1d'
+  currentSong = queue[currentSongPosition]
+  audio.play()
   setTimeout(()=>skip.style.color='#fff',800)
 }

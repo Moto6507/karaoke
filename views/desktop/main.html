@@ -8,6 +8,7 @@
         user = JSON.parse(`{{{string user}}}`),
         currentSection,
         currentSongPosition,
+        queueSongs = [],
         queue = [];
     </script>
     <script src="src/js/functions/playlist.js"></script>
@@ -26,7 +27,7 @@
       <h2 class="logo"><i class='icon-karaoke'></i> Karaoke</h2>
   <div class="route" onclick="changeTab(this,'main')"><i class="icon-home"></i> main</div>
   <div class="route" onclick="changeTab(this,'search')"><i class="icon-search"></i> search</div>
-  <!--<div class="route" onclick="changeTab(this,'explore')"><i class="icon-compass"></i> explore</div>-->
+  <div class="route" onclick="changeTab(this,'explore')"><i class="icon-compass"></i> explore</div>
   <div class="route" onclick="changeTab(this,'notifications')"><i class="icon-bell"></i> notifications</div>
   <div class="route" onclick="changeTab(this,'library')"><i class="icon-library"></i> library</div>
   <div class="route" onclick="showSettings()"><i class="icon-gear"></i> settings</div>
@@ -35,7 +36,7 @@
   </head>
   <body>
   <div id="content">
-  <img title='you' onclick="window.location.href='/k/profile/{{{json user.identifier}}}'" src="https://kapi.loca.lt/api/v3/get/media/avatars/{{{json user.avatar}}}" crossorigin="anonymous" class="userAvatar">
+  <img title='you' onclick="window.location.href='/k/profile/'" src="https://kapi.loca.lt/api/v3/get/media/avatars/{{{json user.avatar}}}" crossorigin="anonymous" class="userAvatar">
     <br><br><br>{{{algorithm}}}
     </div>
     <div id="overlay"></div>

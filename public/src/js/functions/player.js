@@ -1,4 +1,4 @@
-const audio = new Audio()
+let audio = new Audio()
 const kamper = new Kamper(audio);
 let loadedAudio, isLooping;
   audio.crossOrigin = "anonymous"
