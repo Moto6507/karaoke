@@ -42,11 +42,25 @@ function openLyricsPopUp() {
 
 function lyricsAllScreen() {
   closeLyricsPopUp()
+  const getAverageColor = (img) => {
+    var context = document.createElement('canvas').getContext('2d');
+    if (typeof img == 'string') {
+        var src = img;
+        img = new Image;
+        img.setAttribute('crossOrigin', ''); 
+        img.src = src;
+    }
+    context.imageSmoothingEnabled = true;
+    context.drawImage(img, 0, 0, 1, 1);
+    const [r, g, b] = context.getImageData(0, 0, 1, 1).data.slice(0,3);
+    return `rgb(${r}, ${g}, ${b})`
+  }
+  const getColor = getAverageColor(document.getElementsByClassName('thumbnailOfSong')[0]);
   overlay(`<div oncontextmenu='overlay()' class='full-lyrics'>
     <div class='logo'>Listening on Karaoke</div>
     <div class='lyricsBox'><h2 id='lyrics'>${currentSong.title} lyrics</h2></div>
-    <div class='shadow'></div>
-    <img src='https://kapi.loca.lt/api/v3/get/media/thumbnails/${currentSong.thumbnail}' crossorigin='anonymous'>
+    <div class='shadow' style='background: linear-gradient(to right bottom, transparent 0%, ${getColor} 90%)'></div>
+    <img id='songThumbnail' src='https://kapi.loca.lt/api/v3/get/media/thumbnails/${currentSong.thumbnail}' crossorigin='anonymous'>
     </div>`)
   isLyricsOnFullScreen = true
   const overlayEl = document.getElementsByClassName('inOverlay')[0]

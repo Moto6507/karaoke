@@ -11,13 +11,23 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
   currentSection = playlist
   const songs = await db.all(true);
   playlist.musics.map(x=>{
-    const audioLoaded = new Audio('https://kapi.loca.lt/api/v3/get/media/songs/' + songs.find(h=>h.id===x).musicFile)
+    const audioLoaded = new Audio()
+    srcEvents(audio, audioLoaded)
+    audioLoaded.src = 'https://kapi.loca.lt/api/v3/get/media/songs/' + songs.find(h=>h.id===x).musicFile
     audioLoaded.preload='auto'
     audioLoaded.crossOrigin='anonymous'
     queueSongs.push(audioLoaded)
     queue.push(songs.find(h=>h.id===x))
 })
   playPlaylist()
+ },
+ srcEvents = (audioToTransfer, audioToReceive) => {
+    audioToReceive.onplay = audioToTransfer.onplay
+    audioToReceive.onpause = audioToTransfer.onpause
+    audioToReceive.ontimeupdate = audioToTransfer.ontimeupdate
+    audioToReceive.oncanplaythrough = audioToTransfer.oncanplaythrough
+    audioToReceive.onended = audioToTransfer.onended
+    kamper.connnectExternalAudio(audioToReceive)
  }
   function viewOwnerOfPlaylist() {
     overlay(`<div class='container inOverlay'><h2 class='title'>search configuration</h2>the search </div>`)
@@ -187,12 +197,14 @@ const changeMusicPosition = (musicId, musicPosition, playlistPosition) => overla
 function playPlaylist() {
   setMiniPlayer({ songId: queue[0].id, isPlaylist: true })
   if(audio.paused || audio.src !== 'https://kapi.loca.lt/api/v3/get/media/songs/' + queue[0].musicFile) audio = queueSongs[currentSongPosition]
-  loadEvents()
   audio.play()
 }
 
 function skip() {
   const skip = document.getElementsByClassName('icon-skip-right')[0]
+  const title = document.getElementsByClassName('titleInOverlay')[0]
+  const thumbnail = document.getElementById('touchThumbnail')
+  const lyricsImageThumbnail = document.getElementById('songThumbnail')
   currentSongPosition++
   if(currentSongPosition>queue.length - 1) currentSongPosition = 0
   audio.pause()
@@ -200,8 +212,16 @@ function skip() {
   setMiniPlayer({ songId: queue[currentSongPosition].id, isPlaylist: true })
   if(audio.paused || audio.src !== 'https://kapi.loca.lt/api/v3/get/media/songs/' + queue[currentSongPosition].musicFile) audio = queueSongs[currentSongPosition]
   skip.style.color='#1d1d1d'
-  loadEvents()
-  currentSong = queue[currentSongPosition]
+  currentSong = queue[currentSongPosition] 
+  if(title) {
+    thumbnail.src = `https://kapi.loca.lt/api/v3/get/media/thumbnails/${currentSong.thumbnail}`
+    defineTheme()
+    title.innerHTML = currentSong.title
+  }
+  if(isLyricsOnFullScreen) {
+    lyricsImageThumbnail.src = `https://kapi.loca.lt/api/v3/get/media/thumbnails/${currentSong.thumbnail}`
+     document.getElementById('lyrics').innerHTML = `${currentSong.title} lyrics`
+  }
   audio.play()
   setTimeout(()=>skip.style.color='#fff',800)
 }
@@ -214,7 +234,6 @@ function retrocess() {
   audio.currentTime = 0
   setMiniPlayer({ songId: queue[currentSongPosition].id, isPlaylist: true })
   if(audio.paused || audio.src !== 'https://kapi.loca.lt/api/v3/get/media/songs/' + queue[currentSongPosition].musicFile) audio = queueSongs[currentSongPosition]
-  loadEvents()
   skip.style.color='#1d1d1d'
   currentSong = queue[currentSongPosition]
   audio.play()

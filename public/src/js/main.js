@@ -154,7 +154,7 @@ function touchMiniPlayer() {
   const playerTemplate = `
 <div class='player' oncontextmenu="contextmenu(event, \`<h2 class='title'>player options</h2><div class='card simple' onclick='selectTheme()'>theme<span></span></div>\`)">
 <br><br>
-<img class='thumbnail' crossorigin='anonymous' src='https://kapi.loca.lt/api/v3/get/media/thumbnails/${currentSong.thumbnail}'>
+<img class='thumbnail' id='touchThumbnail' crossorigin='anonymous' src='https://kapi.loca.lt/api/v3/get/media/thumbnails/${currentSong.thumbnail}'>
 <h1 class='title titleInOverlay'>${currentSong.title}</h1>
 <br>
 <div class='options'>

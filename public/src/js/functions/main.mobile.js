@@ -232,7 +232,7 @@ function touchMiniPlayer() {
 <div class='player' oncontextmenu='selectTheme()'>
 <h3 class='title return' onclick="closeMiniPlayer() \n closeThemeBoxForced()"><i class='icon-arrow-left'></i></h3><h3 style='float: right' class='title return' onclick='lyricsAllScreen()'><i class='icon-file-text2'></i></h3>
 <br><extraBr></extraBr><extraBr></extraBr><extraBr></extraBr><hr><br>
-<img class='thumbnail' crossorigin='anonymous' src='https://kapi.loca.lt/api/v3/get/media/thumbnails/${currentSong.thumbnail}'>
+<img class='thumbnail' id='touchThumbnail' crossorigin='anonymous' src='https://kapi.loca.lt/api/v3/get/media/thumbnails/${currentSong.thumbnail}'>
 <h1 class='title titleInOverlay'>${currentSong.title}</h1>
 <br>
 <div class='options'>

@@ -49,6 +49,10 @@ let
    const saveOptions = document.getElementById('saveChanges');
    saveOptions.style.display='block'
   },
+  lockSave = () => {
+   const saveOptions = document.getElementById('saveChanges');
+   saveOptions.style.display='none'
+  },
   actualTab,
   imageSelected,
   resetAccessibility = () => {
@@ -97,7 +101,7 @@ function showSettings() {
 }
 async function setImage(type) {
   const avatarId =  generateToken(18);
-  await fetch("http://localhost:8080/api/v3/upload", {
+  await fetch("https://kapi.loca.lt/api/v3/upload", {
       headers: {
         "Content-Type":"application/json"
       },
@@ -131,10 +135,18 @@ function changeSettingsTab(tab, element) {
 
 function saveChanges() {
   const saveOptions = document.getElementById('saveChanges');
+  const username = document.getElementById('usernameInput')
+  const biography = document.getElementById('biographyInput')
+  if(username.value) {
+    db.update(user.email, "username", username.value);
+  }
+  if(biography.value) {
+    db.update(user.email, "biography", biography.value);
+  }
   if(imageSelected) setImage()
   saveOptions.style.display='none'
 }
-function discardChanges() {
+function discardChanges() { 
   const saveOptions = document.getElementById('saveChanges');
   saveOptions.style.display='none'
   imageSelected = null

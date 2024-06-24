@@ -12,6 +12,10 @@ class Kamper {
     this.source = this.context.createMediaElementSource(this.audio)
     this.filter = this.context.createBiquadFilter()
    }
+   connectExternalAudio(audio) {
+    this.source = this.context.createMediaElementSource(audio)
+    this.audio = audio
+   }
    connect() {
     if(this.nodesIsConnected) return;
     this.createDependencies()

@@ -1,28 +1,25 @@
 function getTab(page) {
 const pages = [
-    `<br><br><img id='userAvatar' src='${imageSelected || 'https://kapi.loca.lt/api/v3/get/media/avatars/' + user.avatar}' crossorigin='anonymous'> 
+    `<img id='userBackground' src='/images/defaultBackground.webp' class='background'><img id='userAvatar' src='${imageSelected || 'https://kapi.loca.lt/api/v3/get/media/avatars/' + user.avatar}' crossorigin='anonymous'> 
     <label for='avatar'>
     <div class='img'><i class='icon-plus'></i><br></div>
-    </label>
+    </label><br><br><br>
     <h2 class='title'>username</h2>
-    <input type='text' placeholder='username...' value='${user.username}' class='textbox'>
+    <input type='text' id='usernameInput' placeholder='username...' value='${user.username}' class='textbox'class='textbox' oninput="lockSave(); \n if(this.value.length>5) return unlockSave()">
     <br>
     <h2 class='title'>biography</h2>
-    <input type='text' placeholder='biography...' value='${user.biography}' class='textbox'>
+    <input type='text' id='biographyInput' placeholder='biography...' value='${user.biography}' class='textbox' oninput="lockSave(); \n if(this.value.length>7) return unlockSave()">
     <br>
     <h2 class='title'>teams</h2>
     you no have affliliates
     <br><br><br>
     <hr>
-    <h2 class='title'>profissional or public</h2>
-    <div class='card simple'>profissional account <span></span>
-<label class="switch">
-  <input type="checkbox">
-  <span class="slider"></span>
-</label></div>
-    This makes your profile completely professional, access will be restricted to only the /creator route
-    <div class='card'>verification<span></span></div>
-    your profile can't be verified, verify <a href='a' class='link'>Community Terms</a>.
+    <h2 class='title'>Singer</h2>
+    <div class='card simple'>profissional account <i class='icon-right'></i></div>
+    Make you profile has profissional.<br>
+    <div class='card simple'>Invite user to team <i class='icon-right'></i></div>
+    <div class='card simple'>User public <i class='icon-right'></i></div>
+     define when you profile is showed to users
     `,
     `<img src='/images/user.webp' class='bodyImg' style='border-radius: 0'>
     <h2 class='title'>account settings</h2>
@@ -56,17 +53,7 @@ const pages = [
     <h4 class='title'>icon size</h4>
     <input class='rangeConfigs' oninput='srcFontSize(this.value, true)' min='10' max='40' value='${settings.get('accessibility').iconSize || 10}' step='0.5' type='range'>
     <div class='card'><i class='icon-music' style='font-size: ${settings.get('accessibility').iconSize}px'></i> demonstrative font size<span></span></div>
-    <br><br><hr>
-    <div class='card simple'>partners animation<span></span><label class="switch">
-  <input type="checkbox">
-  <span class="slider"></span>
-</label></div>
-    will disable/enable partners animations
-    <div class='card simple'>simplify players<span></span><label class="switch">
-    <input type="checkbox" ${settings.get('accessibility').simplifyPlayer? 'checked' : ''} onclick="settings.set('accessibility', { simplifyPlayer: settings.get('accessibility').simplifyPlayer? false : true })">
-    <span class="slider"></span>
-    </label></div>
-    this option will simplify the players.
+    <br><br>
     `,
    `<img src='/images/language.webp' class='bodyImg' style='border-radius: 0'><h2 class='title'>language</h2>
     translate karaoke to your language.
