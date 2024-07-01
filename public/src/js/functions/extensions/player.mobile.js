@@ -10,7 +10,7 @@ let loadedAudio, isLooping;
     if(audio.paused) audio.play()
     else audio.pause()
   }
-
+ 
 function loop(el) {
   isLooping = isLooping? false : true;
   el.style.transform = isLooping? 'rotate(360deg)' : 'rotate(0deg)'
@@ -24,24 +24,10 @@ function seek(e) {
   }
 
   function lyricsAllScreen() {
-    const getAverageColor = (img) => {
-      var context = document.createElement('canvas').getContext('2d');
-      if (typeof img == 'string') {
-          var src = img;
-          img = new Image;
-          img.setAttribute('crossOrigin', ''); 
-          img.src = src;
-      }
-      context.imageSmoothingEnabled = true;
-      context.drawImage(img, 0, 0, 1, 1);
-      const [r, g, b] = context.getImageData(0, 0, 1, 1).data.slice(0,3);
-      return `rgb(${r}, ${g}, ${b})`
-    }
-    const getColor = getAverageColor(document.getElementsByClassName('thumbnail')[0]);
     overlay(`<div oncontextmenu='overlay()' class='full-lyrics'>
     <div class='logo'>Listening on Karaoke</div>
     <div class='lyricsBox'><h3 id='lyrics'>${currentSong.title} lyrics</h3></div>
-    <div class='shadow' style='background: linear-gradient(to right bottom, transparent 0%, ${getColor} 90%)'></div>
+    <div class='shadow'></div>
     <img id='songThumbnail' src='https://kapi.loca.lt/api/v3/get/media/thumbnails/${currentSong.thumbnail}' crossorigin='anonymous'>
     </div>`)
     isLyricsOnFullScreen = true

@@ -6,6 +6,12 @@ audio.oncanplaythrough = () => {
 }
   audio.ontimeupdate = () => {
     const progressBar = [].slice.call(document.getElementsByClassName('progress-bar'))
+    const playIcon = document.getElementsByClassName('playIcon')[1]
+    const controls = document.getElementsByClassName('controls')[0]
+    if(!playIcon){
+        controls.innerHTML = `<i onclick='play()' class='icon-pause playIcon'></i>`
+         document.title = "playing " + currentSong.title
+    }
     progressBar.map((x,i=0)=>{
     const progressIn = audio.currentTime * (document.getElementsByClassName('bar')[i++].offsetWidth / audio.duration)
     x.style.width = progressIn + "px"

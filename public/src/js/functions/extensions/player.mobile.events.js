@@ -4,6 +4,12 @@ audio.oncanplaythrough = () => {
   }
 audio.ontimeupdate = () => {
     const progressBar = document.getElementsByClassName('progress-bar')[0]
+    const playIcon = document.getElementsByClassName('playIcon')[1]
+    const controls = document.getElementsByClassName('controls')[0]
+    if(!playIcon){
+        controls.innerHTML = `<i onclick='play()' class='icon-pause playIcon'></i>`
+         document.title = "playing " + currentSong.title
+    }
     if(progressBar) {
     const progressIn = audio.currentTime * (document.getElementsByClassName('bar')[0]?.offsetWidth / audio.duration)
     progressBar.style.width = progressIn + "px"
@@ -20,7 +26,7 @@ audio.ontimeupdate = () => {
       kamper.connect()
       kamper.filter.type = settings.get("audio")?.filter
     }
-    if(settings.get("audio")?.filter !== kamper.filter.type) kamper.filter.type = settings.get("audio")?.filter
+    if(settings.get("audio")?.filter && settings.get("audio")?.filter !== kamper.filter.type) kamper.filter.type = settings.get("audio")?.filter
      if(!loadedLyrics) {
       liricle.load({ text: lyrics })
       loadedLyrics = true
@@ -30,15 +36,13 @@ audio.ontimeupdate = () => {
 
 audio.onplay = () => {
     const playIcon = [].slice.call(document.getElementsByClassName('playIcon'))
+    const controls = document.getElementsByClassName('controls')[0]
     if(!playIcon) return;
     playIcon.map(x=>{
     x.classList.remove('icon-play')
     x.classList.add('icon-pause')
     })
-    document.title = "playing " + currentSong.title
-    const shortcutIcon = ['disc.png','karaoke.png','singging.png','band.webp']
-    changeFavicon('/assets/' + shortcutIcon[randomInt(1, 4)])
-  }
+  } 
   audio.onpause = () => {
     const playIcon = [].slice.call(document.getElementsByClassName('playIcon'))
     if(!playIcon) return;

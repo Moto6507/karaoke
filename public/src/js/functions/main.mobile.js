@@ -214,7 +214,7 @@ async function setMiniPlayer(options, forceClose) {
   }
   songThumbnail.src = 'https://kapi.loca.lt/api/v3/get/media/thumbnails/' + song.thumbnail;
   songTitle.innerHTML = song.title;
-  if(!options.isPlaylist) controls.innerHTML = `<i onclick='play()' class='icon-pause playIcon'></i>`
+  if(!options.isPlaylist) controls.innerHTML = `<div class='spinner'></div>`
   else controls.innerHTML = `
   <div class='skipIcons'><i class='icon-skip-left' onclick='retrocess()'></i></div>
   <i onclick='play()' class='icon-pause playIcon'></i>

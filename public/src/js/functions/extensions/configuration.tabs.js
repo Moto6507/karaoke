@@ -1,9 +1,18 @@
 function getTab(page) {
 const pages = [
-    `<img id='userBackground' src='/images/defaultBackground.webp' class='background'><img id='userAvatar' src='${imageSelected || 'https://kapi.loca.lt/api/v3/get/media/avatars/' + user.avatar}' crossorigin='anonymous'> 
+    `<div id='relativeHim'>
+    <label for='background'>
+    <div class='img2'><i class='icon-plus'></i><br></div>
+    </label>
+    </div>
+    <div id='relativeHim'>
     <label for='avatar'>
     <div class='img'><i class='icon-plus'></i><br></div>
-    </label><br><br><br>
+    </label>
+    </div>
+    <img id='userBackground' src='/images/defaultBackground.webp' class='background'>
+    <div id='relativeHim'><img id='userAvatar' src='${imageSelected || 'https://kapi.loca.lt/api/v3/get/media/avatars/' + user.avatar}' crossorigin='anonymous'> </div>
+    <br><br><br>
     <h2 class='title'>username</h2>
     <input type='text' id='usernameInput' placeholder='username...' value='${user.username}' class='textbox'class='textbox' oninput="lockSave(); \n if(this.value.length>5) return unlockSave()">
     <br>

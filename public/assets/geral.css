@@ -6,6 +6,22 @@
   font-display: block;
 }
 
+::-webkit-scrollbar {
+  width: 8px;
+  padding: 5px;
+}
+
+::-webkit-scrollbar-track {
+  background: #242424; 
+  border-radius: 10px;
+  padding: 3px
+}
+
+::-webkit-scrollbar-thumb {
+  background: #333333;
+  border-radius: 5px;
+}
+
 .title {
     margin: 0;
     color: #fff
@@ -282,6 +298,25 @@ input:checked + .slider:before {
 input[type='file'] {
   display: none
 }
+
+
+.spinner {
+  width: 20px;
+  padding: 5px;
+  margin: 5px;
+  aspect-ratio: 1;
+  border-radius: 50%;
+  background: #fff;
+  --_m: 
+    conic-gradient(#0000 10%,#000),
+    linear-gradient(#000 0 0) content-box;
+  -webkit-mask: var(--_m);
+          mask: var(--_m);
+  -webkit-mask-composite: source-out;
+          mask-composite: subtract;
+  animation: s3 1s infinite linear;
+}
+@keyframes s3 {to{transform: rotate(1turn)}}
 
 
 @keyframes pulse {

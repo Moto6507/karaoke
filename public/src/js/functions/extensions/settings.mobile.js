@@ -1,5 +1,6 @@
 let 
   cancelAvatarSrc = () => document.getElementsByClassName('img')[0].style.opacity = 0.5,
+  cancelBackgroundSrc = () => document.getElementsByClassName('img2')[0].style.opacity = 0.5,
   srcAvatar = (e) => {
         if(!e.files[0]) return;
          const reader = new FileReader();
@@ -7,6 +8,17 @@ let
        document.getElementById('userAvatar').src = reader.result;
        imageSelected = reader.result
        document.getElementsByClassName('img')[0].style.opacity = 9
+     }
+       unlockSave()
+       if(e.files[0]) reader.readAsDataURL(e.files[0])
+    },
+    srcBackground = (e) => {
+        if(!e.files[0]) return;
+         const reader = new FileReader();
+        reader.onload=()=> {
+       document.getElementById('userBackground').src = reader.result;
+       imageSelected = reader.result
+       document.getElementsByClassName('img2')[0].style.opacity = 9
      }
        unlockSave()
        if(e.files[0]) reader.readAsDataURL(e.files[0])
@@ -46,8 +58,8 @@ let
    your password is`
   },
   unlockSave = () => {
-   const saveOptions = document.getElementById('saveChanges');
-   saveOptions.style.display='block'
+   /*const saveOptions = document.getElementById('saveChanges');
+   saveOptions.style.display='block'*/
   },
   actualTab,
   imageSelected,
@@ -89,7 +101,9 @@ let
     <h3 class='title separate'>About</h3>
     <div class='option'>About us</div>
     <div class='option'>Privacy</div>
-    <div class='option' style='border: none; margin-bottom: 5px'>Community</div><br>
+    <div class='option' style='border: none; margin-bottom: 5px'>Community</div><br> 
+     <input type='file' id='background' accept='image/png' onclick="cancelBackgroundSrc()" onchange="srcBackground(this)">
+      <input type='file' id='avatar' accept='image/png' onclick="cancelAvatarSrc()" onchange="srcAvatar(this)">
   </div>`
   }
 
@@ -125,7 +139,10 @@ let
            <div class='option'>About us</div>
            <div class='option'>Privacy</div>
            <div class='option' style='border: none; margin-bottom: 5px'>Community</div><br>
-         </div>`)
+           </div>
+           <input type='file' id='background' accept='image/png' onclick="cancelBackgroundSrc()" onchange="srcBackground(this)">
+          <input type='file' id='avatar' accept='image/png' onclick="cancelAvatarSrc()" onchange="srcAvatar(this)">
+         `)
   }
 async function setImage(type) {
   const avatarId =  generateToken(18);

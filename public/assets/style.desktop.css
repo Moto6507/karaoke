@@ -45,7 +45,8 @@ body {
   .userAvatar {
     width: 40px;
     height: 40px;
-    position: absolute;
+    position: sticky;
+    top: 0;
     right: 10px;
     border-radius: 1in;
     margin: 10px;
@@ -60,7 +61,7 @@ body {
   }
   
   #content {
-    margin-left: 17.1%;
+    margin-left: 35vh;
     text-align: center;
     color: #757575
   }
@@ -477,10 +478,11 @@ body {
   width: 80px;
   height: 80px;
   border-radius: 1in;
-  top: 15vh;
+  top: -7vh;
   margin-left: 10px;
   border: 5px solid #101010;
-  position: fixed;
+  position: absolute;
+  z-index: 2;
 }
 
 .configurationBox .img {
@@ -497,6 +499,29 @@ body {
   transition: .2s;
   display: inline-block;
   position: absolute;
+  z-index: 3;
+}
+
+
+.configurationBox .img2 {
+  padding: 20px;
+  display: flex;
+  top: 1vh;
+  left: 90vh;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background: rgb(0,0,0,0.5);
+  border-radius: 1in;
+  transition: .2s;
+  display: inline-block;
+  position: absolute;
+  z-index: 3;
+}
+
+.configurationBox #relativeHim {
+  position: relative;
+  margin: 0;
 }
 
 .configurationBox .scrollArea .separate {
@@ -516,7 +541,8 @@ body {
   width: 99%;
   height: 23%;
   border-radius: 10px;
-  display: block
+  display: block;
+  z-index: 1;
 }
 
 .configurationBox .scrollArea:nth-child(2) {

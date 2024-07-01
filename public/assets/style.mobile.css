@@ -759,17 +759,62 @@ body {
   object-fit: cover;
   display: inline-block;
 }
+.configurationBox #userAvatar {
+  width: 80px;
+  height: 80px;
+  border-radius: 1in;
+  top: -7vh;
+  margin-left: 10px;
+  border: 5px solid #101010;
+  position: absolute;
+  z-index: 2;
+}
 
 .configurationBox .img {
   padding: 20px;
   display: flex;
+  position: fixed;
+  top: 18vh;
+  margin-left: 26px;
   justify-content: center;
   align-items: center;
   color: #fff;
   background: rgb(0,0,0,0.5);
   border-radius: 1in;
   transition: .2s;
-  display: inline-block
+  display: inline-block;
+  position: absolute;
+  z-index: 3;
+}
+
+
+.configurationBox .img2 {
+  padding: 20px;
+  display: flex;
+  top: 1vh;
+  left: 40vh;
+  justify-content: center;
+  align-items: center;
+  color: #fff;
+  background: rgb(0,0,0,0.5);
+  border-radius: 1in;
+  transition: .2s;
+  display: inline-block;
+  position: absolute;
+  z-index: 3;
+}
+
+.configurationBox .scrollArea .background {
+  width: 99%;
+  height: 23%;
+  border-radius: 10px;
+  display: block;
+  z-index: 1;
+}
+
+.configurationBox span {
+  position: relative;
+  margin: 0;
 }
 
 .configurationBox .scrollArea .separate {
